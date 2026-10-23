@@ -3,6 +3,7 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
 import type { TriageResult } from "../../shared/caseload";
 import type { Lang } from "../../shared/resources";
+import type { RouteResult } from "../../shared/routes";
 
 // amplify_outputs.json only exists once the backend is deployed. Loading it through a glob
 // keeps the app building (and fully usable offline) without it.
@@ -74,6 +75,19 @@ export async function triageCaseload(zips: string[], scenario: string): Promise<
   if (errors?.length || !data) throw new Error(errors?.[0]?.message ?? "No triage returned");
   // a.json() results arrive as a JSON string.
   return (typeof data === "string" ? JSON.parse(data) : data) as TriageResult;
+}
+
+export async function planRoutes(from: [number, number], to: [number, number], lang: Lang): Promise<RouteResult> {
+  if (backendMode === "local") return local<RouteResult>("routes", { from, to, lang });
+  const { data, errors } = await api().queries.planRoutes({
+    fromLat: from[0],
+    fromLng: from[1],
+    toLat: to[0],
+    toLng: to[1],
+    lang,
+  });
+  if (errors?.length || !data) throw new Error(errors?.[0]?.message ?? "No routes returned");
+  return (typeof data === "string" ? JSON.parse(data) : data) as RouteResult;
 }
 
 const PENDING_FLAGS = "lifeline.pendingFlags";

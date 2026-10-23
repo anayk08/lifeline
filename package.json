@@ -29,6 +29,7 @@
     "@aws-amplify/backend": "~1.19.0",
     "@aws-amplify/backend-cli": "~1.8.1",
     "@aws-sdk/client-bedrock-runtime": "^3.1156.0",
+    "@aws-sdk/client-geo-routes": "^3.1156.0",
     "@aws-sdk/credential-providers": "^3.1156.0",
     "@eslint/compat": "~2.0.1",
     "@eslint/eslintrc": "~3.3.3",

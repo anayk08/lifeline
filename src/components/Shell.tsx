@@ -94,14 +94,28 @@ export function Page({
   const { online, t } = useApp();
   return (
     <div className={`w-full ${wide ? "max-w-5xl" : "max-w-md"} mx-auto min-h-screen flex flex-col bg-surface relative`}>
+      {/* Hash routing owns the URL fragment, so the skip link moves focus instead of linking to #main. */}
+      <button
+        type="button"
+        onClick={() => document.getElementById("main")?.focus()}
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-3 focus:rounded-xl focus:bg-secondary-container focus:text-[#151c24] text-label-md"
+      >
+        {t.skipToContent}
+      </button>
       <TopBar back={back} />
       {!online && (
-        <div className="bg-primary-container text-white px-gutter py-1.5 text-label-sm flex items-center gap-2">
+        <div role="status" className="bg-primary-container text-white px-gutter py-1.5 text-label-sm flex items-center gap-2">
           <Icon name="cloud_off" className="!text-[18px]" />
           {t.workingOffline}
         </div>
       )}
-      <main className={`flex-1 flex flex-col px-gutter pt-space-sm gap-space-md ${tab ? "pb-28" : "pb-10"}`}>{children}</main>
+      <main
+        id="main"
+        tabIndex={-1}
+        className={`flex-1 flex flex-col px-gutter pt-space-sm gap-space-md focus:outline-none ${tab ? "pb-28" : "pb-10"}`}
+      >
+        {children}
+      </main>
       {tab && <BottomNav tab={tab} />}
     </div>
   );

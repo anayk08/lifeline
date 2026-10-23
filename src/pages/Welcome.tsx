@@ -35,6 +35,31 @@ export default function Welcome() {
             </button>
           ))}
         </fieldset>
+
+        {/* Offered up front so people who need them don't have to find Settings first. */}
+        <fieldset className="flex flex-wrap gap-2">
+          <legend className="sr-only">{t.accessibility}</legend>
+          {(
+            [
+              ["highContrast", "visibility", t.highContrast],
+              ["largeText", "text_increase", t.largeText],
+            ] as const
+          ).map(([key, icon, label]) => (
+            <button
+              key={key}
+              type="button"
+              role="switch"
+              aria-checked={settings[key]}
+              onClick={() => update({ [key]: !settings[key] })}
+              className={`min-h-[48px] px-4 rounded-xl border-2 text-label-md flex items-center gap-2 ${
+                settings[key] ? "border-primary-container bg-surface-container-low" : "border-surface-variant"
+              }`}
+            >
+              <Icon name={icon} /> {label}
+              {settings[key] && <Icon name="check" />}
+            </button>
+          ))}
+        </fieldset>
       </div>
 
       <div className="flex flex-col gap-3 mt-space-lg">

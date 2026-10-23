@@ -5,6 +5,8 @@ import type { Category, Resource } from "../../shared/resources";
 // when Leslie can't be reached.
 const SYNONYMS: [RegExp, (Category | string)[]][] = [
   [/pharm|medic|meds?\b|prescri|insulin|refill|drug|farmac|medicin|receta|insulina|thuốc|nhà thuốc/i, ["pharmacy", "health"]],
+  // Everyday items a pharmacy sells, so "where can I find laxatives?" maps to pharmacies.
+  [/laxativ|stool soft|tylenol|advil|ibuprofen|acetaminophen|aspirin|pain reliev|bandage|first aid|cold medicine|cough|allergy|antacid|diaper|thermometer|sunscreen|electrolyte|laxante|curita|vendaj|pañal|jarabe|thuốc nhuận tràng|thuốc giảm đau|băng cá nhân|tã/i, ["pharmacy"]],
   [/clinic|doctor|nurse|health|cl[ií]nica|m[eé]dico|salud|bác sĩ|phòng khám|sức khỏe/i, ["health"]],
   [/food|eat|meal|pantry|hungry|grocer|comida|despensa|hambre|comer|thức ăn|đồ ăn|bữa ăn|đói/i, ["food"]],
   [/cool|heat|hot|a\/?c\b|air.?cond|calor|fresco|enfri|aire|mát|nóng|máy lạnh/i, ["cooling"]],

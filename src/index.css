@@ -55,6 +55,106 @@ html.dark {
   color-scheme: dark;
 }
 
+/* High contrast: pure black on white, bold outlines, yellow for the one main action.
+   Every text/background pair here passes WCAG AAA (7:1). */
+html.hc {
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #ffffff;
+  --surface-container: #ffffff;
+  --surface-container-high: #ffffff;
+  --surface-variant: #000000;
+  --on-surface: #000000;
+  --on-surface-variant: #000000;
+  --outline: #000000;
+  --primary: #000000;
+  --primary-container: #000000;
+  --on-primary: #ffffff;
+  --inverse-primary: #ffffff;
+  --secondary: #000000;
+  --secondary-container: #ffd400;
+  --error: #9b0000;
+  --error-container: #ffffff;
+  --on-error-container: #9b0000;
+  --open: #004d20;
+  --open-container: #ffffff;
+  --on-open-container: #004d20;
+  --focus: #0000ee;
+}
+
+/* High contrast plus Battery saver: white and yellow on black. */
+html.hc.dark {
+  --background: #000000;
+  --surface: #000000;
+  --surface-container-lowest: #000000;
+  --surface-container-low: #000000;
+  --surface-container: #000000;
+  --surface-container-high: #000000;
+  --surface-variant: #ffffff;
+  --on-surface: #ffffff;
+  --on-surface-variant: #ffffff;
+  --outline: #ffffff;
+  --primary: #ffffff;
+  --primary-container: #ffffff;
+  --on-primary: #000000;
+  --secondary: #ffd400;
+  --secondary-container: #ffd400;
+  --error: #ff8a80;
+  --error-container: #000000;
+  --on-error-container: #ff8a80;
+  --open: #7dff9e;
+  --open-container: #000000;
+  --on-open-container: #7dff9e;
+  --focus: #ffd400;
+}
+
+html.hc :is(.border, .border-2, [class*="border-[1.5px]"]) {
+  border-width: 2px !important;
+  border-color: var(--on-surface) !important;
+}
+html.hc a {
+  text-decoration-thickness: 2px;
+}
+/* Elements that sit on a dark "primary-container" fill keep readable text in both palettes. */
+html.hc .bg-primary-container {
+  color: var(--on-primary) !important;
+}
+html.hc .bg-error {
+  background: var(--error) !important;
+  color: #ffffff !important;
+}
+
+/* Larger text: every size is in rem, so this scales text, icons and buttons together. */
+html.large-text {
+  font-size: 125%;
+}
+
+/* Reduce motion (also on with Battery saver or the phone's own setting). */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+:root {
+  --focus: #146eb4;
+}
+:focus-visible {
+  outline: 3px solid var(--focus) !important;
+  outline-offset: 2px;
+}
+
 html,
 body {
   background: var(--background);
@@ -70,7 +170,7 @@ body {
   font-family: "Material Symbols Outlined";
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;
+  font-size: 1.5rem;
   line-height: 1;
   letter-spacing: normal;
   text-transform: none;
@@ -97,6 +197,10 @@ body {
 .leaflet-container {
   font-family: inherit;
   background: var(--surface-container);
+}
+/* Gray map tiles in high contrast so pins and the route line are what stands out. */
+html.hc .leaflet-tile-pane {
+  filter: grayscale(1) contrast(1.15);
 }
 .leaflet-div-icon.pin {
   background: transparent;

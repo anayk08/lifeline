@@ -4,6 +4,43 @@ import { Icon } from "../components/ui";
 import { useApp } from "../lib/app";
 import { LANG_NAMES } from "../lib/i18n";
 
+function Toggle({ id, icon, label, help, checked, onChange }: {
+  id: string;
+  icon: string;
+  label: string;
+  help: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <label
+      htmlFor={`toggle-${id}`}
+      className={`flex items-center justify-between gap-3 min-h-[64px] px-4 py-2 rounded-2xl border-2 cursor-pointer ${
+        checked ? "border-primary-container bg-surface-container-low" : "border-surface-variant bg-surface-container-lowest"
+      }`}
+    >
+      <span className="flex flex-col">
+        <span className="text-label-lg flex items-center gap-1">
+          <Icon name={icon} /> {label}
+        </span>
+        <span id={`toggle-${id}-help`} className="text-body-md text-on-surface-variant">
+          {help}
+        </span>
+      </span>
+      <input
+        id={`toggle-${id}`}
+        type="checkbox"
+        role="switch"
+        aria-checked={checked}
+        aria-describedby={`toggle-${id}-help`}
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="w-7 h-7 accent-[#0b1f3a] shrink-0"
+      />
+    </label>
+  );
+}
+
 export default function Settings() {
   const { t, settings, update, gps, requestGps, gpsError } = useApp();
   const newest = RESOURCES.reduce((a, r) => (r.lastVerified > a ? r.lastVerified : a), "");
@@ -59,20 +96,16 @@ export default function Settings() {
         {gpsError && <p className="text-label-sm text-error">GPS unavailable. Use your ZIP code instead.</p>}
       </section>
 
-      <label className="flex items-center justify-between gap-3 min-h-[64px] px-4 rounded-2xl border-[1.5px] border-surface-variant bg-surface-container-lowest cursor-pointer">
-        <span className="flex flex-col">
-          <span className="text-label-lg flex items-center gap-1">
-            <Icon name="battery_saver" /> {t.batterySaver}
-          </span>
-          <span className="text-body-md text-on-surface-variant">{t.batterySaverHelp}</span>
-        </span>
-        <input
-          type="checkbox"
-          checked={settings.batterySaver}
-          onChange={(e) => update({ batterySaver: e.target.checked })}
-          className="w-6 h-6 accent-[#ffad2e] shrink-0"
-        />
-      </label>
+      <fieldset className="flex flex-col gap-2">
+        <legend className="text-label-lg text-primary mb-1 flex items-center gap-1">
+          <span aria-hidden="true">♿</span> {t.accessibility}
+        </legend>
+        <Toggle id="hc" icon="visibility" label={t.highContrast} help={t.highContrastHelp} checked={settings.highContrast} onChange={(v) => update({ highContrast: v })} />
+        <Toggle id="large" icon="text_increase" label={t.largeText} help={t.largeTextHelp} checked={settings.largeText} onChange={(v) => update({ largeText: v })} />
+        <Toggle id="motion" icon="motion_photos_off" label={t.reduceMotion} help={t.reduceMotionHelp} checked={settings.reduceMotion} onChange={(v) => update({ reduceMotion: v })} />
+        <Toggle id="read" icon="volume_up" label={t.autoRead} help={t.autoReadHelp} checked={settings.autoRead} onChange={(v) => update({ autoRead: v })} />
+        <Toggle id="battery" icon="battery_saver" label={t.batterySaver} help={t.batterySaverHelp} checked={settings.batterySaver} onChange={(v) => update({ batterySaver: v })} />
+      </fieldset>
 
       <section className="bg-surface-container-low rounded-2xl p-4 border border-surface-variant flex flex-col gap-1">
         <h2 className="text-label-lg text-primary flex items-center gap-1">

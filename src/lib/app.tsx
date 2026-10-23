@@ -7,9 +7,25 @@ export interface Settings {
   zip: string;
   batterySaver: boolean;
   onboarded: boolean;
+  highContrast: boolean;
+  largeText: boolean;
+  reduceMotion: boolean;
+  autoRead: boolean;
 }
 
-const DEFAULTS: Settings = { lang: "en", zip: "", batterySaver: false, onboarded: false };
+const prefers = (q: string) => typeof window !== "undefined" && window.matchMedia?.(q).matches === true;
+
+// Start from the phone's own accessibility settings where the browser exposes them.
+const DEFAULTS: Settings = {
+  lang: "en",
+  zip: "",
+  batterySaver: false,
+  onboarded: false,
+  highContrast: prefers("(prefers-contrast: more)") || prefers("(forced-colors: active)"),
+  largeText: false,
+  reduceMotion: prefers("(prefers-reduced-motion: reduce)"),
+  autoRead: false,
+};
 const SETTINGS_KEY = "lifeline.settings";
 
 // Storage can be unavailable (private mode, blocked site data), so every access is guarded.
@@ -77,9 +93,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", settings.batterySaver);
-    document.documentElement.lang = settings.lang;
-  }, [settings.batterySaver, settings.lang]);
+    const html = document.documentElement;
+    html.classList.toggle("dark", settings.batterySaver);
+    html.classList.toggle("hc", settings.highContrast);
+    html.classList.toggle("large-text", settings.largeText);
+    html.classList.toggle("reduce-motion", settings.reduceMotion || settings.batterySaver);
+    html.lang = settings.lang;
+  }, [settings.batterySaver, settings.highContrast, settings.largeText, settings.reduceMotion, settings.lang]);
 
   const requestGps = useCallback(() => {
     if (!("geolocation" in navigator)) return setGpsError(true);
