@@ -1,0 +1,2948 @@
+[
+  {
+    "id": "SJ-001",
+    "name": "Good Samaritan Hospital",
+    "category": "health",
+    "tags": [
+      "24h",
+      "backup-power",
+      "wheelchair"
+    ],
+    "address": "2425 Samaritan Dr, San Jose, CA 95124",
+    "zip": "95124",
+    "lat": 37.2517,
+    "lng": -121.9467,
+    "phone": "+1 408-559-2011",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Emergency department. Level III NICU.",
+    "status": "open",
+    "outageRisk": "low",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJO1VC0bI1joAR5C8qGDrCSZ4",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-002",
+    "name": "Regional Medical Center",
+    "category": "health",
+    "tags": [
+      "24h",
+      "backup-power",
+      "wheelchair"
+    ],
+    "address": "225 N Jackson Ave, San Jose, CA 95116",
+    "zip": "95116",
+    "lat": 37.3628,
+    "lng": -121.8498,
+    "phone": "+1 408-259-5000",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Emergency department. Serves East San Jose.",
+    "status": "open",
+    "outageRisk": "low",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJ_3X2kATNj4ARJq22N-TR2io",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-003",
+    "name": "Santa Clara Valley Medical Center",
+    "category": "health",
+    "tags": [
+      "24h",
+      "backup-power"
+    ],
+    "address": "751 S Bascom Ave, San Jose, CA 95128",
+    "zip": "95128",
+    "lat": 37.3139,
+    "lng": -121.934,
+    "phone": "+1 408-885-5000",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "County-run hospital with emergency department.",
+    "status": "open",
+    "outageRisk": "low",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJ54JcoTHLj4ARwKWou-_AueA",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-004",
+    "name": "O'Connor Hospital",
+    "category": "health",
+    "tags": [
+      "24h",
+      "backup-power",
+      "wheelchair"
+    ],
+    "address": "2105 Forest Ave, San Jose, CA 95128",
+    "zip": "95128",
+    "lat": 37.3282,
+    "lng": -121.9385,
+    "phone": "+1 408-947-2500",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Emergency department.",
+    "status": "open",
+    "outageRisk": "low",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJe2mDoRnLj4ARcPZDNq1NLCo",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-005",
+    "name": "Kaiser Permanente San Jose Medical Center",
+    "category": "health",
+    "tags": [
+      "24h",
+      "backup-power",
+      "wheelchair"
+    ],
+    "address": "250 Hospital Pkwy, San Jose, CA 95119",
+    "zip": "95119",
+    "lat": 37.2395,
+    "lng": -121.8003,
+    "phone": "+1 408-972-3000",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Emergency department open to all. Non-emergency care for Kaiser members.",
+    "status": "open",
+    "outageRisk": "low",
+    "transit": "VTA Light Rail – Cottle, 9 min walk",
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJLzjiwC8ujoAR50z-X7tCEW0",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-006",
+    "name": "Valley Health Center Downtown Urgent Care",
+    "category": "health",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "777 E Santa Clara St, San Jose, CA 95112",
+    "zip": "95112",
+    "lat": 37.3439,
+    "lng": -121.875,
+    "phone": "+1 408-885-5000",
+    "hours": {
+      "mon": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Urgent care clinic, not a hospital. County-run.",
+    "status": "open",
+    "outageRisk": "moderate",
+    "transit": "VTA Bus – Santa Clara & 17th, 1 min walk",
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJ_8jedOrMj4ARD4nV-sZNEq0",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-007",
+    "name": "Walgreens (Blossom Hill)",
+    "category": "pharmacy",
+    "tags": [
+      "24h",
+      "wheelchair"
+    ],
+    "address": "440 Blossom Hill Rd, San Jose, CA 95123",
+    "zip": "95123",
+    "lat": 37.2502,
+    "lng": -121.83,
+    "phone": "+1 408-229-8013",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "24-hour store with pharmacy drive-thru.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJt345mO0xjoARQ-IggAmuemE",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-008",
+    "name": "CVS Pharmacy (W Capitol Expy)",
+    "category": "pharmacy",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "525 W Capitol Expy, San Jose, CA 95136",
+    "zip": "95136",
+    "lat": 37.276,
+    "lng": -121.8523,
+    "phone": "+1 408-448-9224",
+    "hours": {
+      "mon": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "11:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Pharmacy counter hours.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJa5eatEsyjoARnk9VhMP48JM",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-009",
+    "name": "CVS Pharmacy (McKee Rd)",
+    "category": "pharmacy",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "3475 McKee Rd, San Jose, CA 95127",
+    "zip": "95127",
+    "lat": 37.3815,
+    "lng": -121.8283,
+    "phone": "+1 408-272-9156",
+    "hours": {
+      "mon": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "11:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Pharmacy counter hours.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJUTJTrJ7Nj4ARmrUvR4to3kw",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-010",
+    "name": "CVS Pharmacy (Hillsdale Ave)",
+    "category": "pharmacy",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "1811 Hillsdale Ave, San Jose, CA 95124",
+    "zip": "95124",
+    "lat": 37.2652,
+    "lng": -121.9187,
+    "phone": "+1 408-265-3253",
+    "hours": {
+      "mon": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "11:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Pharmacy inside a Target store.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJ_V9dWW80joARdzORMg1vDMg",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-011",
+    "name": "CVS Pharmacy (Story Rd)",
+    "category": "pharmacy",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "1750 Story Rd, San Jose, CA 95122",
+    "zip": "95122",
+    "lat": 37.3399,
+    "lng": -121.8401,
+    "phone": "+1 408-273-0055",
+    "hours": {
+      "mon": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "11:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Pharmacy counter hours.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJayAcoTHNj4ARyWyZ0al_1IQ",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-012",
+    "name": "CVS Pharmacy (Silver Creek Rd)",
+    "category": "pharmacy",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "3155 Silver Creek Rd, San Jose, CA 95121",
+    "zip": "95121",
+    "lat": 37.3074,
+    "lng": -121.8127,
+    "phone": "+1 408-238-6070",
+    "hours": {
+      "mon": [
+        [
+          "09:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "17:00"
+        ]
+      ],
+      "sun": [
+        [
+          "11:00",
+          "13:30"
+        ],
+        [
+          "14:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Pharmacy counter hours.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJ6f1JuoEyjoAR5J6Kc1IwPfU",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-013",
+    "name": "LifeMoves Montgomery Street Inn",
+    "category": "shelter",
+    "tags": [
+      "24h",
+      "wheelchair"
+    ],
+    "address": "358 N Montgomery St, San Jose, CA 95110",
+    "zip": "95110",
+    "lat": 37.3368,
+    "lng": -121.9041,
+    "phone": "+1 408-271-5160",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Interim housing with meals. Call for intake.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJtydRWGDLj4ARavX1oQo57Gk",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-014",
+    "name": "HomeFirst Boccardo Reception Center",
+    "category": "shelter",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "2011 Little Orchard St, San Jose, CA 95125",
+    "zip": "95125",
+    "lat": 37.3032,
+    "lng": -121.8709,
+    "phone": "+1 408-294-2100",
+    "hours": null,
+    "hoursNote": "Hours not listed",
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Large shelter with beds and 3 meals a day. Call before arriving.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJZ_e_AhczjoAR4SaUUoTno8o",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-015",
+    "name": "Family Supportive Housing",
+    "category": "shelter",
+    "tags": [
+      "24h",
+      "wheelchair"
+    ],
+    "address": "692 N King Rd, San Jose, CA 95133",
+    "zip": "95133",
+    "lat": 37.3662,
+    "lng": -121.8684,
+    "phone": "+1 408-926-8885",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Family shelter with meals. Entry is by phone referral first.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJweyrIljMj4AReGrk1GCq1ZY",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-016",
+    "name": "HomeFirst Interim Housing (Rue Ferrari)",
+    "category": "shelter",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "5898 Rue Ferrari, San Jose, CA 95138",
+    "zip": "95138",
+    "lat": 37.2469,
+    "lng": -121.776,
+    "phone": null,
+    "hours": {
+      "mon": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "sat": [],
+      "sun": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Single-story modular units with air conditioning. No phone listed.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJKWEN258vjoARebZZKG0HvQw",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-017",
+    "name": "HomeFirst Tiny Homes (Monterey Rd)",
+    "category": "shelter",
+    "tags": [
+      "24h",
+      "wheelchair"
+    ],
+    "address": "6066 Monterey Rd, San Jose, CA 95138",
+    "zip": "95138",
+    "lat": 37.2394,
+    "lng": -121.7734,
+    "phone": "+1 408-609-4837",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Tiny-home community.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJf3azyIUvjoARr0sqS8y5auM",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-018",
+    "name": "CityTeam Connect: Dining Hall and Shelter",
+    "category": "shelter",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "580 Charles St, San Jose, CA 95112",
+    "zip": "95112",
+    "lat": 37.3651,
+    "lng": -121.8964,
+    "phone": "+1 408-288-2185",
+    "hours": {
+      "mon": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "22:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Emergency shelter beds and free meals. Mainly serves men.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJp87biHnMj4AR95hVTsdslxM",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-019",
+    "name": "Sacred Heart Community Service",
+    "category": "food",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "1381 S 1st St, San Jose, CA 95110",
+    "zip": "95110",
+    "lat": 37.3162,
+    "lng": -121.8746,
+    "phone": "+1 408-278-2160",
+    "hours": {
+      "mon": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "12:00"
+        ]
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Food pantry, clothing and rental assistance.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJFfgSPjczjoARynxyxPtqKbs",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-020",
+    "name": "Lighthouse Food Rescue and Distribution",
+    "category": "food",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "309 N 17th St, San Jose, CA 95112",
+    "zip": "95112",
+    "lat": 37.3483,
+    "lng": -121.8779,
+    "phone": "+1 408-492-1323",
+    "hours": {
+      "mon": [
+        [
+          "12:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "12:00",
+          "17:00"
+        ]
+      ],
+      "wed": [],
+      "thu": [
+        [
+          "12:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "12:00",
+          "17:00"
+        ]
+      ],
+      "sat": [
+        [
+          "12:00",
+          "17:00"
+        ]
+      ],
+      "sun": []
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Free produce and groceries. Recipients wait in line.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJaxT970_Nj4ARqOtPJyv44GE",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-021",
+    "name": "Second Harvest of Silicon Valley (Curtner Ave)",
+    "category": "food",
+    "tags": [],
+    "address": "750 Curtner Ave, San Jose, CA 95125",
+    "zip": "95125",
+    "lat": 37.2917,
+    "lng": -121.8772,
+    "phone": "+1 408-266-8866",
+    "hours": {
+      "mon": [
+        [
+          "08:30",
+          "11:30"
+        ],
+        [
+          "12:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:30",
+          "11:30"
+        ],
+        [
+          "12:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:30",
+          "11:30"
+        ],
+        [
+          "12:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "12:00",
+          "17:00"
+        ]
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "hoursNote": "Mon-Wed 8:30 AM to 5 PM; Fri 12 PM to 5 PM; Sat-Sun closed (Thu hours unclear)",
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Food bank warehouse. Call to be referred to a nearby distribution site.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJKTHN-AwzjoAR6g4F9P-lbnU",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-022",
+    "name": "Second Harvest of Silicon Valley (N First St)",
+    "category": "food",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "4001 N First St, San Jose, CA 95134",
+    "zip": "95134",
+    "lat": 37.4133,
+    "lng": -121.9526,
+    "phone": "+1 408-266-8866",
+    "hours": {
+      "mon": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "17:00"
+        ]
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Food bank warehouse, not a walk-in pickup site.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJvzL-i6vJj4AR83rz-T6iJaY",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-023",
+    "name": "Hunger at Home",
+    "category": "food",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "1560 Berger Dr, San Jose, CA 95112",
+    "zip": "95112",
+    "lat": 37.3723,
+    "lng": -121.8969,
+    "phone": "+1 408-318-0038",
+    "hours": {
+      "mon": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Food distribution. A review says pickup is on Mondays. Call ahead.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJVVUBb0K1j4ARSG1Aa4kvq8g",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-024",
+    "name": "CityTeam Renew for Men",
+    "category": "food",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "1174 Old Bayshore Hwy, San Jose, CA 95112",
+    "zip": "95112",
+    "lat": 37.3647,
+    "lng": -121.8959,
+    "phone": "+1 408-288-2153",
+    "hours": {
+      "mon": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Hot evening meal served daily. Also a men's residential program.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJp87biHnMj4ARPkfX7em0V-A",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-025",
+    "name": "Eat It! Free Food Pantry",
+    "category": "food",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "1604 Willowmont Ave, San Jose, CA 95118",
+    "zip": "95118",
+    "lat": 37.2653,
+    "lng": -121.9024,
+    "phone": null,
+    "hours": null,
+    "hoursNote": "Listed as 24 hours",
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Small donation pantry at a private home. A recent review says it is not open to the public.",
+    "status": "closed",
+    "outageRisk": "low",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJ22MNugY1joARCNXvYsml7IQ",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-026",
+    "name": "Safeway (Almaden Expy)",
+    "category": "food",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "6477 Almaden Expy, San Jose, CA 95120",
+    "zip": "95120",
+    "lat": 37.2195,
+    "lng": -121.8615,
+    "phone": "+1 408-268-3511",
+    "hours": null,
+    "hoursNote": "Listed as 24 hours",
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Grocery store. A review says it closes at 2 AM despite the 24-hour listing.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJs02J1wUxjoARs1Rl0LCudL0",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-027",
+    "name": "Mountain Pure Water",
+    "category": "water",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "1091 Leigh Ave, San Jose, CA 95126",
+    "zip": "95126",
+    "lat": 37.3056,
+    "lng": -121.9219,
+    "phone": "+1 669-799-8948",
+    "hours": {
+      "mon": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "11:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "20:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Paid purified water refills. Bring containers.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJN9eygbY0joARUcKzMNUfMQA",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-028",
+    "name": "Cropley Pure Water",
+    "category": "water",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "2673 Cropley Ave, San Jose, CA 95132",
+    "zip": "95132",
+    "lat": 37.4042,
+    "lng": -121.8821,
+    "phone": "+1 408-935-9849",
+    "hours": {
+      "mon": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Paid purified water refills. Bring containers.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJtSr3jKHOj4AR3ZzpluNoYVE",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-029",
+    "name": "Vistapark Pure Water",
+    "category": "water",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "416 W Capitol Expy, San Jose, CA 95136",
+    "zip": "95136",
+    "lat": 37.2738,
+    "lng": -121.8506,
+    "phone": "+1 408-314-2358",
+    "hours": {
+      "mon": [
+        [
+          "08:30",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:30",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:30",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:30",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:30",
+          "19:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:30",
+          "19:00"
+        ]
+      ],
+      "sun": [
+        [
+          "08:30",
+          "19:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Paid purified water refills. Carts available for 5-gallon jugs.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJpfxjIMMzjoAR16hTAOMedhI",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-030",
+    "name": "Always Pure Water",
+    "category": "water",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "2312 Senter Rd, San Jose, CA 95112",
+    "zip": "95112",
+    "lat": 37.3094,
+    "lng": -121.8484,
+    "phone": "+1 408-998-4881",
+    "hours": {
+      "mon": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Paid reverse-osmosis water refills.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJB25-juYyjoARmkmq7sgfG8s",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-031",
+    "name": "Mayfair Community Center",
+    "category": "cooling",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "2039 Kammerer Ave, San Jose, CA 95116",
+    "zip": "95116",
+    "lat": 37.3515,
+    "lng": -121.8438,
+    "phone": "+1 408-794-1060",
+    "hours": {
+      "mon": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "City community center. Cooling center use not confirmed; check during heat advisories.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJhRnNKD3Nj4ARn14BnpSipUA",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-032",
+    "name": "Roosevelt Community Center",
+    "category": "cooling",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "901 E Santa Clara St, San Jose, CA 95116",
+    "zip": "95116",
+    "lat": 37.3455,
+    "lng": -121.8719,
+    "phone": "+1 408-794-7555",
+    "hours": {
+      "mon": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "13:00"
+        ]
+      ],
+      "sun": []
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "City community center. A review says the ballroom was hot with little cooling. Cooling center use not confirmed.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": "VTA Bus – Santa Clara & 20th, 4 min walk",
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJE9jUwunMj4ARkSFRHk2X1t8",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-033",
+    "name": "Camden Community Center",
+    "category": "cooling",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "3369 Union Ave, San Jose, CA 95124",
+    "zip": "95124",
+    "lat": 37.2636,
+    "lng": -121.9334,
+    "phone": "+1 408-559-8553",
+    "hours": {
+      "mon": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "City community center with pool. Cooling center use not confirmed.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJj-5R5ls0joARzerKtwWlULo",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-034",
+    "name": "Evergreen Community Center",
+    "category": "cooling",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "4860 San Felipe Rd, San Jose, CA 95135",
+    "zip": "95135",
+    "lat": 37.2983,
+    "lng": -121.7699,
+    "phone": "+1 408-270-2220",
+    "hours": {
+      "mon": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "17:00"
+        ]
+      ],
+      "sun": []
+    },
+    "hoursNote": "Mon-Fri 9 AM to 5 PM; Sun closed; Sat listing unclear",
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "City community center near the eastern foothills. Cooling center use not confirmed.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJO2j7DsotjoARwMqvpZvOA8s",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-035",
+    "name": "Seven Trees Community Center",
+    "category": "cooling",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "3590 Cas Dr, San Jose, CA 95111",
+    "zip": "95111",
+    "lat": 37.2849,
+    "lng": -121.8337,
+    "phone": "+1 408-794-1690",
+    "hours": {
+      "mon": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "19:00"
+        ]
+      ],
+      "sat": [],
+      "sun": []
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Community center with branch library and senior lunch program. Cooling center use not confirmed.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJCSCY_GkyjoARC4nPDjhlP9c",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-036",
+    "name": "Dr. Martin Luther King, Jr. Library",
+    "category": "cooling",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "150 E San Fernando St, San Jose, CA 95112",
+    "zip": "95112",
+    "lat": 37.3355,
+    "lng": -121.885,
+    "phone": "+1 408-808-2000",
+    "hours": {
+      "mon": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "13:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Main library, 8 floors. Cooling center use not confirmed.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": "VTA Light Rail – San Antonio, 6 min walk",
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJgbAiC7zMj4ARf9VjyD-BcOM",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-037",
+    "name": "West Valley Branch Library",
+    "category": "cooling",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "1243 San Tomas Aquino Rd, San Jose, CA 95117",
+    "zip": "95117",
+    "lat": 37.3024,
+    "lng": -121.9794,
+    "phone": "+1 408-244-4747",
+    "hours": {
+      "mon": [
+        [
+          "13:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "12:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "12:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Branch library. Cooling center use not confirmed.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJaeW5mrDKj4ARX2xrRty9ZFI",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-038",
+    "name": "Bascom Branch Library",
+    "category": "cooling",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "1000 S Bascom Ave, San Jose, CA 95128",
+    "zip": "95128",
+    "lat": 37.3074,
+    "lng": -121.9311,
+    "phone": "+1 408-808-3077",
+    "hours": {
+      "mon": [
+        [
+          "13:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "12:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "12:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Branch library and community center. Cooling center use not confirmed.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJxxkKssw0joARnAZ9TB0hJcI",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-039",
+    "name": "Evergreen Branch Library",
+    "category": "cooling",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "2635 Aborn Rd, San Jose, CA 95121",
+    "zip": "95121",
+    "lat": 37.3138,
+    "lng": -121.7959,
+    "phone": "+1 408-808-3060",
+    "hours": {
+      "mon": [
+        [
+          "13:00",
+          "19:00"
+        ]
+      ],
+      "tue": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "wed": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "thu": [
+        [
+          "10:00",
+          "19:00"
+        ]
+      ],
+      "fri": [
+        [
+          "12:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "10:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "12:00",
+          "17:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Branch library. Cooling center use not confirmed.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJy79J3HYtjoARWrwEA_MiRuQ",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-040",
+    "name": "Tesla Supercharger (Coleman Ave)",
+    "category": "ev_charging",
+    "tags": [
+      "24h",
+      "ev"
+    ],
+    "address": "533 Coleman Ave, San Jose, CA 95110",
+    "zip": "95110",
+    "lat": 37.3396,
+    "lng": -121.9037,
+    "phone": "+1 877-798-3752",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "EV fast charging. Often busy.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJg_KB-__Lj4ARKxcCo2ycXnE",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-041",
+    "name": "Electrify America (W San Carlos St)",
+    "category": "ev_charging",
+    "tags": [
+      "24h",
+      "ev"
+    ],
+    "address": "1300 W San Carlos St, San Jose, CA 95126",
+    "zip": "95126",
+    "lat": 37.3226,
+    "lng": -121.9136,
+    "phone": "+1 833-632-2778",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "EV fast charging in a Safeway lot. Reviews report a broken charger.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJPRWJYUfLj4ARLA48PVVEF68",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-042",
+    "name": "Electrify America (Newhall Dr)",
+    "category": "ev_charging",
+    "tags": [
+      "24h",
+      "ev"
+    ],
+    "address": "760 Newhall Dr, San Jose, CA 95110",
+    "zip": "95110",
+    "lat": 37.3505,
+    "lng": -121.9229,
+    "phone": "+1 833-632-2778",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "EV fast charging near PayPal Park.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJc1sD6b_Lj4AR1Fb8zkoZbPc",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-043",
+    "name": "IONNA Charging Station (Story Rd)",
+    "category": "ev_charging",
+    "tags": [
+      "24h",
+      "ev"
+    ],
+    "address": "730 Story Rd, San Jose, CA 95122",
+    "zip": "95122",
+    "lat": 37.3284,
+    "lng": -121.8588,
+    "phone": "+1 833-466-2474",
+    "hours": {
+      "mon": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "tue": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "wed": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "thu": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "fri": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sat": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ],
+      "sun": [
+        [
+          "00:00",
+          "24:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "EV fast charging. No app needed.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJMRRhwiozjoAREvcdr2xDQnQ",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-044",
+    "name": "ChargePoint Charging Station (Stockton Ave)",
+    "category": "ev_charging",
+    "tags": [
+      "ev"
+    ],
+    "address": "630 Stockton Ave, San Jose, CA 95126",
+    "zip": "95126",
+    "lat": 37.3398,
+    "lng": -121.9112,
+    "phone": "+1 888-758-4389",
+    "hours": {
+      "mon": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "tue": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "wed": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "thu": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "fri": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "sat": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ],
+      "sun": [
+        [
+          "09:00",
+          "16:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "EV charging. Listing has one review, so hours are unconfirmed.",
+    "status": "unknown",
+    "outageRisk": "high",
+    "transit": null,
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJFbxvpmXLj4ARHjzg9LVxHhE",
+    "lastVerified": "2026-10-23"
+  },
+  {
+    "id": "SJ-045",
+    "name": "Dr. Martin Luther King, Jr. Library",
+    "category": "charging",
+    "tags": [
+      "wheelchair"
+    ],
+    "address": "150 E San Fernando St, San Jose, CA 95112",
+    "zip": "95112",
+    "lat": 37.3355,
+    "lng": -121.885,
+    "phone": "+1 408-808-2000",
+    "hours": {
+      "mon": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "tue": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "wed": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "thu": [
+        [
+          "08:00",
+          "20:00"
+        ]
+      ],
+      "fri": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sat": [
+        [
+          "08:00",
+          "18:00"
+        ]
+      ],
+      "sun": [
+        [
+          "13:00",
+          "18:00"
+        ]
+      ]
+    },
+    "hoursNote": null,
+    "services": [],
+    "languages": [],
+    "eligibility": null,
+    "notes": "Public outlets for phones and laptops. Same building as SJ-036.",
+    "status": "open",
+    "outageRisk": "high",
+    "transit": "VTA Light Rail – San Antonio, 6 min walk",
+    "source": "https://www.google.com/maps/place/?q=place_id:ChIJgbAiC7zMj4ARf9VjyD-BcOM",
+    "lastVerified": "2026-10-23"
+  }
+]
