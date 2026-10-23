@@ -9,14 +9,30 @@ import type { Lang } from "../../shared/resources";
 const found = import.meta.glob<{ default: Record<string, unknown> }>("../../amplify_outputs.json", { eager: true });
 const outputs = Object.values(found)[0]?.default;
 
-export const hasBackend = Boolean(outputs);
+// Two ways to reach Bedrock:
+// - "amplify": the deployed Amplify backend (AppSync + Lambda), when amplify_outputs.json exists.
+// - "local": the laptop server in server/index.ts, reached at /api through the Vite proxy.
+const hasAmplify = Boolean(outputs);
+export const backendMode: "amplify" | "local" = hasAmplify ? "amplify" : "local";
+export const hasBackend = true;
 if (outputs) Amplify.configure(outputs);
 
 let client: ReturnType<typeof generateClient<Schema>> | null = null;
 export function api() {
-  if (!hasBackend) throw new Error("Backend not deployed yet");
+  if (!hasAmplify) throw new Error("Amplify backend not deployed");
   client ??= generateClient<Schema>();
   return client;
+}
+
+async function local<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(`/api/${path}`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const json = await res.json().catch(() => ({ error: `Backend unreachable (${res.status})` }));
+  if (!res.ok) throw new Error(json.error ?? `Request failed (${res.status})`);
+  return json as T;
 }
 
 export interface LeslieAnswer {
@@ -34,6 +50,7 @@ export async function askLeslie(args: {
   lng?: number;
   history?: { role: "user" | "assistant"; text: string }[];
 }): Promise<LeslieAnswer> {
+  if (backendMode === "local") return local<LeslieAnswer>("leslie", args);
   const { data, errors } = await api().queries.askLeslie({
     question: args.question,
     language: args.language,
@@ -52,6 +69,7 @@ export async function askLeslie(args: {
 }
 
 export async function triageCaseload(zips: string[], scenario: string): Promise<TriageResult> {
+  if (backendMode === "local") return local<TriageResult>("triage", { zips, scenario });
   const { data, errors } = await api().mutations.triageCaseload({ zips, scenario });
   if (errors?.length || !data) throw new Error(errors?.[0]?.message ?? "No triage returned");
   // a.json() results arrive as a JSON string.
@@ -63,7 +81,7 @@ const PENDING_FLAGS = "lifeline.pendingFlags";
 /** Resident "this info is wrong" reports. Queued on the phone when offline and sent later. */
 export async function reportProblem(resourceId: string, reason: string): Promise<"sent" | "queued"> {
   const item = { resourceId, reason };
-  if (hasBackend && navigator.onLine) {
+  if (hasAmplify && navigator.onLine) {
     try {
       await api().models.Flag.create({ ...item, source: "resident", status: "open" });
       return "sent";
@@ -82,7 +100,7 @@ export async function reportProblem(resourceId: string, reason: string): Promise
 }
 
 export async function flushPendingReports() {
-  if (!hasBackend || !navigator.onLine) return;
+  if (!hasAmplify || !navigator.onLine) return;
   let q: { resourceId: string; reason: string }[] = [];
   try {
     q = JSON.parse(localStorage.getItem(PENDING_FLAGS) ?? "[]");

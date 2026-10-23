@@ -8,6 +8,6 @@ export const askLeslie = defineFunction({
   runtime: 22,
   resourceGroupName: "data",
   environment: {
-    MODEL_ID: "us.anthropic.claude-haiku-5-5",
+    MODEL_ID: "us.anthropic.claude-haiku-4-5-20251001-v1:0",
   },
 });

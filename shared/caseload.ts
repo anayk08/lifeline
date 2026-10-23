@@ -88,6 +88,8 @@ export function candidatesFor(client: Client, outageZips: Set<string>, perNeed =
   return out;
 }
 
+const LANGUAGE_NAMES = { en: "English", es: "Spanish", vi: "Vietnamese" } as const;
+
 const statusText = (s: OpenStatus) =>
   s.state === "unknown"
     ? "hours unknown, call first"
@@ -103,7 +105,7 @@ export function triagePrompt(outageZips: string[], scenario: string, now: string
     const inOutage = zips.has(c.zip);
     const cands = inOutage ? candidatesFor(c, zips) : [];
     return [
-      `CLIENT ${c.id}: ${c.name}, ${c.age}, ZIP ${c.zip}${inOutage ? " (INSIDE OUTAGE)" : " (outside outage)"}, language ${c.language}`,
+      `CLIENT ${c.id}: ${c.name}, ${c.age}, ZIP ${c.zip}${inOutage ? " (INSIDE OUTAGE)" : " (outside outage)"}, write the message in ${LANGUAGE_NAMES[c.language]}`,
       `  Needs: ${c.needs.map((n) => NEED_LABELS[n]).join(", ")}`,
       `  Notes: ${c.notes}`,
       ...cands.map(
@@ -122,7 +124,7 @@ Rules:
 - Urgency levels: "critical" (life-sustaining equipment without power, e.g. oxygen or dialysis, especially if living alone), "high" (insulin spoiling, heat risk with no cooling, can't evacuate alone), "medium" (inside the outage but has a backup or support), "low" (outside the outage: just a courtesy check). Every client gets exactly one entry.
 - Give a short, concrete reason Maria can act on (what fails, how soon, who else is there).
 - For clients inside the outage, pick the single best option from that client's listed options (prefer open now, then closest, and the one that meets the most urgent need). Only use option IDs listed for that client. If none fit, use null and say so in the reason.
-- Draft the check-in text in the client's language (en English, es Spanish, vi Vietnamese), warm and plain, at most 300 characters. Name the place and street address if you picked one, ask them to reply or call Maria, and mention 911 for emergencies. Sign it "- Maria". For clients outside the outage, write a short check-in only.
+- Draft the check-in text in exactly the language named on the client's line (never another one), warm and plain, at most 300 characters. Name the place and street address if you picked one, ask them to reply or call Maria, and mention 911 for emergencies. Sign it "- Maria". For clients outside the outage, write a short check-in only.
 - recommendedAction: one short instruction for Maria, e.g. "Call now and arrange a ride", "Text check-in", "No action, monitor".
 - Never give medical advice beyond pointing to the place and 911. Never invent places, hours or phone numbers.
 

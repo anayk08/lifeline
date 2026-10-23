@@ -2,8 +2,14 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
 
+// The local Bedrock backend (server/index.ts). Both the dev server and `vite preview`
+// forward /api to it, so the browser never sees AWS credentials.
+const apiProxy = { "/api": { target: "http://127.0.0.1:8787", changeOrigin: true } };
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: { proxy: apiProxy },
+  preview: { proxy: apiProxy },
   plugins: [
     react(),
     VitePWA({
@@ -29,6 +35,7 @@ export default defineConfig({
         // so search, listings and the map markers work with no signal at all.
         globPatterns: ["**/*.{js,css,html,svg,png,json,woff2}"],
         navigateFallback: "/index.html",
+        navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/,
