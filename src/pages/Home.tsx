@@ -131,14 +131,6 @@ function LesliePanel({
         </button>
       </div>
 
-      {/* Earlier questions stay above, briefly. */}
-      {turns.slice(0, -1).map((turn, i) => (
-        <div key={i} className="flex flex-col gap-1 pb-2 border-b border-surface-variant">
-          <p className="bg-surface-container-low rounded-lg px-2.5 py-2 text-[0.8125rem] text-on-surface">{turn.question}</p>
-          {turn.answer && <p className="text-[0.8125rem] leading-5 text-on-surface-variant">{turn.answer}</p>}
-        </div>
-      ))}
-
       <p className="bg-surface-container-low rounded-lg p-2.5 text-[0.875rem] text-on-surface">
         <span className="sr-only">{t.youAsked} </span>
         {current.question}
@@ -198,6 +190,31 @@ function LesliePanel({
         )}
       </div>
       <p className="text-[0.75rem] leading-[1.0625rem] text-on-surface-variant">{t.verifiedNote}</p>
+
+      {/* Earlier questions live below the current answer, folded away, so the newest answer is always first. */}
+      {turns.length > 1 && (
+        <details className="border-t border-surface-variant pt-1.5 group">
+          <summary className="list-none cursor-pointer min-h-[2.75rem] flex items-center justify-between text-[0.8125rem] font-semibold text-primary">
+            {t.earlierQuestions(turns.length - 1)}
+            <FIcon name="chevron-down" size={16} className="transition-transform group-open:rotate-180" />
+          </summary>
+          <ol className="flex flex-col gap-2 pb-1" reversed>
+            {turns
+              .slice(0, -1)
+              .map((turn, i) => ({ turn, i }))
+              .reverse()
+              .map(({ turn, i }) => (
+                <li key={i} className="flex flex-col gap-1 pb-2 border-b border-surface-variant last:border-b-0">
+                  <p className="bg-surface-container-low rounded-lg px-2.5 py-2 text-[0.8125rem] text-on-surface">
+                    <span className="sr-only">{t.youAsked} </span>
+                    {turn.question}
+                  </p>
+                  {turn.answer && <p className="text-[0.8125rem] leading-5 text-on-surface-variant">{turn.answer}</p>}
+                </li>
+              ))}
+          </ol>
+        </details>
+      )}
     </section>
   );
 }

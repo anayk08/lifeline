@@ -3,6 +3,7 @@
 // AWS credentials live (laptop server or Lambda), never in the browser.
 import { ConverseCommand, type BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
 import { SearchTextCommand, type GeoPlacesClient } from "@aws-sdk/client-geo-places";
+import { closeEnough } from "./fuzzy";
 import type { SituationHazard } from "./resources";
 
 // Haiku 4.5 accepts a forced tool call and a temperature, so the result is always structured.
@@ -78,7 +79,7 @@ export async function extractSituation(bedrock: BedrockRuntimeClient, question: 
       modelId: SITUATION_MODEL,
       system: [
         {
-          text: "Extract the emergency situation from a resident's message to a San José help app. The message may be in English, Spanish or Vietnamese. Copy place names exactly as written; never guess a place that isn't in the message.",
+          text: "Extract the emergency situation from a resident's message to a San José help app. The message may be in English, Spanish or Vietnamese, and people in an emergency often type fast: read misspellings generously (\"erthquake\" is an earthquake, \"no powr\" is a power outage). Copy place names as written, fixing only obvious spelling mistakes (\"Spartn Vilage\" -> \"Spartan Village\"); never add or guess a place that isn't in the message.",
         },
       ],
       messages: [{ role: "user", content: [{ text: question.slice(0, 1000) }] }],
@@ -121,7 +122,7 @@ const distinctive = (s: string) =>
 /**
  * Finds a place the resident named, using Amazon Location place search biased to
  * San José. Only accepts a result inside the San José area that shares a distinctive
- * word with what they typed, so a made-up name never turns into a real location.
+ * word with what they typed (typos allowed), so a made-up name never turns into a real location.
  */
 export async function findPlace(geo: GeoPlacesClient, text: string): Promise<LabeledPoint | null> {
   const asked = distinctive(text);
@@ -137,8 +138,9 @@ export async function findPlace(geo: GeoPlacesClient, text: string): Promise<Lab
   for (const item of res.ResultItems ?? []) {
     const [lng, lat] = item.Position ?? [];
     if (lat == null || lng == null || !inSanJoseArea(lat, lng)) continue;
-    const words = distinctive(`${item.Title ?? ""} ${item.Address?.Label ?? ""}`);
-    if ([...asked].some((w) => words.has(w))) return { label: text, lat, lng };
+    const words = [...distinctive(`${item.Title ?? ""} ${item.Address?.Label ?? ""}`)];
+    // A shared word, allowing a few typos ("Spartn" still matches "Spartan").
+    if ([...asked].some((w) => words.some((x) => closeEnough(w, x)))) return { label: text, lat, lng };
   }
   return null;
 }
