@@ -1,25 +1,14 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useMemo, useState } from "react";
-import { Circle, CircleMarker, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMap } from "react-leaflet";
+import { Circle, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMap } from "react-leaflet";
 import { BY_ID, HAZARD_RADIUS_MILES, openStatus, type Category, type Resource } from "../../shared/resources";
 import type { RouteKind, RouteOption, RouteResult } from "../../shared/routes";
 import type { SituationResult } from "../../shared/situation";
 import { useApp } from "../lib/app";
 import { planRoutes } from "../lib/backend";
+import { CATEGORY_COLOR, CategoryFilter, LocationPointer } from "./mapParts";
 import { Icon, StatusBadge, statusLine } from "./ui";
-
-// One color per kind of help, used for pins and their number badges.
-export const CATEGORY_COLOR: Record<Category, string> = {
-  pharmacy: "#d6336c",
-  health: "#c92a2a",
-  food: "#e8590c",
-  cooling: "#1c7ed6",
-  charging: "#7048e8",
-  shelter: "#2b8a3e",
-  water: "#0c8599",
-  ev_charging: "#495057",
-};
 
 // One color per route option, used for the line on the map and its button.
 const ROUTE_COLOR: Record<RouteKind, string> = {
@@ -68,8 +57,14 @@ type RouteState = RouteResult | "loading" | "error";
 const HAZARD_RED = "#e03131";
 
 export default function AnswerMap({ ids, situation }: { ids: string[]; situation: SituationResult | null }) {
-  const { t, origin: appOrigin, settings, online } = useApp();
+  const { t, origin: appOrigin, settings, online, gps, gpsAccuracy, watchGps } = useApp();
+  const [hidden, setHidden] = useState<Set<Category>>(new Set());
   const places = useMemo(() => ids.map((id) => BY_ID.get(id)).filter((r): r is Resource => !!r), [ids]);
+  const visible = places.filter((p) => !hidden.has(p.category));
+
+  // Keep following the phone's exact position while the map is open (only if location is already on).
+  const hasGps = gps !== null;
+  useEffect(() => (hasGps ? watchGps() : undefined), [hasGps, watchGps]);
 
   // Distances and routes start where Leslie said: a place the resident named, else GPS, else ZIP.
   const so = situation?.origin;
@@ -109,7 +104,7 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
 
   if (!places.length) return null;
 
-  const open = places.find((p) => p.id === openId) ?? null;
+  const open = visible.find((p) => p.id === openId) ?? null;
   const optionsFor = (id: string): RouteOption[] => {
     const s = routes[id];
     return s && typeof s === "object" ? s.options : [];
@@ -141,10 +136,12 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
   const kindsShown = [...new Set(places.map((p) => p.category))];
 
   return (
-    <section aria-label={t.mapOfResults} className="relative -mx-gutter h-full min-h-[260px]">
+    <div className="flex flex-col h-full gap-1">
+      {kindsShown.length > 1 && <CategoryFilter categories={kindsShown} hidden={hidden} onChange={setHidden} />}
+    <section aria-label={t.mapOfResults} className="relative -mx-gutter flex-1 min-h-[240px]">
       {/* Keyboard and screen-reader users pick places here; sighted mouse and touch users tap the pins. */}
       <ol aria-label={t.placesFound(places.length)} className="sr-only">
-        {places.map((r, i) => (
+        {visible.map((r) => (
           <li key={r.id}>
             <button
               type="button"
@@ -152,7 +149,7 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
               aria-pressed={r.id === openId}
               className="focus:not-sr-only focus:absolute focus:z-[600] focus:top-2 focus:left-2 focus:bg-secondary-container focus:text-[#151c24] focus:px-3 focus:py-2 focus:rounded-xl"
             >
-              {i + 1}. {r.name}
+              {places.indexOf(r) + 1}. {r.name}
               {walkMinutes(r.id) !== null ? `, ${t.minutes(walkMinutes(r.id)!)} ${t.fastestWalk.toLowerCase()}` : ""}
             </button>
           </li>
@@ -213,17 +210,18 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
             />
           )}
           {origin && (
-            <CircleMarker
-              center={origin}
-              radius={11}
-              pathOptions={{ color: "#fff", weight: 4, fillColor: contrast ? "#000" : "#1971c2", fillOpacity: 1 }}
+            <LocationPointer
+              at={origin}
+              label={t.youAreHere}
+              accuracyMeters={!so || so.source === "gps" ? (gps ? gpsAccuracy : null) : null}
+              contrast={contrast}
             />
           )}
-          {places.map((r, i) => (
+          {visible.map((r) => (
             <Marker
               key={r.id}
               position={[r.lat, r.lng]}
-              icon={pin(r, i + 1, r.id === openId, contrast, walkMinutes(r.id))}
+              icon={pin(r, places.indexOf(r) + 1, r.id === openId, contrast, walkMinutes(r.id))}
               zIndexOffset={r.id === openId ? 1000 : 0}
               keyboard={false}
               eventHandlers={{ click: () => select(r.id) }}
@@ -237,16 +235,9 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
         aria-hidden="true"
         className="absolute z-[450] top-2 left-2 max-w-[60%] bg-surface-container-lowest/95 bg-surface-container-lowest border-2 border-surface-variant rounded-xl px-2 py-1.5 text-[0.75rem] leading-4 font-bold flex flex-col gap-1 shadow"
       >
-        {/* In high contrast every pin is black, so color rows would say nothing. */}
-        {!contrast && kindsShown.map((c) => (
-          <span key={c} className="flex items-center gap-1.5">
-            <span className="w-3.5 h-3.5 rounded-full border-2 border-white shrink-0" style={{ background: contrast ? "#000" : CATEGORY_COLOR[c] }} />
-            {t.categoryNames[c] ?? c}
-          </span>
-        ))}
         {origin && (
           <span className="flex items-center gap-1.5">
-            <span className="w-3.5 h-3.5 rounded-full border-2 border-white shrink-0" style={{ background: contrast ? "#000" : "#1971c2", outline: "1px solid #1971c2" }} />
+            <svg width="12" height="16" viewBox="0 0 34 46" aria-hidden="true" className="shrink-0"><path d="M17 1C8.2 1 1 8 1 16.7 1 28.5 17 45 17 45s16-16.5 16-28.3C33 8 25.8 1 17 1z" fill={contrast ? "#000" : "#1971c2"} /></svg>
             {t.youAreHere}
           </span>
         )}
@@ -422,5 +413,6 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
         </div>
       )}
     </section>
+    </div>
   );
 }

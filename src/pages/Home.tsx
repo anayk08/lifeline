@@ -18,13 +18,6 @@ export default function Home() {
     if (query.trim()) go(`/ask?q=${encodeURIComponent(query.trim())}`);
   };
 
-  const tiles = [
-    { cat: "pharmacy", emoji: "💊", title: t.medicine, sub: t.medicineSub },
-    { cat: "food", emoji: "🍲", title: t.food, sub: t.foodSub },
-    { cat: "cooling", emoji: "❄️", title: t.stayCool, sub: t.stayCoolSub },
-    { cat: "charging", emoji: "⚡", title: t.charge, sub: t.chargeSub },
-  ];
-
   return (
     <Page tab="ask">
       <section className="w-full bg-surface-container-low border border-surface-variant rounded-xl p-2.5 flex items-center gap-2">
@@ -71,27 +64,6 @@ export default function Home() {
           <Icon name="psychology" className="!text-[18px]" /> {online ? t.leslieHint : t.leslieHintOffline}
         </p>
       </form>
-
-      <section aria-label="Categories" className="grid grid-cols-2 gap-space-sm">
-        {tiles.map((tile) => (
-          <a
-            key={tile.cat}
-            href={`#/list/${tile.cat}`}
-            className="flex flex-col justify-between p-4 bg-surface-container-lowest rounded-2xl border-[1.5px] border-surface-variant min-h-[140px] hover:border-primary-container focus:outline-none focus:ring-4 focus:ring-secondary-container active:scale-[0.98] transition-all"
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-3xl" aria-hidden="true">
-                {tile.emoji}
-              </span>
-              <Icon name="arrow_forward" className="text-outline" />
-            </div>
-            <div>
-              <h2 className="text-headline-md text-primary mt-2">{tile.title}</h2>
-              <p className="text-body-md text-on-surface-variant line-clamp-2">{tile.sub}</p>
-            </div>
-          </a>
-        ))}
-      </section>
 
       <p className="text-body-lg text-on-surface px-1">
         {t.emergencyLine}{" "}

@@ -198,6 +198,22 @@ body {
   font-family: inherit;
   background: var(--surface-container);
 }
+/* "You" label above the location pointer. */
+.leaflet-tooltip.you-label {
+  background: #1971c2;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  font: 700 12px/16px sans-serif;
+  padding: 1px 6px;
+}
+.leaflet-tooltip.you-label::before {
+  display: none;
+}
+html.hc .leaflet-tooltip.you-label {
+  background: #000;
+}
+
 /* Label in the middle of the hazard circle. */
 .leaflet-tooltip.hazard-label {
   background: #fff;

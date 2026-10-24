@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { zipCenter, type Lang } from "../../shared/resources";
+import { distanceMiles, zipCenter, type Lang } from "../../shared/resources";
 import { STRINGS, type Strings } from "./i18n";
 
 export interface Settings {
@@ -52,7 +52,10 @@ interface AppState {
   t: Strings;
   online: boolean;
   gps: [number, number] | null;
+  /** How precise the GPS fix is, in meters. */
+  gpsAccuracy: number | null;
   requestGps: () => void;
+  watchGps: () => () => void;
   gpsError: boolean;
   /** Best known position: GPS if allowed, else the center of the saved ZIP. */
   origin: [number, number] | null;
@@ -72,6 +75,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [online, setOnline] = useState(() => navigator.onLine);
   const [gps, setGps] = useState<[number, number] | null>(null);
   const [gpsError, setGpsError] = useState(false);
+  const [gpsAccuracy, setGpsAccuracy] = useState<number | null>(null);
 
   const update = useCallback((patch: Partial<Settings>) => {
     setSettings((s) => {
@@ -101,17 +105,34 @@ export function AppProvider({ children }: { children: ReactNode }) {
     html.lang = settings.lang;
   }, [settings.batterySaver, settings.highContrast, settings.largeText, settings.reduceMotion, settings.lang]);
 
+  // Only move the position when it changes by more than ~25 m, so GPS jitter
+  // doesn't re-rank lists or refetch routes every second.
+  const applyPosition = useCallback((pos: GeolocationPosition) => {
+    const next: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+    setGps((prev) => (prev && distanceMiles(prev[0], prev[1], next[0], next[1]) < 0.016 ? prev : next));
+    setGpsAccuracy(Math.round(pos.coords.accuracy));
+    setGpsError(false);
+  }, []);
+
   const requestGps = useCallback(() => {
     if (!("geolocation" in navigator)) return setGpsError(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setGps([pos.coords.latitude, pos.coords.longitude]);
-        setGpsError(false);
-      },
-      () => setGpsError(true),
-      { enableHighAccuracy: false, timeout: 15000, maximumAge: 5 * 60_000 },
-    );
-  }, []);
+    navigator.geolocation.getCurrentPosition(applyPosition, () => setGpsError(true), {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 60_000,
+    });
+  }, [applyPosition]);
+
+  /** Follows the phone's exact position while a map is open. Returns a stop function. */
+  const watchGps = useCallback(() => {
+    if (!("geolocation" in navigator)) return () => {};
+    const id = navigator.geolocation.watchPosition(applyPosition, () => setGpsError(true), {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 10_000,
+    });
+    return () => navigator.geolocation.clearWatch(id);
+  }, [applyPosition]);
 
   // GPS works without a data connection, so ask once if the browser already allows it.
   useEffect(() => {
@@ -128,11 +149,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
       t: STRINGS[settings.lang],
       online,
       gps,
+      gpsAccuracy,
       requestGps,
+      watchGps,
       gpsError,
       origin: gps ?? (settings.zip ? zipCenter(settings.zip) : null),
     }),
-    [settings, update, online, gps, requestGps, gpsError],
+    [settings, update, online, gps, gpsAccuracy, requestGps, watchGps, gpsError],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
