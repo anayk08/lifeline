@@ -15,6 +15,7 @@ import {
 } from "../../shared/resources";
 import AlertBanner, { useAlert } from "../components/AlertBanner";
 import CategoryTabs from "../components/CategoryTabs";
+import LegalFooter from "../components/LegalFooter";
 import { FIcon, TABS } from "../components/figma";
 import HomeMap, { type MapPlace, type RouteLine } from "../components/HomeMap";
 import PlaceRow from "../components/PlaceRow";
@@ -456,6 +457,7 @@ export default function Home() {
           </p>
         </section>
       )}
+      <LegalFooter />
     </Page>
   );
 }

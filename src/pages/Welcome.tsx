@@ -1,5 +1,6 @@
 import { RESOURCES, type Lang } from "../../shared/resources";
 import { LifelineMark } from "../components/figma";
+import LegalFooter from "../components/LegalFooter";
 import { Icon, PrimaryButton } from "../components/ui";
 import { useApp } from "../lib/app";
 import { LANG_NAMES } from "../lib/i18n";
@@ -76,6 +77,7 @@ export default function Welcome() {
         <button type="button" onClick={() => update({ onboarded: true })} className="text-label-md text-on-surface-variant underline underline-offset-4 min-h-[44px]">
           {t.skipLocation}
         </button>
+        <LegalFooter />
       </div>
     </div>
   );

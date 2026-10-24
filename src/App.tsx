@@ -1,8 +1,12 @@
 import { lazy, Suspense, useEffect } from "react";
 import { useApp, useRoute } from "./lib/app";
 import { flushPendingReports } from "./lib/backend";
+import About from "./pages/About";
+import Help from "./pages/Help";
 import Home from "./pages/Home";
+import Legal from "./pages/Legal";
 import ListPage from "./pages/ListPage";
+import NotFound from "./pages/NotFound";
 import Place from "./pages/Place";
 import Plan from "./pages/Plan";
 import Settings from "./pages/Settings";
@@ -35,8 +39,16 @@ export default function App() {
         <Settings />
       ) : page === "plan" ? (
         <Plan />
-      ) : (
+      ) : page === "legal" ? (
+        <Legal doc={arg ?? ""} />
+      ) : page === "about" ? (
+        <About />
+      ) : page === "help" ? (
+        <Help />
+      ) : page === undefined || page === "ask" ? (
         <Home />
+      ) : (
+        <NotFound />
       )}
     </Suspense>
   );

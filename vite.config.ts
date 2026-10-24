@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
@@ -6,8 +7,16 @@ import { VitePWA } from "vite-plugin-pwa";
 // forward /api to it, so the browser never sees AWS credentials.
 const apiProxy = { "/api": { target: "http://127.0.0.1:8787", changeOrigin: true } };
 
+// Version and build stamp shown in Settings and About (and sent with bug reports).
+const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8")) as { version: string };
+const build = new Date().toISOString().slice(0, 16).replace(/[-:T]/g, "");
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+    __APP_BUILD__: JSON.stringify(build),
+  },
   server: { proxy: apiProxy },
   preview: { proxy: apiProxy },
   plugins: [
