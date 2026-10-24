@@ -78,7 +78,8 @@ const RESPOND_TOOL = {
         properties: {
           answer: {
             type: "string",
-            description: "Short, plain-language answer (under 90 words). No markdown headings.",
+            description:
+              "1 to 3 short plain-language sentences (under 60 words). No phone numbers, addresses or distances: the place cards show those. No markdown.",
           },
           resourceIds: {
             type: "array",
@@ -195,7 +196,12 @@ function liveAlertText(alert: SituationResult["alert"], hazards: LiveHazard[]): 
   }. The resident did not have to mention it.`;
 }
 
-export async function askLeslie(clients: LeslieClients, args: LeslieArgs, modelId = LESLIE_MODEL): Promise<LeslieAnswer> {
+// Leslie's chat answers use Sonnet 5.5: in side-by-side tests it followed the "no addresses,
+// distances or phone numbers" and "only claim what the listing says" rules where Haiku 4.5
+// slipped (e.g. calling a hospital a phone-charging spot), at about the same speed.
+export const ANSWER_MODEL = "us.anthropic.claude-sonnet-5-5";
+
+export async function askLeslie(clients: LeslieClients, args: LeslieArgs, modelId = ANSWER_MODEL): Promise<LeslieAnswer> {
   const { question, language } = args;
   const preferred = language && LANGUAGE_NAMES[language] ? language : "en";
 
@@ -241,12 +247,20 @@ Rules you must follow:
 2. If the listings do not answer the question, say plainly that you don't have verified info for that (in the reply language), set verified=false, and suggest calling 211 (or 911 for an emergency).
 3. Never give medical advice (dosing, diagnosis, whether to take or stop a medicine, how to treat symptoms). Say you can't give medical advice, point them to a pharmacist or clinic from the listings, and to 911 if it's an emergency. Practical logistics, like which pharmacy is open, are fine.
 4. Never send people to a place marked NOT OPEN TO THE PUBLIC. If a place's operating status is not confirmed, say so and tell them to call first. "ev_charging" places charge electric cars only, never phones or medical devices; "backup-power" means the place has its own generator.
-   Everyday over-the-counter items (laxatives, pain relievers, bandages, cold medicine, diapers, electrolytes) are sold at pharmacies, so you may point to open pharmacies for them, but say you can't confirm what is in stock and suggest calling first.
-5. The listings are already ranked for this situation: open places first, then safest and closest. Prefer the top of the list. Mention the place name, whether it's open and until when, the distance if known, and the address. Mention eligibility limits when they exist.
+   Everyday over-the-counter items (laxatives, pain relievers, bandages, cold medicine, diapers, electrolytes) are sold at pharmacies, so you may point to open pharmacies for them, but say you can't confirm what is in stock and suggest tapping the place to call first.
+5. The listings are already ranked for this situation: open places first, then safest and closest. Prefer the top of the list. The app shows every place you cite as a card with its address, phone number, distance, hours and directions, one tap away. So never write phone numbers, street addresses or distances, and only mention hours when they matter (for example it closes within the hour, or it's the only one open now). Mention eligibility limits when they exist.
 6. If there is an emergency, name it in your first sentence (for example "For the earthquake near SJSU, ..."), and for each place you recommend give a short reason it suits this situation, using only facts from its listing (for example "open 24 hours, has backup power, low earthquake risk, outside the affected area"). For any place marked MAY BE AFFECTED, tell them to call before going. If someone may be hurt or in danger, start with "If anyone is hurt or in danger, call 911."
 7. Reply in ${LANGUAGE_NAMES[preferred]} unless the question is clearly written in English, Spanish or Vietnamese, in which case reply in that language. Set "language" to the code you replied in.
-8. Be brief and calm: 2 to 4 short sentences, or a short list of up to 3 places. Plain text only.
-9. Always answer by calling the respond tool. List every listing you mention in resourceIds.
+8. Be brief and calm: 1 to 3 short sentences, plain text. Add what the cards can't say on their own:
+   - the direct answer, with your top pick by name and why it's the best choice right now (open 24 hours, the only one open now, has backup power, outside the affected area; only facts from its listing);
+   - how the other good options differ, in a few words, if that helps them choose (for example "the CVS on Story Rd is closer but opens at 10 AM");
+   - one practical next step (tap the place to call ahead about stock, bring ID if eligibility requires it, what to do if it's closed).
+   Don't open with filler like "Great question" and don't repeat the question.
+   Never put distances ("2.7 mi"), street addresses or phone numbers in the answer, even in parentheses.
+   Only mention that you can't give medical advice when they actually asked for it (dosing, symptoms, treatment).
+10. Say a place is open now, or open 24 hours, only when its listing says exactly that. If it's closed now, say when it opens instead, and never group it with places that are open.
+11. Recommend a place only for a need its own listing supports: charging only where the listing mentions outlets or charging, food only at food listings, and so on. Don't send people to a hospital or emergency room for non-medical needs, even if it's open 24 hours with backup power. If nothing verified fits, say so and suggest 211.
+9. Always answer by calling the respond tool (rules 10 and 11 below still apply). List every listing you mention in resourceIds.
 
 Current time in San José: ${sanJoseNow()}.
 Situation: ${situationText}
@@ -265,13 +279,19 @@ ${ranked.map((x) => describe(x, hazard, situation.hazardRadiusMiles)).join("\n")
   // Converse needs the conversation to start with a user turn.
   while (prior.length && prior[0].role !== "user") prior.shift();
 
+  // Claude Sonnet 5.x and Opus 5.x on Bedrock reject a forced toolChoice and `temperature`,
+  // so for them the prompt asks for the tool instead.
+  const newerModel = /claude-(sonnet|opus)-5/.test(modelId);
   const response = await clients.bedrock.send(
     new ConverseCommand({
       modelId,
       system: [{ text: system }],
-      messages: [...prior, { role: "user", content: [{ text: question.slice(0, 1000) }] }],
-      toolConfig: { tools: [RESPOND_TOOL], toolChoice: { tool: { name: "respond" } } },
-      inferenceConfig: { maxTokens: 700, temperature: 0.2 },
+      messages: [
+        ...prior,
+        { role: "user", content: [{ text: question.slice(0, 1000) + (newerModel ? "\n\n(Answer by calling the respond tool.)" : "") }] },
+      ],
+      toolConfig: { tools: [RESPOND_TOOL], toolChoice: newerModel ? { auto: {} } : { tool: { name: "respond" } } },
+      inferenceConfig: newerModel ? { maxTokens: 700 } : { maxTokens: 700, temperature: 0.2 },
     }),
   );
 
@@ -282,14 +302,34 @@ ${ranked.map((x) => describe(x, hazard, situation.hazardRadiusMiles)).join("\n")
     language?: string;
   };
   // Drop any ID the model made up, so every citation in the app points at a real listing.
-  const resourceIds = (input.resourceIds ?? []).filter((id) => BY_ID.has(id));
+  const answer = input.answer?.trim() ?? "";
+  let resourceIds = (input.resourceIds ?? []).filter((id) => BY_ID.has(id));
+  // Safety net: if the answer names places but forgot to cite them, find them by name so the
+  // map and place cards still match what Leslie said.
+  if (resourceIds.length === 0 && answer) resourceIds = placesNamedIn(answer);
   return {
-    answer: input.answer?.trim() || "Sorry, I couldn't answer that right now. Please call 211 for help.",
+    answer: answer || "Sorry, I couldn't answer that right now. Please call 211 for help.",
     resourceIds,
     verified: Boolean(input.verified) && resourceIds.length > 0,
     language: input.language && LANGUAGE_NAMES[input.language] ? input.language : preferred,
     situation,
   };
+}
+
+/** Listings whose name (or the part before a parenthesis, e.g. "Walgreens") appears in the text, in order of mention. */
+function placesNamedIn(text: string): string[] {
+  const lower = text.toLowerCase();
+  const found: { id: string; at: number }[] = [];
+  for (const r of RESOURCES) {
+    if (r.status === "closed") continue;
+    const full = r.name.toLowerCase();
+    const short = full.replace(/\s*\(.*\)\s*$/, "");
+    // A short name like "CVS Pharmacy" matches many stores, so only use it when it's unique.
+    const shortIsUnique = RESOURCES.filter((x) => x.name.toLowerCase().startsWith(short)).length === 1;
+    const at = lower.indexOf(full) >= 0 ? lower.indexOf(full) : shortIsUnique && short.length > 6 ? lower.indexOf(short) : -1;
+    if (at >= 0 && !found.some((f) => BY_ID.get(f.id)!.name === r.name)) found.push({ id: r.id, at });
+  }
+  return found.sort((a, b) => a.at - b.at).map((f) => f.id).slice(0, 6);
 }
 
 function safeJson(s: string): unknown {

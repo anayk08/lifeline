@@ -8,6 +8,7 @@ export const askLeslie = defineFunction({
   runtime: 22,
   resourceGroupName: "data",
   environment: {
-    MODEL_ID: "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    // Same as ANSWER_MODEL in shared/bedrock.ts, so the laptop server and Lambda answer alike.
+    MODEL_ID: "us.anthropic.claude-sonnet-5-5",
   },
 });
