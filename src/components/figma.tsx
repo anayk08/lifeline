@@ -33,7 +33,10 @@ export function LifelineMark({ size = 34 }: { size?: number }) {
   return <img src={lifelineMark} alt="" width={size} height={size} className="shrink-0" style={{ width: `${size / 16}rem`, height: `${size / 16}rem` }} />;
 }
 
-/** Pin color, light tint, dark text and icon for each kind of place. */
+/**
+ * Pin color, light tint, dark text and icon for each kind of place. Pin colors are slightly darker
+ * shades of the Figma ones so white numbers and labels on them reach 4.5:1 contrast (WCAG AA).
+ */
 export interface CategoryStyle {
   pin: string;
   tint: string;
@@ -42,15 +45,15 @@ export interface CategoryStyle {
 }
 
 export const CATEGORY_STYLE: Record<Category, CategoryStyle> = {
-  pharmacy: { pin: "#ec407a", tint: "#fce4ec", text: "#b71c4e", icon: "pill" },
-  health: { pin: "#e53935", tint: "#ffebee", text: "#b71c1c", icon: "cross" },
-  food: { pin: "#f57c00", tint: "#fff3e0", text: "#8a3900", icon: "utensils" },
-  shelter: { pin: "#43a047", tint: "#e8f5e9", text: "#1b5e20", icon: "house" },
-  charging: { pin: "#f9a825", tint: "#fffde7", text: "#725000", icon: "battery-charging" },
-  water: { pin: "#1e88e5", tint: "#e3f2fd", text: "#0d47a1", icon: "droplets" },
+  pharmacy: { pin: "#c2185b", tint: "#fce4ec", text: "#b71c4e", icon: "pill" },
+  health: { pin: "#c62828", tint: "#ffebee", text: "#b71c1c", icon: "cross" },
+  food: { pin: "#b84d00", tint: "#fff3e0", text: "#8a3900", icon: "utensils" },
+  shelter: { pin: "#2e7d32", tint: "#e8f5e9", text: "#1b5e20", icon: "house" },
+  charging: { pin: "#8f6500", tint: "#fffde7", text: "#725000", icon: "battery-charging" },
+  water: { pin: "#1565c0", tint: "#e3f2fd", text: "#0d47a1", icon: "droplets" },
   // Not in the Figma file; picked to sit with the palette.
-  cooling: { pin: "#00897b", tint: "#e0f2f1", text: "#00574b", icon: "thermometer-sun" },
-  ev_charging: { pin: "#607d8b", tint: "#eceff1", text: "#37474f", icon: "car-bolt" },
+  cooling: { pin: "#00796b", tint: "#e0f2f1", text: "#00574b", icon: "thermometer-sun" },
+  ev_charging: { pin: "#546e7a", tint: "#eceff1", text: "#37474f", icon: "car-bolt" },
 };
 
 /** The filter tabs under the map. Medicine covers pharmacies and clinics, Charging covers car chargers too. */

@@ -18,7 +18,7 @@ export default function CategoryTabs({ tab, onChange }: { tab: string; onChange:
             className={`relative flex-1 min-w-0 min-h-[3.25rem] rounded-[10px] flex flex-col items-center justify-center gap-[3px] text-[0.5625rem] leading-none ${
               on ? "cat-solid font-bold" : "cat-tint font-semibold"
             } ${on && !all ? "border-2 border-on-surface" : ""}`}
-            style={on ? { background: all ? "var(--primary)" : style.pin, color: all ? "var(--on-primary)" : key === "charging" ? style.text : "#fff" } : { background: all ? "transparent" : style.tint, color: style.text }}
+            style={on ? { background: all ? "var(--primary)" : style.pin, color: all ? "var(--on-primary)" : "#fff" } : { background: all ? "transparent" : style.tint, color: style.text }}
           >
             <FIcon name={style.icon} size={15} />
             <span className="truncate max-w-full px-0.5">{t.tabNames[key]}</span>
