@@ -1,5 +1,6 @@
 import { DEMOS, randomDemo } from "../../shared/hazards";
 import { RESOURCES, ZIP_CENTERS, type Lang } from "../../shared/resources";
+import SettingsExtras from "../components/SettingsExtras";
 import { Page } from "../components/Shell";
 import { Icon } from "../components/ui";
 import { useApp } from "../lib/app";
@@ -144,6 +145,8 @@ export default function Settings() {
         {newest && <p className="text-body-md">{t.checked(newest)}</p>}
         <p className="text-body-md text-on-surface-variant">{t.aboutData}</p>
       </section>
+
+      <SettingsExtras />
     </Page>
   );
 }

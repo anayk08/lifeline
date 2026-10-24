@@ -18,6 +18,8 @@ export interface Settings {
   demo: DemoId | null;
   /** A place the person typed as their area ("Spartan Village"); only the latest is kept. */
   area: { label: string; lat: number; lng: number } | null;
+  /** The person agreed to send questions and locations to the AI and map services (see DataNotice). */
+  dataNotice: boolean;
 }
 
 const prefers = (q: string) => typeof window !== "undefined" && window.matchMedia?.(q).matches === true;
@@ -34,6 +36,7 @@ const DEFAULTS: Settings = {
   autoRead: false,
   demo: null,
   area: null,
+  dataNotice: false,
 };
 const SETTINGS_KEY = "lifeline.settings";
 const HAZARDS_KEY = "lifeline.hazards";
