@@ -166,13 +166,15 @@ function LesliePanel({
             </div>
           </>
         )}
-        {(current.state === "offline" || current.state === "error" || current.state === "declined") && (
+        {(current.state === "offline" || current.state === "error" || current.state === "declined" || current.state === "unavailable") && (
           <p className="text-[0.875rem] leading-5 text-on-surface">
             {current.state === "offline"
               ? pins.length ? t.leslieOffline : t.leslieOfflineNoMatch
               : current.state === "declined"
                 ? pins.length ? t.leslieDeclined : t.leslieDeclinedNoMatch
-                : pins.length ? t.leslieError : t.leslieErrorNoMatch}
+                : current.state === "unavailable"
+                  ? pins.length ? t.leslieUnavailable : t.leslieUnavailableNoMatch
+                  : pins.length ? t.leslieError : t.leslieErrorNoMatch}
           </p>
         )}
         {current.state !== "loading" &&

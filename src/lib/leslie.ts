@@ -5,13 +5,16 @@ import { primaryHazard } from "../../shared/hazards";
 import { BY_ID, RESOURCES, rankForSituation, rankResources, type Lang } from "../../shared/resources";
 import type { SituationResult } from "../../shared/situation";
 import { queryParam, useApp } from "./app";
-import { askLeslie, hasBackend } from "./backend";
+import { BackendMissingError, askLeslie, hasBackend } from "./backend";
 import { useDataNotice } from "./dataNotice";
 import { liveSituation, planHistory } from "./hazards";
 import { matchCategories, searchResources } from "./search";
 import { speak } from "./speech";
 
 const MAX_PINS = 6;
+
+// Set once a question shows this copy of the site has no Leslie server (lasts until reload).
+let noBackendHere = false;
 
 // Needs Leslie picks out of the question, mapped to the kinds of places that meet them.
 const NEED_KINDS: Record<string, string[]> = {
@@ -27,7 +30,7 @@ const EMERGENCY_KINDS = ["health", "shelter", "pharmacy", "cooling", "charging",
 
 export interface Turn {
   question: string;
-  state: "loading" | "answered" | "offline" | "error" | "declined";
+  state: "loading" | "answered" | "offline" | "error" | "declined" | "unavailable";
   answer?: string;
   resourceIds: string[];
   verified?: boolean;
@@ -104,6 +107,11 @@ export function useLeslie() {
       setTurns((ts) => [...ts, { question, state: "offline", resourceIds: localMatches(question) }]);
       return;
     }
+    // Already found there's no Leslie server on this site: answer from saved places without asking to send anything.
+    if (noBackendHere) {
+      setTurns((ts) => [...ts, { question, state: "unavailable", resourceIds: localMatches(question) }]);
+      return;
+    }
     // Nothing leaves the device until the person has seen the data notice; "Not now" answers from saved places.
     ensureNotice(
       () => void send(question, idx, history),
@@ -125,8 +133,13 @@ export function useLeslie() {
       });
       setTurns((ts) => ts.map((x, i) => (i === idx ? { ...x, state: "answered", ...res } : x)));
       if (settings.autoRead) speak(res.answer, res.language);
-    } catch {
-      setTurns((ts) => ts.map((x, i) => (i === idx ? { ...x, state: "error", resourceIds: localMatches(question) } : x)));
+    } catch (err) {
+      // On a copy of the site without Leslie's server, say so plainly instead of "couldn't answer right now".
+      const missing = err instanceof BackendMissingError;
+      if (missing) noBackendHere = true;
+      setTurns((ts) =>
+        ts.map((x, i) => (i === idx ? { ...x, state: missing ? "unavailable" : "error", resourceIds: localMatches(question) } : x)),
+      );
     }
   };
 

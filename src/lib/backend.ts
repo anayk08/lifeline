@@ -27,14 +27,23 @@ export function api() {
   return client;
 }
 
+/** This copy of the site has no AI backend at all (e.g. the static Amplify Hosting build). */
+export class BackendMissingError extends Error {
+  constructor() {
+    super("No backend on this site");
+  }
+}
+
 async function local<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(`/api/${path}`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
   });
-  const json = await res.json().catch(() => ({ error: `Backend unreachable (${res.status})` }));
-  if (!res.ok) throw new Error(json.error ?? `Request failed (${res.status})`);
+  const json = await res.json().catch(() => null);
+  // Our server always answers in JSON; a 404/405 page that isn't JSON means there is no server here.
+  if (!json && (res.status === 404 || res.status === 405)) throw new BackendMissingError();
+  if (!res.ok) throw new Error(json?.error ?? `Request failed (${res.status})`);
   return json as T;
 }
 
