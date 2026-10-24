@@ -135,7 +135,7 @@ async function workOutSituation(
   const find = (text: string | null) =>
     text
       ? findPlace(geo, text).catch((err) => {
-          console.warn(`place search failed for "${text}":`, (err as Error).message);
+          console.warn("place search failed:", (err as Error).message);
           return null;
         })
       : Promise.resolve(null);

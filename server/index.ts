@@ -8,6 +8,7 @@ import { GeoPlacesClient } from "@aws-sdk/client-geo-places";
 import { GeoRoutesClient } from "@aws-sdk/client-geo-routes";
 import { askLeslie, makePlan } from "../shared/bedrock";
 import { getHazards } from "../shared/hazards";
+import { RateLimiter } from "../shared/rateLimit";
 import { findPlace } from "../shared/situation";
 import { planRoutes } from "../shared/routes";
 
@@ -30,6 +31,10 @@ const places = new GeoPlacesClient({
 });
 
 const MAX_BODY = 32 * 1024;
+
+// Per caller: 20 AI requests a minute (bursts of 10), 60 map requests a minute.
+const aiLimiter = new RateLimiter(20, 10);
+const mapLimiter = new RateLimiter(60);
 
 function point(v: unknown): [number, number] | null {
   if (!Array.isArray(v) || v.length !== 2) return null;
@@ -80,6 +85,14 @@ const server = createServer(async (req, res) => {
     }
     if (req.method !== "POST") return send(res, 404, { error: "Not found" });
 
+    // Leslie and plans call Bedrock; place search and routes call Amazon Location. Both cost money per call.
+    const limiter = req.url === "/api/leslie" || req.url === "/api/plan" ? aiLimiter : mapLimiter;
+    const wait = limiter.take(req.socket.remoteAddress ?? "unknown");
+    if (wait > 0) {
+      res.setHeader("Retry-After", String(wait));
+      return send(res, 429, { error: "Too many requests. Please wait a moment and try again." });
+    }
+
     const body = await readJson(req);
     if (req.url === "/api/leslie") {
       const question = String(body.question ?? "").trim();
@@ -94,9 +107,10 @@ const server = createServer(async (req, res) => {
         hazards: body.hazards,
       });
       const s = answer.situation;
+      // No question text, place names or coordinates in logs: only what helps debugging.
       console.log(
-        `leslie ${Date.now() - started}ms  "${question.slice(0, 60)}" -> ${answer.resourceIds.join(",") || "no citations"}` +
-          `  [hazard ${s.hazardType}${s.hazardPoint ? ` @${s.hazardPoint.label}` : ""}, from ${s.origin ? `${s.origin.source}:${s.origin.label}` : "unknown"}${s.notFound.length ? `, not found: ${s.notFound.join("; ")}` : ""}]`,
+        `leslie ${Date.now() - started}ms  ${answer.resourceIds.length} citations` +
+          `  [hazard ${s.hazardType}${s.alert ? " (live alert)" : ""}, from ${s.origin?.source ?? "unknown"}${s.notFound.length ? `, ${s.notFound.length} place(s) not found` : ""}]`,
       );
       return send(res, 200, answer);
     }
@@ -115,7 +129,7 @@ const server = createServer(async (req, res) => {
       const text = String(body.text ?? "").trim().slice(0, 120);
       if (!text) return send(res, 400, { error: "text is required" });
       const found = await findPlace(places, text);
-      console.log(`place ${Date.now() - started}ms  "${text}" -> ${found ? `${found.lat.toFixed(4)},${found.lng.toFixed(4)}` : "not found"}`);
+      console.log(`place ${Date.now() - started}ms  ${found ? "found" : "not found"}`);
       return send(res, 200, { place: found });
     }
     if (req.url === "/api/routes") {
