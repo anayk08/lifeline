@@ -17,8 +17,11 @@ export default defineConfig({
     __APP_VERSION__: JSON.stringify(pkg.version),
     __APP_BUILD__: JSON.stringify(build),
   },
-  server: { proxy: apiProxy },
-  preview: { proxy: apiProxy },
+  // 127.0.0.1 rather than Vite's default "localhost", which on Windows binds only the IPv6
+  // address (::1): then http://127.0.0.1:4173 refused to connect. Browsers still reach
+  // http://localhost through 127.0.0.1, and nothing is exposed to the Wi-Fi network.
+  server: { host: "127.0.0.1", proxy: apiProxy },
+  preview: { host: "127.0.0.1", proxy: apiProxy },
   plugins: [
     react(),
     VitePWA({
