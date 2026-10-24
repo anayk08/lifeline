@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { RESOURCES } from "../../shared/resources";
+import AlertBanner from "../components/AlertBanner";
 import { Page } from "../components/Shell";
 import { Icon } from "../components/ui";
 import { go, useApp } from "../lib/app";
@@ -26,6 +27,8 @@ export default function Home() {
           {t.offlineReady} · {t.offlineReadyDetail(RESOURCES.length)}
         </span>
       </section>
+
+      <AlertBanner />
 
       <form onSubmit={submit} role="search">
         <label htmlFor="q" className="block text-headline-lg text-primary mb-2">

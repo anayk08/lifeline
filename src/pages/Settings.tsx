@@ -107,6 +107,13 @@ export default function Settings() {
         <Toggle id="battery" icon="battery_saver" label={t.batterySaver} help={t.batterySaverHelp} checked={settings.batterySaver} onChange={(v) => update({ batterySaver: v })} />
       </fieldset>
 
+      <fieldset className="flex flex-col gap-2">
+        <legend className="text-label-lg text-primary mb-1 flex items-center gap-1">
+          <Icon name="science" /> {t.demo}
+        </legend>
+        <Toggle id="demo-quake" icon="emergency" label={t.demoQuake} help={t.demoQuakeHelp} checked={settings.demoQuake} onChange={(v) => update({ demoQuake: v })} />
+      </fieldset>
+
       <section className="bg-surface-container-low rounded-2xl p-4 border border-surface-variant flex flex-col gap-1">
         <h2 className="text-label-lg text-primary flex items-center gap-1">
           <Icon name="offline_bolt" /> {t.offlineData}

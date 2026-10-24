@@ -4,7 +4,9 @@ import type { SituationResult } from "../../shared/situation";
 import { Page } from "../components/Shell";
 import { Icon, ResourceCard } from "../components/ui";
 import { queryParam, useApp } from "../lib/app";
+import { primaryHazard } from "../../shared/hazards";
 import { askLeslie, hasBackend } from "../lib/backend";
+import { liveSituation, planHistory } from "../lib/hazards";
 import { matchCategories, searchResources } from "../lib/search";
 import { speak } from "../lib/speech";
 
@@ -36,7 +38,9 @@ interface Turn {
 }
 
 export default function Ask() {
-  const { t, settings, online, origin, gps } = useApp();
+  const { t, settings, online, origin, gps, hazards } = useApp();
+  // Without Leslie, the strongest live alert covering the person still shapes the ranking and the map.
+  const live = primaryHazard(hazards, origin);
   const [turns, setTurns] = useState<Turn[]>([]);
   const [draft, setDraft] = useState("");
   const [expanded, setExpanded] = useState(false);
@@ -54,7 +58,7 @@ export default function Ask() {
   // Places not open to the public never appear.
   const pinsFor = (turn: Turn): string[] => {
     const cited = turn.resourceIds.filter((id) => BY_ID.get(id)?.status !== "closed");
-    const s = turn.situation;
+    const s = turn.situation ?? liveSituation(live, origin, settings.zip, gps !== null);
     const kinds = new Set<string>([
       ...cited.map((id) => BY_ID.get(id)!.category),
       ...matchCategories(turn.question),
@@ -68,7 +72,14 @@ export default function Ask() {
     const extra = rankForSituation(
       RESOURCES.filter((r) => !cited.includes(r.id) && r.status !== "closed" && (kinds.has(r.category) || r.tags.some((x) => kinds.has(x)))),
       from,
-      s ? { hazardType: s.hazardType, hazardPoint: s.hazardPoint ? [s.hazardPoint.lat, s.hazardPoint.lng] : null, needs: s.needs } : null,
+      s
+        ? {
+            hazardType: s.hazardType,
+            hazardPoint: s.hazardPoint ? [s.hazardPoint.lat, s.hazardPoint.lng] : null,
+            hazardRadiusMiles: s.hazardRadiusMiles,
+            needs: s.needs,
+          }
+        : null,
     )
       .filter((x) => x.status.state !== "closed");
     const pins = [...cited, ...extra.map((x) => x.resource.id)].slice(0, MAX_PINS);
@@ -84,12 +95,16 @@ export default function Ask() {
   const ask = async (question: string) => {
     const idx = turns.length;
     setExpanded(false);
-    const history = turns
-      .filter((x) => x.state === "answered")
-      .flatMap((x) => [
-        { role: "user" as const, text: x.question },
-        { role: "assistant" as const, text: x.answer ?? "" },
-      ]);
+    const history = [
+      // A question from the plan view starts with the plan's summary, so Leslie keeps its context.
+      ...(queryParam("ctx") === "plan" ? planHistory() : []),
+      ...turns
+        .filter((x) => x.state === "answered")
+        .flatMap((x) => [
+          { role: "user" as const, text: x.question },
+          { role: "assistant" as const, text: x.answer ?? "" },
+        ]),
+    ];
 
     if (!online || !hasBackend) {
       setTurns((ts) => [...ts, { question, state: "offline", resourceIds: localMatches(question) }]);
@@ -104,6 +119,7 @@ export default function Ask() {
         lat: gps?.[0],
         lng: gps?.[1],
         history,
+        hazards,
       });
       setTurns((ts) => ts.map((x, i) => (i === idx ? { ...x, state: "answered", ...res } : x)));
       if (settings.autoRead) speak(res.answer, res.language);
@@ -210,7 +226,9 @@ export default function Ask() {
           {(current.state === "offline" || current.state === "error") && (
             <p role="status" className="text-body-md flex gap-2 shrink-0">
               <Icon name={current.state === "offline" ? "cloud_off" : "info"} className="text-secondary shrink-0" />
-              {current.state === "offline" ? t.leslieOffline : t.leslieError}
+              {current.state === "offline"
+                ? pins.length ? t.leslieOffline : t.leslieOfflineNoMatch
+                : pins.length ? t.leslieError : t.leslieErrorNoMatch}
             </p>
           )}
 
@@ -265,7 +283,11 @@ export default function Ask() {
           <div className="flex-1 min-h-0">
             {pins.length > 0 && (
               <Suspense fallback={<p className="text-body-md">…</p>}>
-                <AnswerMap key={pins.join(",")} ids={pins} situation={current.situation ?? null} />
+                <AnswerMap
+                  key={pins.join(",")}
+                  ids={pins}
+                  situation={current.situation ?? liveSituation(live, origin, settings.zip, gps !== null)}
+                />
               </Suspense>
             )}
           </div>

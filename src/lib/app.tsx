@@ -1,5 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import type { LiveHazard } from "../../shared/hazards";
 import { distanceMiles, zipCenter, type Lang } from "../../shared/resources";
+import { getHazards } from "./backend";
 import { STRINGS, type Strings } from "./i18n";
 
 export interface Settings {
@@ -11,6 +13,8 @@ export interface Settings {
   largeText: boolean;
   reduceMotion: boolean;
   autoRead: boolean;
+  /** Demo mode: adds a simulated M6.2 earthquake at SJSU to the live alerts. */
+  demoQuake: boolean;
 }
 
 const prefers = (q: string) => typeof window !== "undefined" && window.matchMedia?.(q).matches === true;
@@ -25,8 +29,19 @@ const DEFAULTS: Settings = {
   largeText: false,
   reduceMotion: prefers("(prefers-reduced-motion: reduce)"),
   autoRead: false,
+  demoQuake: false,
 };
 const SETTINGS_KEY = "lifeline.settings";
+const HAZARDS_KEY = "lifeline.hazards";
+const HAZARD_REFRESH_MS = 5 * 60_000;
+
+interface SavedHazards {
+  hazards: LiveHazard[];
+  /** When the list was last fetched; shown as "as of 2:14 PM" when it may be out of date. */
+  fetchedAt: string | null;
+  /** Whether the list included the demo, so turning demo mode off doesn't show a stale demo alert. */
+  demo: boolean;
+}
 
 // Storage can be unavailable (private mode, blocked site data), so every access is guarded.
 export function readStore<T>(key: string, fallback: T): T {
@@ -59,6 +74,11 @@ interface AppState {
   gpsError: boolean;
   /** Best known position: GPS if allowed, else the center of the saved ZIP. */
   origin: [number, number] | null;
+  /** Active alerts, newest list we have (live, or saved from the last time we had a signal). */
+  hazards: LiveHazard[];
+  hazardsAt: string | null;
+  /** False when the list is from an earlier fetch (offline, or the last refresh failed). */
+  hazardsFresh: boolean;
 }
 
 const Ctx = createContext<AppState | null>(null);
@@ -134,6 +154,41 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return () => navigator.geolocation.clearWatch(id);
   }, [applyPosition]);
 
+  // Live alerts: on load, every 5 minutes, when the app comes back to the front, and when
+  // the signal or demo mode changes. The last list is saved so it still shows offline.
+  const [saved, setSaved] = useState<SavedHazards>(() => readStore(HAZARDS_KEY, { hazards: [], fetchedAt: null, demo: false }));
+  const [lastFetchOk, setLastFetchOk] = useState(false);
+  const hazardsFresh = online && lastFetchOk;
+  const demo = settings.demoQuake;
+  useEffect(() => {
+    if (!online) return;
+    let cancelled = false;
+    const refresh = () =>
+      getHazards(demo ? "earthquake-sjsu" : null)
+        .then((feed) => {
+          if (cancelled) return;
+          const next = { hazards: feed.hazards, fetchedAt: feed.fetchedAt, demo };
+          setSaved(next);
+          writeStore(HAZARDS_KEY, next);
+          setLastFetchOk(true);
+        })
+        .catch(() => !cancelled && setLastFetchOk(false));
+    refresh();
+    const timer = window.setInterval(refresh, HAZARD_REFRESH_MS);
+    const onVisible = () => document.visibilityState === "visible" && refresh();
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      cancelled = true;
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [online, demo]);
+  // Turning demo mode off hides the simulated alert right away, even before the next fetch.
+  const hazards = useMemo(
+    () => (demo ? saved.hazards : saved.hazards.filter((h) => h.source !== "Simulated")),
+    [saved.hazards, demo],
+  );
+
   // GPS works without a data connection, so ask once if the browser already allows it.
   useEffect(() => {
     navigator.permissions
@@ -154,8 +209,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
       watchGps,
       gpsError,
       origin: gps ?? (settings.zip ? zipCenter(settings.zip) : null),
+      hazards,
+      hazardsAt: saved.fetchedAt,
+      hazardsFresh,
     }),
-    [settings, update, online, gps, gpsAccuracy, requestGps, watchGps, gpsError],
+    [settings, update, online, gps, gpsAccuracy, requestGps, watchGps, gpsError, hazards, saved.fetchedAt, hazardsFresh],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

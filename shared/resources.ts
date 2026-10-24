@@ -192,6 +192,8 @@ export interface SituationContext {
   hazardType: SituationHazard;
   /** Where the hazard is centered, if the resident named a place we could find. */
   hazardPoint?: [number, number] | null;
+  /** How far the hazard reaches; defaults to HAZARD_RADIUS_MILES for a place someone named. */
+  hazardRadiusMiles?: number;
   needs?: string[];
 }
 
@@ -229,9 +231,12 @@ export function rankForSituation(
       let score = stateCost[status.state] + (miles ?? 0);
 
       const nearHazard = ctx?.hazardPoint
-        ? distanceMiles(ctx.hazardPoint[0], ctx.hazardPoint[1], resource.lat, resource.lng) <= HAZARD_RADIUS_MILES
+        ? distanceMiles(ctx.hazardPoint[0], ctx.hazardPoint[1], resource.lat, resource.lng) <=
+          (ctx.hazardRadiusMiles ?? HAZARD_RADIUS_MILES)
         : false;
-      if (nearHazard) score += 8;
+      // A small hazard is easy to avoid; a city-wide one (a big quake) covers the nearest help too,
+      // so those places stay usable, just flagged "call first".
+      if (nearHazard) score += (ctx?.hazardRadiusMiles ?? HAZARD_RADIUS_MILES) > 2 ? 3 : 8;
       else if (ctx?.hazardPoint) reasons.push("outside the affected area");
 
       const risk = hazard ? resource.hazardRisk?.[hazard] : null;

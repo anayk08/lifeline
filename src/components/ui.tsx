@@ -29,9 +29,10 @@ export const CATEGORY_EMOJI: Record<string, string> = {
   ev_charging: "🚗",
 };
 
-export function StatusBadge({ status, solid }: { status: OpenStatus; solid?: boolean }) {
+/** `unconfirmed`: the team couldn't confirm the place is operating, so listed hours alone don't earn "Open now". */
+export function StatusBadge({ status, solid, unconfirmed }: { status: OpenStatus; solid?: boolean; unconfirmed?: boolean }) {
   const { t } = useApp();
-  if (status.state === "open") {
+  if (status.state === "open" && !unconfirmed) {
     return (
       <span
         className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-label-sm ${
@@ -111,7 +112,7 @@ export function ResourceCard({
       className="block bg-surface-container-lowest border-[1.5px] border-surface-variant rounded-2xl p-4 shadow-sm hover:border-primary-container focus:outline-none focus:ring-4 focus:ring-secondary-container active:scale-[0.99] transition-transform"
     >
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <StatusBadge status={status} />
+        <StatusBadge status={status} unconfirmed={r.status === "unknown"} />
         {miles !== null && (
           <span className="text-label-md text-on-surface-variant flex items-center gap-1">
             <Icon name="near_me" className="!text-[18px]" />

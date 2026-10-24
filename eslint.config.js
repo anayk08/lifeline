@@ -46,5 +46,10 @@ export default defineConfig([{
         "react-refresh/only-export-components": ["warn", {
             allowConstantExport: true,
         }],
+
+        // Lets `({ drop, ...rest }) => rest` remove a field without a lint error.
+        "@typescript-eslint/no-unused-vars": ["error", {
+            ignoreRestSiblings: true,
+        }],
     },
 }, globalIgnores(["**/dist"])]);

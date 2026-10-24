@@ -1,7 +1,8 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { MapContainer, Marker, TileLayer, useMap } from "react-leaflet";
+import { Circle, MapContainer, Marker, TileLayer, Tooltip, useMap } from "react-leaflet";
+import { situationHazard } from "../../shared/hazards";
 import { RESOURCES, openStatus, type Category, type Resource } from "../../shared/resources";
 import { CATEGORY_COLOR, CategoryFilter, LocationPointer } from "../components/mapParts";
 import { Page } from "../components/Shell";
@@ -10,9 +11,15 @@ import { go, useApp } from "../lib/app";
 
 const SAN_JOSE: [number, number] = [37.3337, -121.8907];
 
+// Listed hours say open, but a place the team couldn't confirm is operating still shows as "call ahead".
+const pinState = (r: Resource) => {
+  const state = openStatus(r).state;
+  return state === "open" && r.status === "unknown" ? "unknown" : state;
+};
+
 // Emblem pins: the kind of place in its color, with a ring for open / call ahead / closed.
 function pin(r: Resource, contrast: boolean) {
-  const state = openStatus(r).state;
+  const state = pinState(r);
   const ring = state === "open" ? "#1e9e5a" : state === "closed" ? "#75777e" : "#ffad2e";
   const bg = contrast ? "#fff" : CATEGORY_COLOR[r.category];
   return L.divIcon({
@@ -38,7 +45,8 @@ function FlyTo({ to, nonce }: { to: [number, number] | null; nonce: number }) {
 }
 
 export default function MapPage() {
-  const { t, origin, gps, gpsAccuracy, online, settings, requestGps, watchGps } = useApp();
+  const { t, origin, gps, gpsAccuracy, online, settings, requestGps, watchGps, hazards } = useApp();
+  const alerts = hazards.filter((h) => h.center && h.severity !== "info");
   const contrast = settings.highContrast;
   const [hidden, setHidden] = useState<Set<Category>>(new Set());
   const [selected, setSelected] = useState<Resource | null>(null);
@@ -71,6 +79,24 @@ export default function MapPage() {
             maxZoom={19}
           />
           <FlyTo to={gps} nonce={flyNonce} />
+          {/* Active alerts with a known area, drawn the same way as on Leslie's answer map. */}
+          {alerts.map((h) => (
+            <Circle
+              key={h.id}
+              center={h.center!}
+              radius={h.radiusMiles * 1609.34}
+              pathOptions={
+                contrast
+                  ? { color: "#000", weight: 3, dashArray: "8 6", fillColor: "#000", fillOpacity: 0.12 }
+                  : { color: "#e03131", weight: 2, fillColor: "#e03131", fillOpacity: 0.15 }
+              }
+            >
+              <Tooltip permanent direction="center" className="hazard-label">
+                {t.hazardArea(t.hazardNames[situationHazard(h.type)] ?? h.title, h.radiusMiles)}
+                {h.source === "Simulated" && ` · ${t.simulatedDemo}`}
+              </Tooltip>
+            </Circle>
+          ))}
           {gps && <LocationPointer at={gps} label={t.youAreHere} accuracyMeters={gpsAccuracy} contrast={contrast} />}
           {shown.map((r) => (
             <Marker
@@ -121,7 +147,7 @@ export default function MapPage() {
         </div>
       ) : (
         <p className="text-body-md text-on-surface-variant flex items-center gap-2">
-          <StatusBadge status={{ state: "open" }} /> {shown.filter((r) => openStatus(r).state === "open").length} / {shown.length}
+          <StatusBadge status={{ state: "open" }} /> {shown.filter((r) => pinState(r) === "open").length} / {shown.length}
         </p>
       )}
     </Page>

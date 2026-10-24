@@ -1,0 +1,591 @@
+{
+  "about": "Vetted safety steps for the 'Your plan' view. Written from official sources (Ready.gov, American Red Cross, National Weather Service, 211). Leslie may only choose and order these items, never write new ones. Reviewed 2026-10-23.",
+  "always": [
+    {
+      "id": "call-911",
+      "text": {
+        "en": "Call 911 if you or someone near you is hurt or trapped.",
+        "es": "Llame al 911 si usted o alguien cerca está herido o atrapado.",
+        "vi": "Gọi 911 nếu bạn hoặc người gần bạn bị thương hoặc bị mắc kẹt."
+      },
+      "source": "Ready.gov",
+      "url": "https://www.ready.gov/earthquakes"
+    }
+  ],
+  "hazards": {
+    "earthquake": {
+      "rightNow": [
+        {
+          "id": "eq-aftershocks",
+          "text": {
+            "en": "Expect aftershocks. If the ground shakes again: Drop, Cover and Hold On.",
+            "es": "Espere réplicas. Si la tierra vuelve a temblar: agáchese, cúbrase y sujétese.",
+            "vi": "Có thể có dư chấn. Nếu đất rung lần nữa: Cúi xuống, Che chắn và Bám chặt."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/earthquakes"
+        },
+        {
+          "id": "eq-damaged-building",
+          "text": {
+            "en": "If your building is damaged, go outside and move away from it. Don't go back into damaged buildings.",
+            "es": "Si su edificio está dañado, salga y aléjese de él. No vuelva a entrar en edificios dañados.",
+            "vi": "Nếu tòa nhà bị hư hại, hãy ra ngoài và tránh xa tòa nhà. Đừng quay lại các tòa nhà bị hư hại."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/earthquakes"
+        },
+        {
+          "id": "eq-outside",
+          "text": {
+            "en": "If you're outside, stay in an open area away from buildings, trees, streetlights and power lines.",
+            "es": "Si está afuera, quédese en un área abierta lejos de edificios, árboles, postes de luz y cables eléctricos.",
+            "vi": "Nếu bạn ở ngoài trời, hãy ở nơi trống trải, tránh xa nhà cửa, cây cối, cột đèn và đường dây điện."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/earthquakes"
+        },
+        {
+          "id": "eq-gas-lines",
+          "text": {
+            "en": "Watch for leaking gas or water lines and downed power lines. Stay away from them.",
+            "es": "Tenga cuidado con fugas de gas o agua y con cables eléctricos caídos. Manténgase alejado.",
+            "vi": "Coi chừng rò rỉ gas, ống nước bị vỡ và dây điện bị đứt. Hãy tránh xa."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/earthquakes"
+        },
+        {
+          "id": "eq-trapped",
+          "text": {
+            "en": "If you're trapped, send a text or bang on a pipe or wall. Cover your mouth with your shirt and use a whistle instead of shouting.",
+            "es": "Si está atrapado, envíe un mensaje de texto o golpee una tubería o pared. Cúbrase la boca con la camisa y use un silbato en vez de gritar.",
+            "vi": "Nếu bị mắc kẹt, hãy nhắn tin hoặc gõ vào ống nước hay tường. Che miệng bằng áo và dùng còi thay vì la hét."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/earthquakes"
+        },
+        {
+          "id": "eq-news",
+          "text": {
+            "en": "Once you're safe, follow local news or phone alerts for instructions.",
+            "es": "Cuando esté a salvo, siga las noticias locales o las alertas del teléfono para recibir instrucciones.",
+            "vi": "Khi đã an toàn, hãy theo dõi tin tức địa phương hoặc cảnh báo trên điện thoại để nhận hướng dẫn."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/earthquakes"
+        }
+      ],
+      "then": []
+    },
+    "extreme_heat": {
+      "rightNow": [
+        {
+          "id": "heat-cool-place",
+          "text": {
+            "en": "Go to an air-conditioned place, like a cooling center or library.",
+            "es": "Vaya a un lugar con aire acondicionado, como un centro de enfriamiento o una biblioteca.",
+            "vi": "Đến nơi có máy lạnh, như trung tâm làm mát hoặc thư viện."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/heat"
+        },
+        {
+          "id": "heat-fluids",
+          "text": {
+            "en": "Drink plenty of fluids.",
+            "es": "Tome muchos líquidos.",
+            "vi": "Uống nhiều nước."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/heat"
+        },
+        {
+          "id": "heat-no-fan",
+          "text": {
+            "en": "Don't rely on a fan alone. It doesn't lower your body temperature.",
+            "es": "No dependa solo de un ventilador. No baja la temperatura de su cuerpo.",
+            "vi": "Đừng chỉ dựa vào quạt. Quạt không làm giảm nhiệt độ cơ thể."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/heat"
+        },
+        {
+          "id": "heat-clothes",
+          "text": {
+            "en": "Wear loose, light-colored clothing and take cool showers.",
+            "es": "Use ropa holgada y de colores claros, y tome duchas frescas.",
+            "vi": "Mặc quần áo rộng, màu sáng và tắm nước mát."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/heat"
+        },
+        {
+          "id": "heat-midday",
+          "text": {
+            "en": "Avoid hard work or exercise outside during midday heat. If you're outside, find shade.",
+            "es": "Evite trabajo pesado o ejercicio afuera durante el calor del mediodía. Si está afuera, busque sombra.",
+            "vi": "Tránh làm việc nặng hoặc tập thể dục ngoài trời vào giữa trưa. Nếu ở ngoài, hãy tìm bóng mát."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/heat"
+        },
+        {
+          "id": "heat-stroke-signs",
+          "text": {
+            "en": "Heat stroke signs: body temperature over 103°F, red hot dry skin, dizziness or confusion. Call 911.",
+            "es": "Señales de golpe de calor: temperatura corporal de más de 103°F, piel roja, caliente y seca, mareo o confusión. Llame al 911.",
+            "vi": "Dấu hiệu say nắng nặng: thân nhiệt trên 103°F, da đỏ, nóng và khô, chóng mặt hoặc lú lẫn. Gọi 911."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/heat"
+        }
+      ],
+      "then": [
+        {
+          "id": "heat-check-neighbors",
+          "text": {
+            "en": "Check on older neighbors, children and anyone who lives alone. They are at greater risk in extreme heat.",
+            "es": "Revise cómo están los vecinos mayores, los niños y quienes viven solos. Corren más riesgo con calor extremo.",
+            "vi": "Hỏi thăm người lớn tuổi, trẻ em và người sống một mình. Họ dễ gặp nguy hiểm hơn khi trời nắng nóng."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/heat"
+        }
+      ]
+    },
+    "wildfire_smoke": {
+      "rightNow": [
+        {
+          "id": "smoke-stay-inside",
+          "text": {
+            "en": "Stay inside with doors and windows closed, or go to a community building where smoke levels are lower.",
+            "es": "Quédese adentro con puertas y ventanas cerradas, o vaya a un edificio comunitario con menos humo.",
+            "vi": "Ở trong nhà, đóng cửa ra vào và cửa sổ, hoặc đến một tòa nhà cộng đồng có ít khói hơn."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "smoke-clean-room",
+          "text": {
+            "en": "Pick one room to close off from outside air. Run a portable air cleaner there if you have one.",
+            "es": "Elija una habitación y ciérrela al aire de afuera. Use un purificador de aire portátil allí si tiene uno.",
+            "vi": "Chọn một phòng và đóng kín không cho không khí bên ngoài vào. Bật máy lọc không khí trong phòng đó nếu có."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "smoke-n95",
+          "text": {
+            "en": "If you have an N95 mask, wear it when you go outside.",
+            "es": "Si tiene una mascarilla N95, úsela cuando salga.",
+            "vi": "Nếu có khẩu trang N95, hãy đeo khi ra ngoài."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "smoke-recirculate",
+          "text": {
+            "en": "If you have air conditioning, set it to recirculate and close the outside air intake.",
+            "es": "Si tiene aire acondicionado, póngalo en recircular y cierre la entrada de aire exterior.",
+            "vi": "Nếu có máy lạnh, hãy để chế độ tuần hoàn khí và đóng cửa lấy gió bên ngoài."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "smoke-alerts",
+          "text": {
+            "en": "Pay attention to air quality alerts and instructions from local authorities.",
+            "es": "Preste atención a las alertas de calidad del aire y a las instrucciones de las autoridades locales.",
+            "vi": "Chú ý các cảnh báo chất lượng không khí và hướng dẫn của chính quyền địa phương."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        }
+      ],
+      "then": [
+        {
+          "id": "smoke-healthcare",
+          "text": {
+            "en": "If you feel sick but it's not an emergency, contact your healthcare provider for instructions.",
+            "es": "Si se siente mal pero no es una emergencia, comuníquese con su proveedor de salud para recibir instrucciones.",
+            "vi": "Nếu bạn thấy không khỏe nhưng không phải cấp cứu, hãy liên lạc với nơi chăm sóc sức khỏe của bạn để được hướng dẫn."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        }
+      ]
+    },
+    "wildfire_risk": {
+      "rightNow": [
+        {
+          "id": "wfr-evac-plan",
+          "text": {
+            "en": "Make sure everyone in your home knows what to do if you have to leave quickly.",
+            "es": "Asegúrese de que todos en su hogar sepan qué hacer si tienen que salir rápido.",
+            "vi": "Bảo đảm mọi người trong nhà biết phải làm gì nếu phải rời đi gấp."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "wfr-charge-phone",
+          "text": {
+            "en": "Keep your phone charged and have a backup battery.",
+            "es": "Mantenga su teléfono cargado y tenga una batería de respaldo.",
+            "vi": "Giữ điện thoại luôn đầy pin và có sẵn pin dự phòng."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "wfr-no-sparks",
+          "text": {
+            "en": "Avoid anything that could start a fire outdoors, like burning, grills or sparks from equipment.",
+            "es": "Evite cualquier cosa que pueda iniciar un incendio afuera, como quemas, parrillas o chispas de equipos.",
+            "vi": "Tránh mọi thứ có thể gây cháy ngoài trời, như đốt lửa, nướng BBQ hoặc tia lửa từ máy móc."
+          },
+          "source": "National Weather Service",
+          "url": "https://www.weather.gov/safety/wildfire"
+        },
+        {
+          "id": "wfr-alerts",
+          "text": {
+            "en": "Watch for emergency alerts and follow instructions from local authorities.",
+            "es": "Esté atento a las alertas de emergencia y siga las instrucciones de las autoridades locales.",
+            "vi": "Theo dõi cảnh báo khẩn cấp và làm theo hướng dẫn của chính quyền địa phương."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        }
+      ],
+      "then": []
+    },
+    "wildfire": {
+      "rightNow": [
+        {
+          "id": "wf-evacuate",
+          "text": {
+            "en": "If you're told to evacuate, leave right away and follow instructions from local authorities.",
+            "es": "Si le ordenan evacuar, salga de inmediato y siga las instrucciones de las autoridades locales.",
+            "vi": "Nếu được lệnh sơ tán, hãy rời đi ngay và làm theo hướng dẫn của chính quyền địa phương."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "wf-trapped",
+          "text": {
+            "en": "If you're trapped, call 911 and give your location. Turn on lights to help rescuers find you.",
+            "es": "Si está atrapado, llame al 911 y dé su ubicación. Encienda las luces para que los rescatistas lo encuentren.",
+            "vi": "Nếu bị mắc kẹt, hãy gọi 911 và cho biết vị trí. Bật đèn để đội cứu hộ tìm thấy bạn."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "smoke-stay-inside",
+          "text": {
+            "en": "Stay inside with doors and windows closed, or go to a community building where smoke levels are lower.",
+            "es": "Quédese adentro con puertas y ventanas cerradas, o vaya a un edificio comunitario con menos humo.",
+            "vi": "Ở trong nhà, đóng cửa ra vào và cửa sổ, hoặc đến một tòa nhà cộng đồng có ít khói hơn."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "smoke-n95",
+          "text": {
+            "en": "If you have an N95 mask, wear it when you go outside.",
+            "es": "Si tiene una mascarilla N95, úsela cuando salga.",
+            "vi": "Nếu có khẩu trang N95, hãy đeo khi ra ngoài."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "wf-stay-away",
+          "text": {
+            "en": "Don't go home until authorities say it's safe. Stay away from hot ash and smoldering debris.",
+            "es": "No regrese a casa hasta que las autoridades digan que es seguro. Aléjese de cenizas calientes y escombros humeantes.",
+            "vi": "Đừng về nhà cho đến khi chính quyền nói là an toàn. Tránh xa tro nóng và mảnh vụn còn cháy âm ỉ."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        }
+      ],
+      "then": []
+    },
+    "flood": {
+      "rightNow": [
+        {
+          "id": "fl-turn-around",
+          "text": {
+            "en": "Turn Around, Don't Drown: never walk, swim or drive through flood water.",
+            "es": "Dé la vuelta, no se ahogue: nunca camine, nade ni maneje por agua de inundación.",
+            "vi": "Quay lại, đừng để bị chết đuối: không bao giờ đi bộ, bơi hoặc lái xe qua nước lũ."
+          },
+          "source": "National Weather Service",
+          "url": "https://www.weather.gov/safety/flood-turn-around-dont-drown"
+        },
+        {
+          "id": "fl-six-inches",
+          "text": {
+            "en": "Just 6 inches of moving water can knock you down, and 1 foot can sweep a car away.",
+            "es": "Solo 6 pulgadas de agua en movimiento pueden derribarlo, y 1 pie puede arrastrar un auto.",
+            "vi": "Chỉ 6 inch nước chảy có thể làm bạn ngã, và 1 foot nước có thể cuốn trôi xe hơi."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/floods"
+        },
+        {
+          "id": "fl-higher-ground",
+          "text": {
+            "en": "Move to higher ground or a higher floor.",
+            "es": "Suba a un terreno más alto o a un piso más alto.",
+            "vi": "Di chuyển lên chỗ cao hơn hoặc lên tầng trên."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/floods"
+        },
+        {
+          "id": "fl-bridges",
+          "text": {
+            "en": "Stay off bridges over fast-moving water.",
+            "es": "No cruce puentes sobre agua que corre rápido.",
+            "vi": "Tránh các cây cầu bắc qua dòng nước chảy xiết."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/floods"
+        },
+        {
+          "id": "fl-evacuate",
+          "text": {
+            "en": "Evacuate if told to. Never drive around barricades.",
+            "es": "Evacúe si se lo ordenan. Nunca maneje rodeando las barreras.",
+            "vi": "Sơ tán nếu được yêu cầu. Không bao giờ lái xe vòng qua rào chắn."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/floods"
+        }
+      ],
+      "then": []
+    },
+    "power_outage": {
+      "rightNow": [
+        {
+          "id": "po-fridge-closed",
+          "text": {
+            "en": "Keep your refrigerator and freezer closed.",
+            "es": "Mantenga cerrados el refrigerador y el congelador.",
+            "vi": "Giữ tủ lạnh và tủ đông luôn đóng."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/power-outages"
+        },
+        {
+          "id": "po-medicine-plan",
+          "text": {
+            "en": "If you have medicine that must stay cold or a powered medical device, plan to go somewhere with power. Ask a pharmacist about your medicine.",
+            "es": "Si tiene medicinas que deben mantenerse frías o un equipo médico eléctrico, planee ir a un lugar con electricidad. Pregunte a un farmacéutico sobre su medicina.",
+            "vi": "Nếu bạn có thuốc cần giữ lạnh hoặc thiết bị y tế dùng điện, hãy tính đến nơi có điện. Hỏi dược sĩ về thuốc của bạn."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/power-outages"
+        },
+        {
+          "id": "po-generator-outside",
+          "text": {
+            "en": "Use a generator only outdoors, at least 20 feet from windows, doors and garages.",
+            "es": "Use un generador solo afuera, a por lo menos 20 pies de ventanas, puertas y garajes.",
+            "vi": "Chỉ dùng máy phát điện ngoài trời, cách cửa sổ, cửa ra vào và nhà xe ít nhất 20 feet."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/power-outages"
+        },
+        {
+          "id": "po-no-gas-stove",
+          "text": {
+            "en": "Never use a gas stove or oven to heat your home. It can cause carbon monoxide poisoning.",
+            "es": "Nunca use una estufa u horno de gas para calentar su casa. Puede causar intoxicación por monóxido de carbono.",
+            "vi": "Không bao giờ dùng bếp gas hoặc lò nướng để sưởi nhà. Có thể gây ngộ độc khí CO."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/power-outages"
+        },
+        {
+          "id": "po-unplug",
+          "text": {
+            "en": "Unplug appliances and electronics to avoid damage from power surges.",
+            "es": "Desconecte aparatos y electrónicos para evitar daños por subidas de voltaje.",
+            "vi": "Rút phích cắm các thiết bị điện để tránh hư hại khi điện có lại đột ngột."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/power-outages"
+        },
+        {
+          "id": "po-cooling-locations",
+          "text": {
+            "en": "Check with local officials about cooling and warming places open near you.",
+            "es": "Consulte con las autoridades locales qué lugares para refrescarse o calentarse están abiertos cerca.",
+            "vi": "Hỏi chính quyền địa phương về các nơi làm mát hoặc sưởi ấm đang mở gần bạn."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/power-outages"
+        }
+      ],
+      "then": [
+        {
+          "id": "po-food-safety",
+          "text": {
+            "en": "When in doubt, throw it out: toss food that has been above 40°F for 2 hours or more.",
+            "es": "Si tiene dudas, tírela: deseche la comida que estuvo a más de 40°F por 2 horas o más.",
+            "vi": "Khi nghi ngờ, hãy bỏ đi: vứt thức ăn đã ở nhiệt độ trên 40°F từ 2 giờ trở lên."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/power-outages"
+        }
+      ]
+    },
+    "other": {
+      "rightNow": [
+        {
+          "id": "ot-authorities",
+          "text": {
+            "en": "Follow instructions from local authorities and emergency alerts.",
+            "es": "Siga las instrucciones de las autoridades locales y las alertas de emergencia.",
+            "vi": "Làm theo hướng dẫn của chính quyền địa phương và các cảnh báo khẩn cấp."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        },
+        {
+          "id": "ot-healthcare",
+          "text": {
+            "en": "If you're sick and it's not an emergency, contact your healthcare provider for instructions.",
+            "es": "Si está enfermo y no es una emergencia, comuníquese con su proveedor de salud para recibir instrucciones.",
+            "vi": "Nếu bạn bị bệnh nhưng không phải cấp cứu, hãy liên lạc với nơi chăm sóc sức khỏe để được hướng dẫn."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/floods"
+        },
+        {
+          "id": "ot-charge-phone",
+          "text": {
+            "en": "Keep your phone charged and have a backup battery.",
+            "es": "Mantenga su teléfono cargado y tenga una batería de respaldo.",
+            "vi": "Giữ điện thoại luôn đầy pin và có sẵn pin dự phòng."
+          },
+          "source": "Ready.gov",
+          "url": "https://www.ready.gov/wildfires"
+        }
+      ],
+      "then": []
+    }
+  },
+  "then": [
+    {
+      "id": "bring-medicine",
+      "kind": "bring",
+      "text": {
+        "en": "Bring your medicines and any medical devices.",
+        "es": "Lleve sus medicinas y cualquier equipo médico.",
+        "vi": "Mang theo thuốc và các thiết bị y tế của bạn."
+      },
+      "source": "Ready.gov",
+      "url": "https://www.ready.gov/kit"
+    },
+    {
+      "id": "bring-phone",
+      "kind": "bring",
+      "text": {
+        "en": "Bring your phone, charger and a backup battery.",
+        "es": "Lleve su teléfono, el cargador y una batería de respaldo.",
+        "vi": "Mang theo điện thoại, sạc và pin dự phòng."
+      },
+      "source": "Ready.gov",
+      "url": "https://www.ready.gov/kit"
+    },
+    {
+      "id": "bring-water-food",
+      "kind": "bring",
+      "text": {
+        "en": "Bring water and some food that won't spoil.",
+        "es": "Lleve agua y algo de comida que no se eche a perder.",
+        "vi": "Mang theo nước và một ít thức ăn không bị hư."
+      },
+      "source": "Ready.gov",
+      "url": "https://www.ready.gov/kit"
+    },
+    {
+      "id": "bring-id",
+      "kind": "bring",
+      "text": {
+        "en": "Bring your ID and important papers.",
+        "es": "Lleve su identificación y documentos importantes.",
+        "vi": "Mang theo giấy tờ tùy thân và giấy tờ quan trọng."
+      },
+      "source": "Ready.gov",
+      "url": "https://www.ready.gov/kit"
+    },
+    {
+      "id": "bring-flashlight",
+      "kind": "bring",
+      "text": {
+        "en": "Bring a flashlight and a whistle.",
+        "es": "Lleve una linterna y un silbato.",
+        "vi": "Mang theo đèn pin và một cái còi."
+      },
+      "source": "Ready.gov",
+      "url": "https://www.ready.gov/kit"
+    },
+    {
+      "id": "call-211",
+      "kind": "call",
+      "text": {
+        "en": "Call 211 for local help like food, shelter and services. It's free, 24/7, in many languages.",
+        "es": "Llame al 211 para ayuda local como comida, refugio y servicios. Es gratis, 24/7, en muchos idiomas.",
+        "vi": "Gọi 211 để được giúp đỡ tại địa phương như thức ăn, chỗ ở và dịch vụ. Miễn phí, 24/7, nhiều ngôn ngữ."
+      },
+      "source": "211",
+      "url": "https://www.211.org/"
+    },
+    {
+      "id": "call-family-text",
+      "kind": "call",
+      "text": {
+        "en": "Text family to say where you are and that you're OK. Texts often get through when calls don't, and they save battery.",
+        "es": "Envíe un mensaje de texto a su familia diciendo dónde está y que está bien. Los textos suelen llegar cuando las llamadas no, y ahorran batería.",
+        "vi": "Nhắn tin cho gia đình cho biết bạn ở đâu và bạn an toàn. Tin nhắn thường gửi được khi không gọi được, và tiết kiệm pin."
+      },
+      "source": "Ready.gov",
+      "url": "https://www.ready.gov/earthquakes"
+    },
+    {
+      "id": "call-meeting-place",
+      "kind": "call",
+      "text": {
+        "en": "Agree on a place to meet your family if you get separated.",
+        "es": "Acuerde un lugar para reunirse con su familia si se separan.",
+        "vi": "Thống nhất một nơi gặp lại gia đình nếu bị lạc nhau."
+      },
+      "source": "Ready.gov",
+      "url": "https://www.ready.gov/plan"
+    },
+    {
+      "id": "call-red-cross-shelters",
+      "kind": "call",
+      "text": {
+        "en": "The free Red Cross Emergency app lists open Red Cross shelters.",
+        "es": "La aplicación gratuita Emergencia de la Cruz Roja muestra los refugios abiertos de la Cruz Roja.",
+        "vi": "Ứng dụng Emergency miễn phí của Hội Chữ Thập Đỏ cho biết các nơi trú ẩn đang mở."
+      },
+      "source": "Ready.gov",
+      "url": "https://www.ready.gov/wildfires"
+    }
+  ]
+}

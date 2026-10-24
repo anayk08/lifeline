@@ -58,7 +58,7 @@ export default function Place({ id }: { id: string }) {
     <Page back="history">
       <article className="flex flex-col gap-space-sm">
         <div className="flex items-center gap-2 flex-wrap">
-          <StatusBadge status={status} solid />
+          <StatusBadge status={status} solid unconfirmed={r.status === "unknown"} />
           <VerifiedBadge r={r} />
           {miles !== null && (
             <span className="text-label-sm text-on-surface-variant ml-auto">{t.miAway(miles.toFixed(1))}</span>

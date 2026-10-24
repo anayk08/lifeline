@@ -3,7 +3,9 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
 import type { Lang } from "../../shared/resources";
 import type { RouteResult } from "../../shared/routes";
-import type { SituationResult } from "../../shared/situation";
+import type { HazardFeed, LiveHazard } from "../../shared/hazards";
+import type { PlanResult } from "../../shared/bedrock";
+import type { LabeledPoint, SituationResult } from "../../shared/situation";
 
 // amplify_outputs.json only exists once the backend is deployed. Loading it through a glob
 // keeps the app building (and fully usable offline) without it.
@@ -51,6 +53,8 @@ export async function askLeslie(args: {
   lat?: number;
   lng?: number;
   history?: { role: "user" | "assistant"; text: string }[];
+  /** Active alerts, so residents never have to say "there's an earthquake". */
+  hazards?: LiveHazard[];
 }): Promise<LeslieAnswer> {
   if (backendMode === "local") return local<LeslieAnswer>("leslie", args);
   const { data, errors } = await api().queries.askLeslie({
@@ -60,6 +64,7 @@ export async function askLeslie(args: {
     lat: args.lat,
     lng: args.lng,
     history: args.history ? JSON.stringify(args.history) : undefined,
+    hazards: args.hazards?.length ? JSON.stringify(args.hazards) : undefined,
   });
   if (errors?.length || !data) throw new Error(errors?.[0]?.message ?? "No answer");
   return {
@@ -83,6 +88,41 @@ export async function planRoutes(from: [number, number], to: [number, number], l
   });
   if (errors?.length || !data) throw new Error(errors?.[0]?.message ?? "No routes returned");
   return (typeof data === "string" ? JSON.parse(data) : data) as RouteResult;
+}
+
+/** Live alerts (USGS, NWS, CAL FIRE), plus the simulated SJSU earthquake when demo mode is on. */
+export async function getHazards(demo: string | null): Promise<HazardFeed> {
+  if (backendMode === "local") {
+    const res = await fetch(`/api/hazards${demo ? `?demo=${encodeURIComponent(demo)}` : ""}`);
+    if (!res.ok) throw new Error(`Alerts unavailable (${res.status})`);
+    return (await res.json()) as HazardFeed;
+  }
+  const { data, errors } = await api().queries.getHazards({ demo: demo ?? undefined });
+  if (errors?.length || !data) throw new Error(errors?.[0]?.message ?? "No alerts returned");
+  return (typeof data === "string" ? JSON.parse(data) : data) as HazardFeed;
+}
+
+/** Leslie's summary and chosen vetted steps for the "Your plan" view. */
+export async function makePlan(args: {
+  hazard: LiveHazard;
+  language: Lang;
+  lat?: number;
+  lng?: number;
+  originLabel?: string;
+}): Promise<PlanResult> {
+  if (backendMode === "local") return local<PlanResult>("plan", args);
+  const { data, errors } = await api().queries.makePlan({ ...args, hazard: JSON.stringify(args.hazard) });
+  if (errors?.length || !data) throw new Error(errors?.[0]?.message ?? "No plan returned");
+  return (typeof data === "string" ? JSON.parse(data) : data) as PlanResult;
+}
+
+/** Turns "Spartan Village" into a point with Amazon Location place search (San José only). */
+export async function findPlace(text: string): Promise<LabeledPoint | null> {
+  if (backendMode === "local") return (await local<{ place: LabeledPoint | null }>("place", { text })).place;
+  const { data, errors } = await api().queries.findPlace({ text });
+  if (errors?.length) throw new Error(errors[0].message);
+  const parsed = (typeof data === "string" ? JSON.parse(data) : data) as { place: LabeledPoint | null } | null;
+  return parsed?.place ?? null;
 }
 
 const PENDING_FLAGS = "lifeline.pendingFlags";

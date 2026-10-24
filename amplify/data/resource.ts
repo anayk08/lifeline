@@ -1,5 +1,6 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { askLeslie } from "../functions/ask-leslie/resource";
+import { hazardPlan } from "../functions/hazard-plan/resource";
 import { planRoutesFn } from "../functions/plan-routes/resource";
 
 const schema = a.schema({
@@ -22,6 +23,8 @@ const schema = a.schema({
       lat: a.float(),
       lng: a.float(),
       history: a.json(),
+      // Active live alerts the app knows about, so Leslie uses them without being told.
+      hazards: a.json(),
     })
     .returns(a.ref("LeslieAnswer"))
     .handler(a.handler.function(askLeslie))
@@ -39,6 +42,36 @@ const schema = a.schema({
     })
     .returns(a.json())
     .handler(a.handler.function(planRoutesFn))
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // Live alerts from USGS, the National Weather Service and CAL FIRE (same code as the laptop server).
+  getHazards: a
+    .query()
+    .arguments({ demo: a.string() })
+    .returns(a.json())
+    .handler(a.handler.function(hazardPlan))
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // Leslie's summary and chosen vetted steps for the "Your plan" view.
+  makePlan: a
+    .query()
+    .arguments({
+      hazard: a.json().required(),
+      language: a.string(),
+      lat: a.float(),
+      lng: a.float(),
+      originLabel: a.string(),
+    })
+    .returns(a.json())
+    .handler(a.handler.function(hazardPlan))
+    .authorization((allow) => [allow.publicApiKey()]),
+
+  // "Where are you?" for people without GPS (Amazon Location place search, San José only).
+  findPlace: a
+    .query()
+    .arguments({ text: a.string().required() })
+    .returns(a.json())
+    .handler(a.handler.function(hazardPlan))
     .authorization((allow) => [allow.publicApiKey()]),
 
   // A listing that needs a human to re-check it, reported by a resident.

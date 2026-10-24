@@ -8,6 +8,7 @@ import {
   HAZARD_RADIUS_MILES,
   RESOURCES,
   daysSinceVerified,
+  distanceMiles,
   formatTime,
   rankForSituation,
   zipCenter,
@@ -15,6 +16,8 @@ import {
   type SituationRanked,
 } from "./resources";
 import { extractSituation, findPlace, type ExtractedSituation, type SituationResult } from "./situation";
+import { describeHazard, primaryHazard, sanitizeHazard, sanitizeHazards, situationHazard, type LiveHazard } from "./hazards";
+import { allowedItems, planPlaces, planSteps } from "./plan";
 
 export const LESLIE_MODEL = "us.anthropic.claude-haiku-4-5-20251001-v1:0";
 
@@ -31,7 +34,11 @@ const sanJoseNow = () =>
     new Date(),
   );
 
-function describe({ resource: r, miles, status, nearHazard, reasons }: SituationRanked, hazard: Hazard | null): string {
+function describe(
+  { resource: r, miles, status, nearHazard, reasons }: SituationRanked,
+  hazard: Hazard | null,
+  hazardRadius = HAZARD_RADIUS_MILES,
+): string {
   const open =
     status.state === "unknown"
       ? "hours unknown, call ahead"
@@ -44,7 +51,7 @@ function describe({ resource: r, miles, status, nearHazard, reasons }: Situation
   return [
     `[${r.id}] ${r.name} (${r.category}${r.tags.length ? `; ${r.tags.join(", ")}` : ""})`,
     `  ${open}${miles !== null ? ` | ${miles.toFixed(1)} mi away` : ""}`,
-    nearHazard ? `  MAY BE AFFECTED: within ${HAZARD_RADIUS_MILES} mi of the hazard, tell them to call first` : "",
+    nearHazard ? `  MAY BE AFFECTED: within ${hazardRadius} mi of the hazard, tell them to call first` : "",
     hazard ? `  ${HAZARD_NAMES[hazard]} risk: ${risk ?? "not rated"}` : "",
     reasons.length ? `  Why it may suit this situation: ${reasons.join(", ")}` : "",
     r.status !== "open" ? `  Operating status: ${r.status === "closed" ? "NOT OPEN TO THE PUBLIC" : "not confirmed, call first"}` : "",
@@ -102,6 +109,8 @@ export interface LeslieArgs {
   lat?: number | null;
   lng?: number | null;
   history?: unknown;
+  /** Active alerts the app knows about (live feeds or the demo), sent with every question. */
+  hazards?: unknown;
 }
 
 export interface LeslieAnswer {
@@ -150,10 +159,40 @@ async function workOutSituation(
     ),
   ];
 
-  return {
-    extracted,
-    situation: { hazardType: extracted.hazardType, hazardPoint, needs: extracted.needs, origin, notFound, flaggedIds: [] },
+  const situation: SituationResult = {
+    hazardType: extracted.hazardType,
+    hazardPoint,
+    needs: extracted.needs,
+    origin,
+    notFound,
+    flaggedIds: [],
+    hazardRadiusMiles: hazardPoint ? HAZARD_RADIUS_MILES : undefined,
+    alert: null,
   };
+
+  // A live alert sets the emergency and where it is, unless the resident clearly names a different one.
+  const live = primaryHazard(sanitizeHazards(args.hazards), origin ? [origin.lat, origin.lng] : null);
+  const liveType = live ? situationHazard(live.type) : null;
+  if (live && (extracted.hazardType === "none" || extracted.hazardType === liveType)) {
+    situation.hazardType = liveType!;
+    situation.alert = { id: live.id, title: live.title, source: live.source, sourceUrl: live.sourceUrl, place: live.place };
+    if (!hazardPoint && live.center) {
+      situation.hazardPoint = { label: live.place ?? live.title, lat: live.center[0], lng: live.center[1] };
+      situation.hazardRadiusMiles = live.radiusMiles;
+    }
+  }
+  return { extracted, situation };
+}
+
+const minutesAgo = (iso: string) => Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60_000));
+
+function liveAlertText(alert: SituationResult["alert"], hazards: LiveHazard[]): string {
+  const h = alert ? hazards.find((x) => x.id === alert.id) : null;
+  if (!h) return "";
+  const label = h.source === "Simulated" ? "SIMULATED DEMO alert (say it is a simulated demo)" : `Live alert from ${h.source}`;
+  return `${label}: ${describeHazard(h)}, started about ${minutesAgo(h.startedAt)} minutes ago${
+    h.center ? `, affecting about ${h.radiusMiles} miles around it` : ", covering the San José area"
+  }. The resident did not have to mention it.`;
 }
 
 export async function askLeslie(clients: LeslieClients, args: LeslieArgs, modelId = LESLIE_MODEL): Promise<LeslieAnswer> {
@@ -166,6 +205,7 @@ export async function askLeslie(clients: LeslieClients, args: LeslieArgs, modelI
   const ranked = rankForSituation(RESOURCES, from, {
     hazardType: situation.hazardType,
     hazardPoint: situation.hazardPoint ? [situation.hazardPoint.lat, situation.hazardPoint.lng] : null,
+    hazardRadiusMiles: situation.hazardRadiusMiles,
     needs: situation.needs,
   });
   situation.flaggedIds = ranked.filter((x) => x.nearHazard).map((x) => x.resource.id);
@@ -185,6 +225,7 @@ export async function askLeslie(clients: LeslieClients, args: LeslieArgs, modelI
           `Emergency: ${hazard ? HAZARD_NAMES[hazard] : "an emergency (" + (extracted.hazardPlace ?? "unspecified") + ")"}${
             situation.hazardPoint ? `, centered on ${situation.hazardPoint.label}` : extracted.hazardPlace ? ` near ${extracted.hazardPlace}` : ""
           }.`,
+          liveAlertText(situation.alert, sanitizeHazards(args.hazards)),
           situation.needs.length ? `Needs mentioned: ${situation.needs.join(", ")}.` : "",
           situation.notFound.length ? `Couldn't find these places on the map: ${situation.notFound.join(", ")}.` : "",
         ]
@@ -210,7 +251,7 @@ Situation: ${situationText}
 ${whereFrom}
 
 VERIFIED LISTINGS, ranked for this situation (${ranked.length}):
-${ranked.map((x) => describe(x, hazard)).join("\n")}`;
+${ranked.map((x) => describe(x, hazard, situation.hazardRadiusMiles)).join("\n")}`;
 
   const history = typeof args.history === "string" ? safeJson(args.history) : args.history;
   const prior: Message[] = Array.isArray(history)
@@ -255,4 +296,106 @@ function safeJson(s: string): unknown {
   } catch {
     return null;
   }
+}
+
+// ---- "Your plan" -------------------------------------------------------------
+
+export interface PlanArgs {
+  hazard: unknown;
+  language?: string | null;
+  lat?: number | null;
+  lng?: number | null;
+  /** How the origin was found: "gps", "zip" or a place the person typed. */
+  originLabel?: string | null;
+}
+
+export interface PlanResult {
+  summary: string;
+  rightNow: string[];
+  then: string[];
+  placeIds: string[];
+  language: string;
+}
+
+/**
+ * Leslie's one-paragraph summary for the plan, plus which vetted steps to show and in what order.
+ * Steps come only from safety-guidance.json: the tool's enums list the allowed ids, and anything
+ * else is dropped. Places are ranked by the same shared code the app uses offline.
+ */
+export async function makePlan(bedrock: BedrockRuntimeClient, args: PlanArgs, modelId = LESLIE_MODEL): Promise<PlanResult> {
+  const hazard = sanitizeHazard(args.hazard);
+  if (!hazard) throw new Error("hazard is required");
+  const language = args.language && LANGUAGE_NAMES[args.language] ? args.language : "en";
+  const from: [number, number] | null = args.lat != null && args.lng != null ? [args.lat, args.lng] : null;
+  const places = planPlaces(hazard, from);
+  const allowed = allowedItems(hazard.type);
+  const defaults = planSteps(hazard.type);
+  const item = (i: { id: string; text: Record<string, string> }) => `${i.id}: ${i.text.en}`;
+
+  const tool = {
+    toolSpec: {
+      name: "make_plan",
+      description: "Return the resident's plan.",
+      inputSchema: {
+        json: {
+          type: "object",
+          properties: {
+            summary: {
+              type: "string",
+              description: `One short paragraph (under 80 words) in ${LANGUAGE_NAMES[language]}: what happened, where the resident is relative to it, and why these places. Plain text.`,
+            },
+            rightNow: {
+              type: "array",
+              items: { type: "string", enum: [...allowed.rightNow.keys()] },
+              description: "3 to 5 safety step ids for right now, most important first.",
+            },
+            then: {
+              type: "array",
+              items: { type: "string", enum: [...allowed.then.keys()] },
+              description: "3 to 6 step ids for what to bring and who to call, most important first.",
+            },
+          },
+          required: ["summary", "rightNow", "then"],
+        },
+      },
+    },
+  };
+
+  const system = `You are Leslie, inside Lifeline, a verified resource finder for San José. Someone pressed "Yes, I'm affected" on an alert. Build their plan.
+Rules: Write the summary only from the facts below. ${hazard.source === "Simulated" ? 'This alert is a SIMULATED DEMO: say "simulated" in the summary.' : `Name the source (${hazard.source}).`} Never give medical advice. Don't invent places, distances or steps. Choose steps only from the lists by id; pick what fits this person best.
+
+Alert: ${describeHazard(hazard)} (${hazard.severity}), started about ${minutesAgo(hazard.startedAt)} minutes ago${hazard.center ? `, affecting about ${hazard.radiusMiles} miles around it` : ", covering the San José area"}.
+Resident: ${from ? `at ${args.originLabel ?? "their location"}${hazard.center ? `, ${distanceMiles(from[0], from[1], hazard.center[0], hazard.center[1]).toFixed(1)} miles from the center` : ""}` : "location unknown, so don't claim distances"}.
+Places chosen for them (already ranked):
+${places.map((x) => describe(x, hazard.type === "earthquake" || hazard.type === "extreme_heat" || hazard.type === "wildfire_smoke" || hazard.type === "power_outage" ? hazard.type : null, hazard.radiusMiles)).join("\n") || "none found"}
+
+Right-now steps you may choose from:
+${[...allowed.rightNow.values()].map(item).join("\n")}
+
+Then steps (bring / call) you may choose from:
+${[...allowed.then.values()].map(item).join("\n")}`;
+
+  const response = await bedrock.send(
+    new ConverseCommand({
+      modelId,
+      system: [{ text: system }],
+      messages: [{ role: "user", content: [{ text: "Make my plan." }] }],
+      toolConfig: { tools: [tool], toolChoice: { tool: { name: "make_plan" } } },
+      inferenceConfig: { maxTokens: 600, temperature: 0.2 },
+    }),
+  );
+  const input = (response.output?.message?.content?.find((c) => c.toolUse)?.toolUse?.input ?? {}) as {
+    summary?: string;
+    rightNow?: string[];
+    then?: string[];
+  };
+  // planSteps drops unknown ids and falls back to the vetted default when too few remain.
+  const steps = planSteps(hazard.type, { rightNow: input.rightNow, then: input.then });
+  return {
+    summary: input.summary?.trim() || "",
+    rightNow: steps.rightNow.map((i) => i.id),
+    then: steps.then.length ? steps.then.map((i) => i.id) : defaults.then.map((i) => i.id),
+    placeIds: places.map((x) => x.resource.id),
+    language,
+  };
 }

@@ -6,7 +6,9 @@ import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
 import { fromIni } from "@aws-sdk/credential-providers";
 import { GeoPlacesClient } from "@aws-sdk/client-geo-places";
 import { GeoRoutesClient } from "@aws-sdk/client-geo-routes";
-import { askLeslie } from "../shared/bedrock";
+import { askLeslie, makePlan } from "../shared/bedrock";
+import { getHazards } from "../shared/hazards";
+import { findPlace } from "../shared/situation";
 import { planRoutes } from "../shared/routes";
 
 const PORT = Number(process.env.PORT ?? 8787);
@@ -67,6 +69,15 @@ const server = createServer(async (req, res) => {
   const started = Date.now();
   try {
     if (req.method === "GET" && req.url === "/api/health") return send(res, 200, { ok: true, profile: PROFILE });
+    const url = new URL(req.url ?? "/", "http://localhost");
+    if (req.method === "GET" && url.pathname === "/api/hazards") {
+      const feed = await getHazards(url.searchParams.get("demo"));
+      console.log(
+        `hazards ${Date.now() - started}ms  ${feed.hazards.map((h) => `${h.source}:${h.title}`).join("; ") || "none active"}` +
+          `  [${Object.entries(feed.sources).map(([k, v]) => `${k} ${v.ok ? "ok" : "FAILED"}`).join(", ")}]`,
+      );
+      return send(res, 200, feed);
+    }
     if (req.method !== "POST") return send(res, 404, { error: "Not found" });
 
     const body = await readJson(req);
@@ -80,6 +91,7 @@ const server = createServer(async (req, res) => {
         lat: typeof body.lat === "number" ? body.lat : null,
         lng: typeof body.lng === "number" ? body.lng : null,
         history: body.history,
+        hazards: body.hazards,
       });
       const s = answer.situation;
       console.log(
@@ -87,6 +99,24 @@ const server = createServer(async (req, res) => {
           `  [hazard ${s.hazardType}${s.hazardPoint ? ` @${s.hazardPoint.label}` : ""}, from ${s.origin ? `${s.origin.source}:${s.origin.label}` : "unknown"}${s.notFound.length ? `, not found: ${s.notFound.join("; ")}` : ""}]`,
       );
       return send(res, 200, answer);
+    }
+    if (req.url === "/api/plan") {
+      const plan = await makePlan(bedrock, {
+        hazard: body.hazard,
+        language: typeof body.language === "string" ? body.language : null,
+        lat: typeof body.lat === "number" ? body.lat : null,
+        lng: typeof body.lng === "number" ? body.lng : null,
+        originLabel: typeof body.originLabel === "string" ? body.originLabel.slice(0, 80) : null,
+      });
+      console.log(`plan ${Date.now() - started}ms  steps ${plan.rightNow.join(",")} | places ${plan.placeIds.join(",")}`);
+      return send(res, 200, plan);
+    }
+    if (req.url === "/api/place") {
+      const text = String(body.text ?? "").trim().slice(0, 120);
+      if (!text) return send(res, 400, { error: "text is required" });
+      const found = await findPlace(places, text);
+      console.log(`place ${Date.now() - started}ms  "${text}" -> ${found ? `${found.lat.toFixed(4)},${found.lng.toFixed(4)}` : "not found"}`);
+      return send(res, 200, { place: found });
     }
     if (req.url === "/api/routes") {
       const from = point(body.from);

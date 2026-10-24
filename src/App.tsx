@@ -5,6 +5,7 @@ import Ask from "./pages/Ask";
 import Home from "./pages/Home";
 import ListPage from "./pages/ListPage";
 import Place from "./pages/Place";
+import Plan from "./pages/Plan";
 import Settings from "./pages/Settings";
 import Welcome from "./pages/Welcome";
 
@@ -34,6 +35,8 @@ export default function App() {
         <Place id={arg} />
       ) : page === "settings" ? (
         <Settings />
+      ) : page === "plan" ? (
+        <Plan />
       ) : (
         <Home />
       )}

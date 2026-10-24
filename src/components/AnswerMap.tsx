@@ -57,7 +57,7 @@ type RouteState = RouteResult | "loading" | "error";
 const HAZARD_RED = "#e03131";
 
 export default function AnswerMap({ ids, situation }: { ids: string[]; situation: SituationResult | null }) {
-  const { t, origin: appOrigin, settings, online, gps, gpsAccuracy, watchGps } = useApp();
+  const { t, origin: appOrigin, settings, online, gps, gpsAccuracy, watchGps, hazards: liveHazards } = useApp();
   const [hidden, setHidden] = useState<Set<Category>>(new Set());
   const places = useMemo(() => ids.map((id) => BY_ID.get(id)).filter((r): r is Resource => !!r), [ids]);
   const visible = places.filter((p) => !hidden.has(p.category));
@@ -83,7 +83,11 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
     : null;
   const hazard = situation && situation.hazardType !== "none" ? situation : null;
   const hazardPoint: [number, number] | null = hazard?.hazardPoint ? [hazard.hazardPoint.lat, hazard.hazardPoint.lng] : null;
+  const hazardRadius = hazard?.hazardRadiusMiles ?? HAZARD_RADIUS_MILES;
   const hazardName = hazard ? t.hazardNames[hazard.hazardType] ?? t.hazardNames.other : "";
+  // Other active alerts with a known area are drawn too (the situation's own alert is drawn above).
+  const otherAlerts = liveHazards.filter((h) => h.center && h.severity !== "info" && h.id !== situation?.alert?.id);
+  const situationAlert = liveHazards.find((h) => h.id === situation?.alert?.id) ?? null;
   const flagged = new Set(situation?.flaggedIds ?? []);
   const [openId, setOpenId] = useState<string | null>(places[0]?.id ?? null);
   const [routes, setRoutes] = useState<Record<string, RouteState>>({});
@@ -172,10 +176,22 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
             maxZoom={19}
           />
           <FitBounds points={points} />
+          {otherAlerts.map((h) => (
+            <Circle
+              key={h.id}
+              center={h.center!}
+              radius={h.radiusMiles * 1609.34}
+              pathOptions={
+                contrast
+                  ? { color: "#000", weight: 2, dashArray: "4 6", fillColor: "#000", fillOpacity: 0.06 }
+                  : { color: HAZARD_RED, weight: 1.5, dashArray: "4 6", fillColor: HAZARD_RED, fillOpacity: 0.08 }
+              }
+            />
+          ))}
           {hazardPoint && (
             <Circle
               center={hazardPoint}
-              radius={HAZARD_RADIUS_MILES * 1609.34}
+              radius={hazardRadius * 1609.34}
               pathOptions={
                 contrast
                   ? { color: "#000", weight: 3, dashArray: "8 6", fillColor: "#000", fillOpacity: 0.12 }
@@ -183,7 +199,8 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
               }
             >
               <Tooltip permanent direction="center" className="hazard-label">
-                {t.hazardArea(hazardName)}
+                {t.hazardArea(hazardName, hazardRadius)}
+                {situationAlert?.source === "Simulated" && ` · ${t.simulatedDemo}`}
               </Tooltip>
             </Circle>
           )}
@@ -252,6 +269,11 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
               }
             />
             {hazardName}
+            {situationAlert && (
+              <span className="font-normal">
+                · {situationAlert.source === "Simulated" ? t.simulatedDemo : situationAlert.source}
+              </span>
+            )}
           </span>
         )}
       </div>
@@ -297,7 +319,7 @@ export default function AnswerMap({ ids, situation }: { ids: string[]; situation
           </div>
 
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-label-sm text-on-surface-variant">
-            <StatusBadge status={openStatus(open)} />
+            <StatusBadge status={openStatus(open)} unconfirmed={open.status === "unknown"} />
             {statusLine(openStatus(open), t) && <span>{statusLine(openStatus(open), t)}</span>}
             {open.tags.includes("wheelchair") && (
               <span title={t.wheelchair}>

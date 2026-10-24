@@ -30,6 +30,10 @@ export interface SituationResult {
   /** Place names the resident gave that we couldn't find. */
   notFound: string[];
   flaggedIds: string[];
+  /** How far the hazard reaches (a live alert's radius); 1 mile for a place the resident named. */
+  hazardRadiusMiles?: number;
+  /** The live alert the situation came from, so the app can show its source. */
+  alert?: { id: string; title: string; source: string; sourceUrl: string; place?: string } | null;
 }
 
 const NONE: ExtractedSituation = { hazardType: "none", hazardPlace: null, userPlace: null, needs: [] };

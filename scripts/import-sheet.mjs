@@ -6,6 +6,7 @@
 // missing phones/languages/services stay empty, and every row keeps Soup's source
 // (its Google Maps place) and last-verified date. Problems are printed at the end.
 import { readFileSync, writeFileSync } from "node:fs";
+import process from "node:process";
 
 const SHEET_CSV =
   "https://docs.google.com/spreadsheets/u/1/d/e/2PACX-1vTJYCzW4T7VlcRqc6rHGicc4z7PfouSb4puAOZq_dqZhmP0BENd94nQhXZdblcMVvoHERzYx53MFo6m/pub?gid=0&single=true&output=csv";
