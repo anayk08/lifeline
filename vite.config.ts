@@ -22,8 +22,8 @@ export default defineConfig({
           "Verified, offline-ready finder for pharmacies, food, cooling centers and charging spots in San José.",
         start_url: "/",
         display: "standalone",
-        background_color: "#f8f9ff",
-        theme_color: "#0b1f3a",
+        background_color: "#fef9ef",
+        theme_color: "#075d60",
         icons: [
           { src: "pwa-192x192.png", sizes: "192x192", type: "image/png" },
           { src: "pwa-512x512.png", sizes: "512x512", type: "image/png" },

@@ -1,3 +1,4 @@
+import { DEMOS, randomDemo } from "../../shared/hazards";
 import { RESOURCES, ZIP_CENTERS, type Lang } from "../../shared/resources";
 import { Page } from "../components/Shell";
 import { Icon } from "../components/ui";
@@ -104,14 +105,35 @@ export default function Settings() {
         <Toggle id="large" icon="text_increase" label={t.largeText} help={t.largeTextHelp} checked={settings.largeText} onChange={(v) => update({ largeText: v })} />
         <Toggle id="motion" icon="motion_photos_off" label={t.reduceMotion} help={t.reduceMotionHelp} checked={settings.reduceMotion} onChange={(v) => update({ reduceMotion: v })} />
         <Toggle id="read" icon="volume_up" label={t.autoRead} help={t.autoReadHelp} checked={settings.autoRead} onChange={(v) => update({ autoRead: v })} />
-        <Toggle id="battery" icon="battery_saver" label={t.batterySaver} help={t.batterySaverHelp} checked={settings.batterySaver} onChange={(v) => update({ batterySaver: v })} />
+        <Toggle id="dark" icon="dark_mode" label={t.darkMode} help={t.darkModeHelp} checked={settings.darkMode} onChange={(v) => update({ darkMode: v })} />
       </fieldset>
 
       <fieldset className="flex flex-col gap-2">
         <legend className="text-label-lg text-primary mb-1 flex items-center gap-1">
           <Icon name="science" /> {t.demo}
         </legend>
-        <Toggle id="demo-quake" icon="emergency" label={t.demoQuake} help={t.demoQuakeHelp} checked={settings.demoQuake} onChange={(v) => update({ demoQuake: v })} />
+        <Toggle
+          id="demo"
+          icon="emergency"
+          label={t.demoRandom}
+          help={t.demoRandomHelp}
+          checked={settings.demo !== null}
+          onChange={(v) => update({ demo: v ? randomDemo(settings.demo) : null })}
+        />
+        {settings.demo && (
+          <div className="flex flex-wrap items-center justify-between gap-2 px-1">
+            <p className="text-[0.875rem]">
+              {t.demoNow}: <strong>{t.alertNames[DEMOS[settings.demo].type]}</strong>
+            </p>
+            <button
+              type="button"
+              onClick={() => update({ demo: randomDemo(settings.demo) })}
+              className="min-h-[2.75rem] px-4 rounded-xl bg-surface-container-low text-primary text-[0.875rem] font-semibold"
+            >
+              {t.demoAnother}
+            </button>
+          </div>
+        )}
       </fieldset>
 
       <section className="bg-surface-container-low rounded-2xl p-4 border border-surface-variant flex flex-col gap-1">

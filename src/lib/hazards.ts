@@ -41,7 +41,13 @@ export function minutesSince(iso: string, now = Date.now()): number {
 
 /** "M6.2 earthquake near SJSU" in the app language (feed titles stay as published). */
 export function alertTitle(h: LiveHazard, t: Strings): string {
-  const title = h.type === "earthquake" && h.magnitude != null ? t.quakeTitle(h.magnitude.toFixed(1)) : h.title;
+  // Live alerts keep their official names; simulated ones read in the app language.
+  const title =
+    h.type === "earthquake" && h.magnitude != null
+      ? t.quakeTitle(h.magnitude.toFixed(1))
+      : h.source === "Simulated"
+        ? t.alertNames[h.type] ?? h.title
+        : h.title;
   return h.place ? `${title} ${t.near(h.place)}` : title;
 }
 

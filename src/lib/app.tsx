@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import type { LiveHazard } from "../../shared/hazards";
+import type { DemoId, LiveHazard } from "../../shared/hazards";
 import { distanceMiles, zipCenter, type Lang } from "../../shared/resources";
 import { getHazards } from "./backend";
 import { STRINGS, type Strings } from "./i18n";
@@ -7,14 +7,17 @@ import { STRINGS, type Strings } from "./i18n";
 export interface Settings {
   lang: Lang;
   zip: string;
-  batterySaver: boolean;
+  /** Dark colors instead of the light Figma palette. */
+  darkMode: boolean;
   onboarded: boolean;
   highContrast: boolean;
   largeText: boolean;
   reduceMotion: boolean;
   autoRead: boolean;
-  /** Demo mode: adds a simulated M6.2 earthquake at SJSU to the live alerts. */
-  demoQuake: boolean;
+  /** Demo mode: a simulated hazard (picked at random) added to the live alerts, or null when off. */
+  demo: DemoId | null;
+  /** A place the person typed as their area ("Spartan Village"); only the latest is kept. */
+  area: { label: string; lat: number; lng: number } | null;
 }
 
 const prefers = (q: string) => typeof window !== "undefined" && window.matchMedia?.(q).matches === true;
@@ -23,13 +26,14 @@ const prefers = (q: string) => typeof window !== "undefined" && window.matchMedi
 const DEFAULTS: Settings = {
   lang: "en",
   zip: "",
-  batterySaver: false,
+  darkMode: prefers("(prefers-color-scheme: dark)"),
   onboarded: false,
   highContrast: prefers("(prefers-contrast: more)") || prefers("(forced-colors: active)"),
   largeText: false,
   reduceMotion: prefers("(prefers-reduced-motion: reduce)"),
   autoRead: false,
-  demoQuake: false,
+  demo: null,
+  area: null,
 };
 const SETTINGS_KEY = "lifeline.settings";
 const HAZARDS_KEY = "lifeline.hazards";
@@ -39,8 +43,8 @@ interface SavedHazards {
   hazards: LiveHazard[];
   /** When the list was last fetched; shown as "as of 2:14 PM" when it may be out of date. */
   fetchedAt: string | null;
-  /** Whether the list included the demo, so turning demo mode off doesn't show a stale demo alert. */
-  demo: boolean;
+  /** Which demo the list included, if any. */
+  demo: string | null;
 }
 
 // Storage can be unavailable (private mode, blocked site data), so every access is guarded.
@@ -72,8 +76,10 @@ interface AppState {
   requestGps: () => void;
   watchGps: () => () => void;
   gpsError: boolean;
-  /** Best known position: GPS if allowed, else the center of the saved ZIP. */
+  /** Best known position: GPS if allowed, else a place they typed, else the center of the saved ZIP. */
   origin: [number, number] | null;
+  /** What `origin` is, for labels: "gps", "area" or "zip". */
+  originSource: "gps" | "area" | "zip" | null;
   /** Active alerts, newest list we have (live, or saved from the last time we had a signal). */
   hazards: LiveHazard[];
   hazardsAt: string | null;
@@ -118,12 +124,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const html = document.documentElement;
-    html.classList.toggle("dark", settings.batterySaver);
+    html.classList.toggle("dark", settings.darkMode);
     html.classList.toggle("hc", settings.highContrast);
     html.classList.toggle("large-text", settings.largeText);
-    html.classList.toggle("reduce-motion", settings.reduceMotion || settings.batterySaver);
+    html.classList.toggle("reduce-motion", settings.reduceMotion);
     html.lang = settings.lang;
-  }, [settings.batterySaver, settings.highContrast, settings.largeText, settings.reduceMotion, settings.lang]);
+  }, [settings.darkMode, settings.highContrast, settings.largeText, settings.reduceMotion, settings.lang]);
 
   // Only move the position when it changes by more than ~25 m, so GPS jitter
   // doesn't re-rank lists or refetch routes every second.
@@ -156,15 +162,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   // Live alerts: on load, every 5 minutes, when the app comes back to the front, and when
   // the signal or demo mode changes. The last list is saved so it still shows offline.
-  const [saved, setSaved] = useState<SavedHazards>(() => readStore(HAZARDS_KEY, { hazards: [], fetchedAt: null, demo: false }));
+  const [saved, setSaved] = useState<SavedHazards>(() => readStore(HAZARDS_KEY, { hazards: [], fetchedAt: null, demo: null }));
   const [lastFetchOk, setLastFetchOk] = useState(false);
   const hazardsFresh = online && lastFetchOk;
-  const demo = settings.demoQuake;
+  const demo = settings.demo;
   useEffect(() => {
     if (!online) return;
     let cancelled = false;
     const refresh = () =>
-      getHazards(demo ? "earthquake-sjsu" : null)
+      getHazards(demo)
         .then((feed) => {
           if (cancelled) return;
           const next = { hazards: feed.hazards, fetchedAt: feed.fetchedAt, demo };
@@ -183,9 +189,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
       document.removeEventListener("visibilitychange", onVisible);
     };
   }, [online, demo]);
-  // Turning demo mode off hides the simulated alert right away, even before the next fetch.
+  // Turning demo mode off (or picking another scenario) hides the old simulated alert right away.
   const hazards = useMemo(
-    () => (demo ? saved.hazards : saved.hazards.filter((h) => h.source !== "Simulated")),
+    () => saved.hazards.filter((h) => h.source !== "Simulated" || h.id === `demo-${demo}`),
     [saved.hazards, demo],
   );
 
@@ -208,7 +214,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       requestGps,
       watchGps,
       gpsError,
-      origin: gps ?? (settings.zip ? zipCenter(settings.zip) : null),
+      origin: gps ?? (settings.area ? [settings.area.lat, settings.area.lng] : settings.zip ? zipCenter(settings.zip) : null),
+      originSource: gps ? "gps" : settings.area ? "area" : settings.zip && zipCenter(settings.zip) ? "zip" : null,
       hazards,
       hazardsAt: saved.fetchedAt,
       hazardsFresh,

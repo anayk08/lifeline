@@ -2,47 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Palette from the team's Figma redesign: warm cream, deep teal, soft mint. */
 :root {
-  --background: #f8f9ff;
-  --surface: #f8f9ff;
+  --background: #fef9ef;
+  --surface: #fef9ef;
   --surface-container-lowest: #ffffff;
-  --surface-container-low: #eef4ff;
-  --surface-container: #e8eefa;
-  --surface-container-high: #e2e9f4;
-  --surface-variant: #dce3ef;
-  --on-surface: #151c24;
-  --on-surface-variant: #44474d;
-  --outline: #75777e;
-  --primary: #000615;
-  --primary-container: #0b1f3a;
+  --surface-container-low: #e8f0eb;
+  --surface-container: #f1f3f2;
+  --surface-container-high: #edece3;
+  --surface-variant: #d9e1d9;
+  --on-surface: #163b3b;
+  --on-surface-variant: #586a66;
+  --outline: #586a66;
+  --primary: #075d60;
+  --primary-container: #075d60;
   --on-primary: #ffffff;
   --inverse-primary: #b5c7ea;
-  --secondary: #835400;
-  --secondary-container: #ffad2e;
-  --error: #ba1a1a;
-  --error-container: #ffdad6;
-  --on-error-container: #93000a;
-  --open: #1e9e5a;
-  --open-container: #e8f6ee;
-  --on-open-container: #126439;
+  --secondary: #805112;
+  --secondary-container: #f9a825;
+  --error: #b71c1c;
+  --error-container: #ffebee;
+  --on-error-container: #b71c1c;
+  --open: #2e7d32;
+  --open-container: #e8f5e9;
+  --on-open-container: #1b5e20;
+  /* Alert and caution cards. */
+  --warn-container: #fff3df;
+  --warn-border: #e6c891;
+  --on-warn-container: #805112;
+  --map: #edece3;
   color-scheme: light;
 }
 
-/* Battery Saver: true-black OLED palette with high contrast text. */
+/* Dark mode: the Figma teal palette on deep green-black. */
 html.dark {
-  --background: #000000;
-  --surface: #000000;
-  --surface-container-lowest: #0b0f14;
-  --surface-container-low: #10161d;
-  --surface-container: #161d26;
-  --surface-container-high: #1d2632;
-  --surface-variant: #2a3542;
-  --on-surface: #f2f5f8;
-  --on-surface-variant: #b8c4d0;
-  --outline: #8d99a6;
-  --primary: #e3ecff;
-  --primary-container: #1d3354;
-  --on-primary: #ffffff;
+  --background: #0d1a1a;
+  --surface: #0d1a1a;
+  --surface-container-lowest: #142626;
+  --surface-container-low: #1b3231;
+  --surface-container: #1f3534;
+  --surface-container-high: #243b3a;
+  --surface-variant: #2f4a48;
+  --on-surface: #e7f1ee;
+  --on-surface-variant: #a9beb8;
+  --outline: #8aa39d;
+  --primary: #6cc9c3;
+  --primary-container: #6cc9c3;
+  --on-primary: #0b1a1a;
   --inverse-primary: #b5c7ea;
   --secondary: #ffb957;
   --secondary-container: #ffad2e;
@@ -52,6 +58,10 @@ html.dark {
   --open: #2fbf72;
   --open-container: #0c2a1a;
   --on-open-container: #85faac;
+  --warn-container: #2a1f0c;
+  --warn-border: #6b5220;
+  --on-warn-container: #ffd28a;
+  --map: #10161d;
   color-scheme: dark;
 }
 
@@ -80,6 +90,10 @@ html.hc {
   --open: #004d20;
   --open-container: #ffffff;
   --on-open-container: #004d20;
+  --warn-container: #ffffff;
+  --warn-border: #000000;
+  --on-warn-container: #000000;
+  --map: #ffffff;
   --focus: #0000ee;
 }
 
@@ -106,6 +120,10 @@ html.hc.dark {
   --open: #7dff9e;
   --open-container: #000000;
   --on-open-container: #7dff9e;
+  --warn-container: #000000;
+  --warn-border: #ffffff;
+  --on-warn-container: #ffd400;
+  --map: #000000;
   --focus: #ffd400;
 }
 
@@ -235,4 +253,117 @@ html.hc .leaflet-tile-pane {
 .leaflet-div-icon.pin {
   background: transparent;
   border: none;
+}
+
+/* Figma line icons, drawn as a mask so they take the surrounding text color. */
+.ficon {
+  display: inline-block;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+/* Category colors stay recognizable but go black and white in high contrast. */
+html.hc .cat-tint {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000;
+}
+html.hc .cat-solid {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+html.hc.dark .cat-tint {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff;
+}
+html.hc.dark .cat-solid {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+html.hc .bg-primary,
+html.hc .bg-primary-container {
+  color: var(--on-primary) !important;
+}
+
+/* A calm, mostly neutral street map (close to the Figma schematic) so the colored pins stand out. */
+.tiles-soft {
+  filter: saturate(0.12) sepia(0.08) brightness(1.1) contrast(0.82);
+}
+html.hc .tiles-soft {
+  filter: grayscale(1) contrast(1.15);
+}
+
+/* Alert circle key in the corner of the map. */
+.hazard-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: var(--surface-container-lowest);
+  color: #9b0000;
+  border: 1px solid #e6a5a5;
+  border-radius: 8px;
+  padding: 0.125rem 0.5rem;
+  font: 600 0.6875rem/1rem Inter, sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 51, 51, 0.12);
+}
+.hazard-dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 99px;
+  flex-shrink: 0;
+  border: 2px solid #e03131;
+  background: rgba(224, 49, 49, 0.2);
+}
+html.hc .hazard-chip {
+  color: var(--on-surface);
+  border: 2px solid var(--on-surface);
+}
+html.hc .hazard-dot {
+  border: 2px dashed var(--on-surface);
+  background: transparent;
+}
+
+/* Minimal scale: a thin bar with a small label, like the Figma "500 ft" marker. */
+.leaflet-control-scale {
+  margin: 0 0 8px 10px !important;
+}
+.leaflet-control-scale-line {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid var(--on-surface-variant) !important;
+  color: var(--on-surface-variant) !important;
+  font: 500 9px/12px Inter, sans-serif !important;
+  padding: 0 2px !important;
+  text-shadow: 0 0 2px var(--surface-container-lowest);
+  box-shadow: none !important;
+}
+/* Map credit: required by OpenStreetMap, kept small and quiet. */
+.leaflet-control-attribution {
+  background: transparent !important;
+  font: 400 8px/10px Inter, sans-serif !important;
+  color: var(--on-surface-variant) !important;
+  opacity: 0.7;
+  padding: 0 6px 2px !important;
+}
+.leaflet-control-attribution a {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+/* Dark mode: light teal buttons take dark text; the street map is inverted to match. */
+html.dark:not(.hc) .bg-primary,
+html.dark:not(.hc) .bg-primary-container {
+  color: var(--on-primary) !important;
+}
+html.dark:not(.hc) .tiles-soft {
+  filter: invert(1) hue-rotate(180deg) saturate(0.15) brightness(0.85) contrast(0.9);
+}
+html.dark:not(.hc) .cat-tint {
+  filter: brightness(0.92);
+}
+html.dark:not(.hc) .hazard-chip {
+  color: #ffb3b3;
+  border-color: #8a3a3a;
 }

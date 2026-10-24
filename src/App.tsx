@@ -1,7 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
 import { useApp, useRoute } from "./lib/app";
 import { flushPendingReports } from "./lib/backend";
-import Ask from "./pages/Ask";
 import Home from "./pages/Home";
 import ListPage from "./pages/ListPage";
 import Place from "./pages/Place";
@@ -20,14 +19,13 @@ export default function App() {
     if (online) flushPendingReports();
   }, [online]);
 
+  // "#/ask?q=..." (older links and the plan) opens Home, which asks Leslie the question.
   const [page, arg] = route;
   if (!settings.onboarded) return <Welcome />;
 
   return (
     <Suspense fallback={<div className="p-6 text-body-lg">…</div>}>
-      {page === "ask" ? (
-        <Ask />
-      ) : page === "map" ? (
+      {page === "map" ? (
         <MapPage />
       ) : page === "list" ? (
         <ListPage category={arg ?? "all"} />

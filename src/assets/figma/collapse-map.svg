@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Collapse map" filter="url(#filter0_d_0_50)">
+<rect x="5" y="3" width="44" height="44" rx="10" fill="white"/>
+<rect x="5.5" y="3.5" width="43" height="43" rx="9.5" stroke="#D9E1D9"/>
+<path id="Collapse corners" d="M18 21.625H23.625V16M30.375 16V21.625H36M36 28.375H30.375V34M23.625 34V28.375H18" stroke-width="1.8" stroke-linecap="round" stroke="#075D60"/>
+</g>
+<defs>
+<filter id="filter0_d_0_50" x="0" y="0" width="54" height="54" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="2.5"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.2 0 0 0 0 0.2 0 0 0 0.121569 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_50"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_50" result="shape"/>
+</filter>
+</defs>
+</svg>

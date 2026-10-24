@@ -46,8 +46,43 @@ const CACHE_MS = 2 * 60_000;
 const USER_AGENT = "Lifeline (SpartHill Hacks 2026 demo)";
 
 export const SJSU: [number, number] = [37.3352, -121.8811];
-export const DEMO_IDS = ["earthquake-sjsu"] as const;
-export type DemoId = (typeof DEMO_IDS)[number];
+// Simulated scenarios for demo mode, one per kind of alert the app handles. Each one reaches SJSU and
+// downtown, so the "Are you affected?" card shows during a demo. Always labeled "Simulated".
+type DemoScenario = Omit<LiveHazard, "id" | "startedAt" | "source">;
+export const DEMOS = {
+  "earthquake-sjsu": {
+    type: "earthquake", title: "M6.2 earthquake", severity: "critical", center: SJSU, radiusMiles: 5,
+    sourceUrl: "https://earthquake.usgs.gov/earthquakes/map/", place: "SJSU", magnitude: 6.2,
+  },
+  "heat-san-jose": {
+    type: "extreme_heat", title: "Excessive Heat Warning", severity: "critical", center: null, radiusMiles: 9,
+    sourceUrl: "https://www.weather.gov/safety/heat", place: "San José",
+  },
+  "smoke-san-jose": {
+    type: "wildfire_smoke", title: "Air Quality Alert (wildfire smoke)", severity: "warning", center: null, radiusMiles: 9,
+    sourceUrl: "https://www.airnow.gov/", place: "San José",
+  },
+  "outage-downtown": {
+    type: "power_outage", title: "Power outage", severity: "warning", center: [37.3382, -121.8863], radiusMiles: 1.5,
+    sourceUrl: "https://www.ready.gov/power-outages", place: "Downtown San José",
+  },
+  "flood-guadalupe": {
+    type: "flood", title: "Flash Flood Warning", severity: "critical", center: [37.3305, -121.9005], radiusMiles: 2,
+    sourceUrl: "https://www.weather.gov/safety/flood", place: "Guadalupe River",
+  },
+  "wildfire-foothills": {
+    type: "wildfire", title: "Wildfire (450 acres)", severity: "critical", center: [37.37, -121.79], radiusMiles: 6,
+    sourceUrl: "https://www.ready.gov/wildfires", place: "East Foothills",
+  },
+} satisfies Record<string, DemoScenario>;
+export type DemoId = keyof typeof DEMOS;
+export const DEMO_IDS = Object.keys(DEMOS) as DemoId[];
+
+/** A demo scenario other than the current one, so each pick is a change. */
+export function randomDemo(current?: string | null): DemoId {
+  const choices = DEMO_IDS.filter((id) => id !== current);
+  return choices[Math.floor(Math.random() * choices.length)];
+}
 
 // ---- Helpers shared with the app ---------------------------------------------
 
@@ -292,30 +327,20 @@ async function refresh(source: (typeof SOURCES)[number], now: number): Promise<S
   }
 }
 
-let demoStartedAt: number | null = null;
+const demoStartedAt = new Map<DemoId, number>();
 
-/** A simulated M6.2 earthquake centered on SJSU, "started a few minutes ago" and stable across calls. */
+/** A simulated alert that "started a few minutes ago" and keeps that start time across calls. */
 export function demoHazard(id: DemoId, now = Date.now()): LiveHazard {
-  if (!demoStartedAt || now - demoStartedAt > 6 * 3_600_000) demoStartedAt = now - 4 * 60_000;
-  return {
-    id: `demo-${id}`,
-    type: "earthquake",
-    title: "M6.2 earthquake",
-    severity: "critical",
-    startedAt: new Date(demoStartedAt).toISOString(),
-    center: SJSU,
-    radiusMiles: 5,
-    source: "Simulated",
-    sourceUrl: "https://earthquake.usgs.gov/earthquakes/map/",
-    place: "SJSU",
-    magnitude: 6.2,
-  };
+  const started = demoStartedAt.get(id);
+  if (!started || now - started > 6 * 3_600_000) demoStartedAt.set(id, now - 4 * 60_000);
+  const scenario: DemoScenario = DEMOS[id];
+  return { ...scenario, id: `demo-${id}`, startedAt: new Date(demoStartedAt.get(id)!).toISOString(), source: "Simulated" };
 }
 
 export async function getHazards(demo?: string | null, now = Date.now()): Promise<HazardFeed> {
   const results = await Promise.all(SOURCES.map((s) => refresh(s, now)));
   const hazards = results.flatMap((r) => r.hazards);
-  if (demo && (DEMO_IDS as readonly string[]).includes(demo)) hazards.push(demoHazard(demo as DemoId, now));
+  if (demo && demo in DEMOS) hazards.push(demoHazard(demo as DemoId, now));
   return {
     hazards: hazards.sort(byImportance),
     fetchedAt: new Date(now).toISOString(),

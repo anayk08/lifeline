@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-// Design tokens come from the team's Google Stitch designs. Colors are CSS variables
+// Design tokens come from the team's Figma redesign. Colors are CSS variables
 // so Battery Saver (dark) mode can swap them in src/index.css.
 const v = (name) => `var(--${name})`;
 
@@ -31,6 +31,10 @@ export default {
         open: v("open"),
         "open-container": v("open-container"),
         "on-open-container": v("on-open-container"),
+        "warn-container": v("warn-container"),
+        "warn-border": v("warn-border"),
+        "on-warn-container": v("on-warn-container"),
+        map: v("map"),
       },
       borderRadius: {
         DEFAULT: "0.25rem",
@@ -48,7 +52,7 @@ export default {
         "space-xl": "2.25rem",
       },
       fontFamily: {
-        sans: ['"Atkinson Hyperlegible Next"', '"Atkinson Hyperlegible"', "system-ui", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
       // rem units, so the "Larger text" setting (and the phone's own text size) scales everything.
       fontSize: {

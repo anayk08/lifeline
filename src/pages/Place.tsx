@@ -9,9 +9,11 @@ import {
   type DayKey,
 } from "../../shared/resources";
 import { Page } from "../components/Shell";
-import { CATEGORY_EMOJI, Icon, PrimaryButton, StatusBadge, VerifiedBadge, directionsUrl, statusLine, verifiedAgo } from "../components/ui";
+import { CATEGORY_STYLE, FIcon } from "../components/figma";
+import { Icon, PrimaryButton, StatusBadge, VerifiedBadge, statusLine, verifiedAgo } from "../components/ui";
 import { useApp } from "../lib/app";
 import { reportProblem } from "../lib/backend";
+import { mapsLink } from "../lib/maps";
 
 const LANG_LABEL: Record<string, string> = {
   en: "English",
@@ -43,6 +45,7 @@ export default function Place({ id }: { id: string }) {
   }
   const status = openStatus(r);
   const miles = origin ? distanceMiles(origin[0], origin[1], r.lat, r.lng) : null;
+  const maps = mapsLink(r, origin);
   const today = sanJoseNow().day;
   const dayName = (d: DayKey) =>
     new Intl.DateTimeFormat(settings.lang, { weekday: "long" }).format(
@@ -56,18 +59,21 @@ export default function Place({ id }: { id: string }) {
 
   return (
     <Page back="history">
-      <article className="flex flex-col gap-space-sm">
+      <article className="bg-surface-container-lowest border border-surface-variant rounded-2xl p-4 flex flex-col gap-space-xs">
+        <p className="flex items-center gap-1.5 text-[0.75rem] text-on-surface-variant flex-wrap">
+          <span
+            className="cat-tint inline-flex items-center gap-1.5 px-2 py-1 rounded-full font-semibold"
+            style={{ background: CATEGORY_STYLE[r.category].tint, color: CATEGORY_STYLE[r.category].text }}
+          >
+            <FIcon name={CATEGORY_STYLE[r.category].icon} size={12} /> {t.categoryNames[r.category] ?? r.category}
+          </span>
+          {miles !== null && t.miAwayShort(miles.toFixed(1))}
+        </p>
+        <h1 className="text-[1.25rem] leading-6 font-bold text-on-surface">{r.name}</h1>
         <div className="flex items-center gap-2 flex-wrap">
           <StatusBadge status={status} solid unconfirmed={r.status === "unknown"} />
           <VerifiedBadge r={r} />
-          {miles !== null && (
-            <span className="text-label-sm text-on-surface-variant ml-auto">{t.miAway(miles.toFixed(1))}</span>
-          )}
         </div>
-        <h1 className="text-headline-xl text-primary flex gap-2">
-          <span aria-hidden="true">{CATEGORY_EMOJI[r.category]}</span>
-          {r.name}
-        </h1>
         {statusLine(status, t) && <p className="text-body-lg text-on-surface">{statusLine(status, t)}</p>}
         {r.status !== "open" && (
           <p className="text-body-md bg-error-container text-on-error-container rounded-xl p-3 flex gap-2">
@@ -89,12 +95,12 @@ export default function Place({ id }: { id: string }) {
               <Icon name="call" /> {r.phone.replace(/^\+1-?/, "")}
             </a>
           )}
-          <a href={directionsUrl(r)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-on-surface text-body-lg underline underline-offset-4 min-h-[44px]">
+          <a href={maps} {...(maps.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className="inline-flex items-center gap-2 text-on-surface text-body-lg underline underline-offset-4 min-h-[44px]">
             <Icon name="location_on" className="text-error" /> {r.address}
           </a>
         </div>
 
-        <PrimaryButton href={directionsUrl(r)} external icon="directions">
+        <PrimaryButton href={maps} external={maps.startsWith("http")} icon="directions">
           {t.directions}
         </PrimaryButton>
 

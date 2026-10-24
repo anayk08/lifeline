@@ -1,10 +1,8 @@
 import type { ReactNode } from "react";
 import {
-  CATEGORY_LABELS,
   daysSinceVerified,
   formatTime,
   isStale,
-  openStatus,
   type OpenStatus,
   type Resource,
 } from "../../shared/resources";
@@ -18,18 +16,6 @@ export function Icon({ name, fill, className = "" }: { name: string; fill?: bool
   );
 }
 
-export const CATEGORY_EMOJI: Record<string, string> = {
-  pharmacy: "💊",
-  health: "🩺",
-  food: "🍲",
-  cooling: "❄️",
-  charging: "🔌",
-  shelter: "🛏️",
-  water: "💧",
-  ev_charging: "🚗",
-};
-
-/** `unconfirmed`: the team couldn't confirm the place is operating, so listed hours alone don't earn "Open now". */
 export function StatusBadge({ status, solid, unconfirmed }: { status: OpenStatus; solid?: boolean; unconfirmed?: boolean }) {
   const { t } = useApp();
   if (status.state === "open" && !unconfirmed) {
@@ -90,69 +76,6 @@ export function verifiedAgo(r: Resource, lang: string): string {
   return days === 0 ? fmt : `${fmt}`;
 }
 
-export function directionsUrl(r: Resource) {
-  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(r.address)}`;
-}
-
-export function ResourceCard({
-  r,
-  miles,
-  compact,
-}: {
-  r: Resource;
-  miles: number | null;
-  compact?: boolean;
-}) {
-  const { t, settings } = useApp();
-  const status = openStatus(r);
-  const line = statusLine(status, t);
-  return (
-    <a
-      href={`#/place/${encodeURIComponent(r.id)}`}
-      className="block bg-surface-container-lowest border-[1.5px] border-surface-variant rounded-2xl p-4 shadow-sm hover:border-primary-container focus:outline-none focus:ring-4 focus:ring-secondary-container active:scale-[0.99] transition-transform"
-    >
-      <div className="flex items-center justify-between gap-2 flex-wrap">
-        <StatusBadge status={status} unconfirmed={r.status === "unknown"} />
-        {miles !== null && (
-          <span className="text-label-md text-on-surface-variant flex items-center gap-1">
-            <Icon name="near_me" className="!text-[18px]" />
-            {t.miAway(miles < 10 ? miles.toFixed(1) : miles.toFixed(0))}
-          </span>
-        )}
-      </div>
-      <h3 className="text-headline-md text-primary mt-2 flex items-start gap-2">
-        <span aria-hidden="true">{CATEGORY_EMOJI[r.category]}</span>
-        <span>{r.name}</span>
-      </h3>
-      {!compact && r.services.length > 0 && (
-        <p className="text-body-md text-on-surface-variant mt-1 line-clamp-2">{r.services.slice(0, 4).join(" · ")}</p>
-      )}
-      <div className="mt-2 pt-2 border-t border-surface-variant flex items-center justify-between gap-2 text-label-sm text-on-surface-variant">
-        <span className="flex items-center gap-1 min-w-0">
-          <Icon name="location_on" className="!text-[18px] shrink-0" />
-          <span className="truncate">{r.address.replace(/, San Jos[eé],? CA.*$/i, "")}</span>
-        </span>
-        <span className="shrink-0">{line}</span>
-      </div>
-      <p className="sr-only">
-        {CATEGORY_LABELS[r.category]}. {t.checked(verifiedAgo(r, settings.lang))}
-      </p>
-    </a>
-  );
-}
-
-export function Section({ title, aside, children }: { title: string; aside?: ReactNode; children: ReactNode }) {
-  return (
-    <section className="flex flex-col gap-space-xs">
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="text-headline-lg text-primary">{title}</h2>
-        {aside}
-      </div>
-      {children}
-    </section>
-  );
-}
-
 export function PrimaryButton({ href, onClick, icon, children, external }: {
   href?: string;
   onClick?: () => void;
@@ -161,7 +84,7 @@ export function PrimaryButton({ href, onClick, icon, children, external }: {
   external?: boolean;
 }) {
   const cls =
-    "w-full min-h-[56px] px-space-md bg-secondary-container text-[#151c24] text-headline-md rounded-2xl flex items-center justify-center gap-2 shadow-sm border-2 border-primary-container active:scale-[0.98] transition-transform focus:outline-none focus:ring-4 focus:ring-secondary-container";
+    "w-full min-h-[3rem] px-space-md bg-primary text-white text-[0.9375rem] font-semibold rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-transform";
   return href ? (
     <a className={cls} href={href} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
       {icon && <Icon name={icon} />}

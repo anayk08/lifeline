@@ -1,4 +1,5 @@
 import { RESOURCES, type Lang } from "../../shared/resources";
+import { LifelineMark } from "../components/figma";
 import { Icon, PrimaryButton } from "../components/ui";
 import { useApp } from "../lib/app";
 import { LANG_NAMES } from "../lib/i18n";
@@ -8,9 +9,9 @@ export default function Welcome() {
   return (
     <div className="w-full max-w-md mx-auto min-h-screen flex flex-col justify-between px-gutter py-space-xl bg-surface">
       <div className="flex flex-col gap-space-md">
-        <div className="flex items-center gap-2">
-          <Icon name="emergency" fill className="text-primary !text-[40px] !w-[40px]" />
-          <span className="text-headline-xl text-primary">{t.welcomeTitle}</span>
+        <div className="flex items-center gap-[0.5625rem]">
+          <LifelineMark size={40} />
+          <span className="text-[1.75rem] font-bold text-on-surface">{t.welcomeTitle}</span>
         </div>
         <p className="text-headline-md text-on-surface">{t.appTagline}</p>
         <p className="text-body-lg text-on-surface-variant">{t.welcomeBody}</p>
