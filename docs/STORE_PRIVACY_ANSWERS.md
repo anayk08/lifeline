@@ -46,7 +46,7 @@ Data types (all **Not linked to the user**, purpose **App Functionality**, none 
 |---|---|
 | Does your app collect or share any of the required user data types? | **Yes** |
 | Is all of the user data encrypted in transit? | **Yes** (HTTPS) |
-| Do you provide a way for users to request that their data is deleted? | **Yes**: in-app "Delete data on this device" and the public page `#/legal/data-deletion` |
+| Do you provide a way for users to request that their data is deleted? | **Yes**: clearing site data or uninstalling removes on-device data; reports are deleted on request by email (Terms & Conditions → Privacy, section 7). Play also needs a public deletion URL (see COMPLIANCE_TODO.md) |
 
 | Data type | Collected | Shared | Ephemeral | Required? | Purpose |
 |---|---|---|---|---|---|

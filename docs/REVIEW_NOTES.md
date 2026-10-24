@@ -19,8 +19,8 @@ only from the verified place list.
    "Try a different hazard" switches between earthquake, heat, smoke, power outage, flood and wildfire.
    Real alerts (USGS, National Weather Service, CAL FIRE) appear automatically when there are any.
 5. **Offline:** turn on airplane mode after one launch. Places, map pins, saved alerts and safety steps keep working.
-6. **Privacy and data:** Settings → Your data (download, delete) and About & legal (all policies).
-7. **Accessibility:** Settings → high contrast, larger text, reduce motion, dark mode, read answers aloud.
+6. **Terms and privacy:** Settings → About & legal → Terms & Conditions (Terms of Use and Privacy on one page).
+7. **Accessibility:** Settings → high contrast, larger text, dark mode, read answers aloud. The app follows the phone's reduce-motion setting.
 
 ## Things that are expected
 

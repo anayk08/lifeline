@@ -24,7 +24,7 @@ Also in that file: `MONITORING_DSN` (crash reporting, off while empty) and `MAIN
 
 Every file below starts with `<!-- REVIEW WITH LAWYER -->`:
 
-- `src/legal/PrivacyPolicy.tsx`, `Terms.tsx`, `StoragePolicy.tsx`, `Disclaimer.tsx`, `Accessibility.tsx`, `DataDeletion.tsx`, `Licenses.tsx`
+- `src/legal/TermsAndConditions.tsx` (the one Terms & Conditions page), made of `Terms.tsx` (Terms of Use) and `PrivacyPolicy.tsx` (Privacy)
 - `docs/STORE_PRIVACY_ANSWERS.md`
 
 Specific questions for them:
@@ -41,7 +41,8 @@ Vietnamese). After the lawyer signs off, translate them into Spanish and Vietnam
 
 ## 4. Hosting and store setup
 
-- [ ] **Public privacy policy URL:** after deploying, the policy is at `https://<your-domain>/#/legal/privacy` and data deletion at `https://<your-domain>/#/legal/data-deletion`. Some store forms reject `#` links. If so, also publish them as static pages.
+- [ ] **Public privacy policy URL:** after deploying, Terms & Conditions is at `https://<your-domain>/#/legal/terms`, and `#/legal/privacy` opens it at the Privacy part. Some store forms reject `#` links. If so, also publish it as a static page.
+- [ ] **Removed on request (Oct 24):** the in-app Download / Delete my data buttons, the data-deletion page, and the Cookies, Accessibility, Licenses and Disclaimer pages. People now delete on-device data by clearing site data, and reports by email. **Google Play requires a data-deletion URL** if the app is listed there: add a page back, or point it at Terms & Conditions → Privacy, section 7. The © OpenStreetMap credit stays on the map (license requirement), and the font license texts still ship in `public/fonts`.
 - [ ] **Link previews:** in `index.html`, change `og:image` to an absolute URL and add `og:url` once the domain is known.
 - [ ] **Map tiles for production:** OpenStreetMap's free tile servers aren't for apps with real traffic ([tile usage policy](https://operations.osmfoundation.org/policies/tiles/)). Pick a tile provider (or host tiles) before launch, keep the © OpenStreetMap credit, and update the Privacy Policy with the new provider.
 - [ ] **Rate limits on the deployed API:** the laptop server limits requests, but the Amplify/AppSync API (public API key) doesn't yet. Add an AWS WAF rate-based rule or AppSync limits, and budget alerts for Bedrock and Amazon Location.
@@ -70,7 +71,7 @@ Lifeline is a web app today. To list it in the stores it must be wrapped (for ex
 
 - [ ] 14 lint warnings (`react-refresh/only-export-components`): they only affect hot reload during development.
 - [ ] Data minimization: Leslie receives the last 6 messages of the conversation. Fewer would send less. Kept as is.
-- [ ] Figma icons: they look like [Lucide](https://lucide.dev) (ISC license). Confirm with whoever made the Figma file and keep the credit on the licenses page.
+- [ ] Figma icons: they look like [Lucide](https://lucide.dev) (ISC license). Confirm with whoever made the Figma file (ISC needs no on-screen credit, but keep its license text if they're Lucide icons).
 
 ## How to undo any of this
 
@@ -89,8 +90,8 @@ Nothing has been pushed. Everything is in local commits on `main`, with two rest
 
 | Commit | Change |
 |---|---|
-| Legal, About, Help | `src/config/business.ts`, `src/legal/*`, `#/legal/<doc>`, `#/about`, `#/help`, 404 page, footer links, version 1.0.0 + build stamp |
-| Settings | Your data (download, delete on device, deletion request), About & legal links, version, turn AI/map services back off |
+| Legal, About, Help | `src/config/business.ts`, one Terms & Conditions page (`#/legal/terms`), `#/about`, `#/help`, 404 page, footer links, version 1.0.0 + build stamp |
+| Settings | Help, About and Terms & Conditions links, version (the Your data section and the Reduce motion switch were later removed on request) |
 | Data notice | One-time notice before Leslie, place search, routes, plan summary and the mic send anything (EN/ES/VI) |
 | Fonts | Self-hosted Inter and Material Symbols (`npm run fetch-fonts`), no requests to Google |
 | Contrast | Darker pin colors: white text 5.1–5.9:1 (was 2.0–4.4:1) |
