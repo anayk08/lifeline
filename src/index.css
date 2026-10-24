@@ -287,9 +287,9 @@ html.hc .bg-primary-container {
   color: var(--on-primary) !important;
 }
 
-/* A calm, mostly neutral street map (close to the Figma schematic) so the colored pins stand out. */
+/* The street map in color, slightly softened so the category pins still stand out. */
 .tiles-soft {
-  filter: saturate(0.12) sepia(0.08) brightness(1.1) contrast(0.82);
+  filter: saturate(0.85) brightness(1.03) contrast(0.95);
 }
 html.hc .tiles-soft {
   filter: grayscale(1) contrast(1.15);
@@ -358,7 +358,7 @@ html.dark:not(.hc) .bg-primary-container {
   color: var(--on-primary) !important;
 }
 html.dark:not(.hc) .tiles-soft {
-  filter: invert(1) hue-rotate(180deg) saturate(0.15) brightness(0.85) contrast(0.9);
+  filter: invert(1) hue-rotate(180deg) saturate(0.6) brightness(0.85) contrast(0.9);
 }
 html.dark:not(.hc) .cat-tint {
   filter: brightness(0.92);
