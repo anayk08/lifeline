@@ -1,32 +1,15 @@
-// Legal and info pages at #/legal/<doc>. The texts are English-only for now (see COMPLIANCE_TODO.md).
-import type { ComponentType } from "react";
+// Terms & Conditions at #/legal/terms (#/legal/privacy opens the same page at its Privacy part).
+// The text is English-only for now (see COMPLIANCE_TODO.md).
 import { Page } from "../components/Shell";
-import Accessibility from "../legal/Accessibility";
-import DataDeletion from "../legal/DataDeletion";
-import Disclaimer from "../legal/Disclaimer";
-import Licenses from "../legal/Licenses";
-import PrivacyPolicy from "../legal/PrivacyPolicy";
-import StoragePolicy from "../legal/StoragePolicy";
-import Terms from "../legal/Terms";
+import TermsAndConditions from "../legal/TermsAndConditions";
 import NotFound from "./NotFound";
 
-const LEGAL_DOCS: Record<string, ComponentType> = {
-  privacy: PrivacyPolicy,
-  terms: Terms,
-  cookies: StoragePolicy,
-  disclaimer: Disclaimer,
-  accessibility: Accessibility,
-  licenses: Licenses,
-  "data-deletion": DataDeletion,
-};
-
 export default function Legal({ doc }: { doc: string }) {
-  const Content = LEGAL_DOCS[doc];
-  if (!Content) return <NotFound />;
+  if (doc !== "terms" && doc !== "privacy") return <NotFound />;
   return (
     <Page back="history">
       <div lang="en">
-        <Content />
+        <TermsAndConditions section={doc === "privacy" ? "privacy" : undefined} />
       </div>
     </Page>
   );

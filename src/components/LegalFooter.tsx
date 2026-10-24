@@ -1,11 +1,10 @@
 import { useApp } from "../lib/app";
 
-/** Small Privacy · Terms · Help · About links, at the bottom of Home and the Welcome screen. */
+/** Small Terms & Conditions · Help · About links, at the bottom of Home and the Welcome screen. */
 export default function LegalFooter() {
   const { t } = useApp();
   const links: [string, string][] = [
-    ["legal/privacy", t.linkPrivacy],
-    ["legal/terms", t.linkTerms],
+    ["legal/terms", t.termsConditions],
     ["help", t.linkHelp],
     ["about", t.linkAbout],
   ];

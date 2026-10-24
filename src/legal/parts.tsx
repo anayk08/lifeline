@@ -94,3 +94,12 @@ export function DataRow({ what, to, when, why }: { what: ReactNode; to: ReactNod
     </Card>
   );
 }
+
+/** A main part of a combined page (e.g. "Terms of Use", "Privacy"), linkable by id. */
+export function Part({ id, children }: { id: string; children: ReactNode }) {
+  return (
+    <h2 id={id} className="text-[1.25rem] font-semibold text-primary mt-4 pt-3 border-t border-surface-variant scroll-mt-16">
+      {children}
+    </h2>
+  );
+}

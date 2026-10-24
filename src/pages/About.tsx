@@ -46,13 +46,7 @@ export default function About() {
           <H>More</H>
           <ul className="flex flex-col gap-1.5">
             <li><In to="help">Help & FAQ</In></li>
-            <li><In to="legal/privacy">Privacy Policy</In></li>
-            <li><In to="legal/terms">Terms of Use</In></li>
-            <li><In to="legal/disclaimer">Disclaimer</In></li>
-            <li><In to="legal/cookies">Cookies & Storage</In></li>
-            <li><In to="legal/accessibility">Accessibility</In></li>
-            <li><In to="legal/licenses">Open-source licenses & credits</In></li>
-            <li><In to="legal/data-deletion">Delete your data</In></li>
+            <li><In to="legal/terms">Terms & Conditions</In></li>
           </ul>
         </Doc>
       </div>

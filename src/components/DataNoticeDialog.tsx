@@ -37,7 +37,7 @@ export default function DataNoticeDialog({ onContinue, onNotNow }: { onContinue:
           </ul>
           <p className="text-on-surface-variant">{t.noticeLocal}</p>
           <a href="#/legal/privacy" onClick={onNotNow} className="self-start text-primary underline underline-offset-2 min-h-[2.75rem] inline-flex items-center">
-            {t.privacyPolicy}
+            {t.termsConditions}
           </a>
         </div>
         <div className="flex gap-2">

@@ -1,13 +1,13 @@
 // <!-- REVIEW WITH LAWYER -->
-// Written from what the app actually does (October 2026 code). If a feature changes what data
-// is stored or sent, update this page and STORE_PRIVACY_ANSWERS.md together.
-import { Biz, DataRow, Doc, Ext, H, In, List, P, Updated } from "./parts";
+// Part 2 of Terms & Conditions (see TermsAndConditions.tsx). Written from what the app actually
+// does; if a feature changes what data is stored or sent, update this and STORE_PRIVACY_ANSWERS.md.
+import { Biz, DataRow, Ext, H, List, P, Part } from "./parts";
 
 export default function PrivacyPolicy() {
   return (
-    <Doc title="Privacy Policy">
+    <section aria-labelledby="privacy" className="flex flex-col gap-3">
       {/* <!-- REVIEW WITH LAWYER --> */}
-      <Updated />
+      <Part id="privacy">Privacy</Part>
       <P>
         Lifeline is a free app that helps people in San José find open, verified help (pharmacies, hospitals, shelters, food,
         water, cooling centers and charging) during emergencies. It is provided by <Biz k="LEGAL_ENTITY" /> (“
@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
       <List>
         <li>There are no accounts, no sign-in, no ads, no analytics and no cookies.</li>
         <li>We don’t sell or share your personal information, and we don’t use it for advertising.</li>
-        <li>Your settings and saved data stay in your browser on this device. You can delete them any time in Settings.</li>
+        <li>Your settings and saved data stay in your browser on this device. You can delete them any time by clearing this site’s data.</li>
         <li>
           Some features need a service on the internet. When you use them, the details below are sent to that service so it can
           answer.
@@ -36,8 +36,7 @@ export default function PrivacyPolicy() {
         <li>An offline copy of the app, the place list, fonts and map areas you’ve viewed (up to about 1,500 map tiles, kept up to 30 days).</li>
       </List>
       <P>
-        Delete all of it in <In to="settings">Settings → Delete data on this device</In>, or by clearing this site’s data in your
-        browser. You can also download a copy in Settings.
+        To delete all of it, clear this site’s data in your browser’s settings, or remove the app from your home screen.
       </P>
 
       <H>2. What is sent, to whom, and why</H>
@@ -125,13 +124,12 @@ export default function PrivacyPolicy() {
         Depending on where you live (for example the EU/UK under the GDPR, or California under the CCPA/CPRA), you may have the
         right to access, correct, delete or get a copy of your personal information, to object to or limit its use, and to
         complain to a data protection authority. Because Lifeline has no accounts, most of your data is on your device and in your
-        control (see Settings). For anything we hold, such as a report you sent, see{" "}
-        <In to="legal/data-deletion">how to request deletion</In> or email <Biz k="SUPPORT_EMAIL" />. We won’t treat you
-        differently for using these rights.
+        control. For anything we hold, such as a report you sent, email <Biz k="SUPPORT_EMAIL" /> with the place name and roughly
+        when you sent it, and we’ll delete it. We won’t treat you differently for using these rights.
       </P>
       <P>
         Legal bases (GDPR): providing the features you ask for (contract / your request), and your consent for sending data to
-        the AI and map services, which you can withdraw in Settings.
+        the AI and map services. You can withdraw it by clearing this site’s data; the app will ask again before sending anything.
       </P>
 
       <H>8. Children</H>
@@ -149,8 +147,8 @@ export default function PrivacyPolicy() {
 
       <H>10. Changes and contact</H>
       <P>
-        We’ll update the effective date above when this policy changes. Questions: <Biz k="SUPPORT_EMAIL" />, <Biz k="ADDRESS" />.
+        We’ll update the effective date above when this changes. Questions: <Biz k="SUPPORT_EMAIL" />, <Biz k="ADDRESS" />.
       </P>
-    </Doc>
+    </section>
   );
 }

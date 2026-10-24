@@ -9,7 +9,7 @@ const FAQ: [q: string, a: ReactNode][] = [
   ["How do I set my location?", <>Tap the area under “Find help near you”, then use your location or type an address or ZIP code. You can also set a ZIP in <In to="settings">Settings</In>. Location is optional.</>],
   ["What do “Open now” and “Call ahead” mean?", "“Open now” is based on the listed hours. “Call ahead” means we couldn’t confirm the place is operating, so call before you go."],
   ["Who is Leslie?", "Leslie is an AI assistant. She answers from Lifeline’s verified place list, can make mistakes, and doesn’t give medical advice. In an emergency, call 911."],
-  ["What happens to my data?", <>Your settings stay on your device. Questions and locations are sent to our AI and map providers only when you use those features. See the <In to="legal/privacy">Privacy Policy</In>.</>],
+  ["What happens to my data?", <>Your settings stay on your device. Questions and locations are sent to our AI and map providers only when you use those features. See <In to="legal/privacy">Terms & Conditions</In>.</>],
   ["What is demo mode?", "Demo mode adds a made-up alert (earthquake, heat wave, smoke, power outage, flood or wildfire) so you can try the “Are you affected?” plan. Demo alerts are always labeled “Simulated demo”."],
   ["A place has wrong information.", "Open the place, tap “More details”, then “Report wrong info”. A volunteer will re-check it."],
 ];

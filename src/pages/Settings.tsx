@@ -104,7 +104,6 @@ export default function Settings() {
         </legend>
         <Toggle id="hc" icon="visibility" label={t.highContrast} help={t.highContrastHelp} checked={settings.highContrast} onChange={(v) => update({ highContrast: v })} />
         <Toggle id="large" icon="text_increase" label={t.largeText} help={t.largeTextHelp} checked={settings.largeText} onChange={(v) => update({ largeText: v })} />
-        <Toggle id="motion" icon="motion_photos_off" label={t.reduceMotion} help={t.reduceMotionHelp} checked={settings.reduceMotion} onChange={(v) => update({ reduceMotion: v })} />
         <Toggle id="read" icon="volume_up" label={t.autoRead} help={t.autoReadHelp} checked={settings.autoRead} onChange={(v) => update({ autoRead: v })} />
         <Toggle id="dark" icon="dark_mode" label={t.darkMode} help={t.darkModeHelp} checked={settings.darkMode} onChange={(v) => update({ darkMode: v })} />
       </fieldset>
