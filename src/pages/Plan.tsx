@@ -12,6 +12,7 @@ import { Page } from "../components/Shell";
 import { Icon } from "../components/ui";
 import { go, queryParam, readStore, useApp, writeStore } from "../lib/app";
 import { findPlace, makePlan } from "../lib/backend";
+import { useDataNotice } from "../lib/dataNotice";
 import { LAST_PLAN_KEY, LAST_POSITION_KEY, alertTitle, liveSituation, minutesSince, type SavedPlan } from "../lib/hazards";
 import { speak } from "../lib/speech";
 
@@ -23,10 +24,11 @@ interface Position {
   source: "gps" | "zip" | "stated";
 }
 
-type SummaryState = { state: "loading" } | { state: "ready"; plan: PlanResult } | { state: "offline" } | { state: "error" };
+type SummaryState = { state: "loading" } | { state: "ready"; plan: PlanResult } | { state: "offline" } | { state: "error" } | { state: "needsNotice" };
 
 export default function Plan() {
   const { t, settings, online, gps, gpsError, requestGps, hazards } = useApp();
+  const ensureNotice = useDataNotice();
   const [typed, setTyped] = useState<Position | null>(() => {
     const last = readStore<Position | null>(LAST_POSITION_KEY, null);
     return last && last.source === "stated" ? last : null;
@@ -78,6 +80,8 @@ export default function Plan() {
   useEffect(() => {
     if (!alert || locating) return;
     if (!online) return setSummary({ state: "offline" });
+    // The summary sends the alert and location to Bedrock, so it waits for the data notice.
+    if (!settings.dataNotice) return setSummary({ state: "needsNotice" });
     let cancelled = false;
     setSummary({ state: "loading" });
     makePlan({
@@ -98,7 +102,7 @@ export default function Plan() {
     };
     // Re-plan when the alert, the position or the language changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [alertId, origin?.[0], origin?.[1], online, settings.lang, locating]);
+  }, [alertId, origin?.[0], origin?.[1], online, settings.lang, locating, settings.dataNotice]);
 
   const picks =
     summary.state === "ready"
@@ -128,16 +132,21 @@ export default function Plan() {
       return setTyped({ lat, lng, label: `ZIP ${zip}`, source: "stated" });
     }
     if (!online) return setWhereError(t.placeSearchOffline);
-    setSearching(true);
-    try {
-      const found = await findPlace(text);
-      if (found) setTyped({ lat: found.lat, lng: found.lng, label: text, source: "stated" });
-      else setWhereError(t.placeSearchFailed(text));
-    } catch {
-      setWhereError(t.placeSearchFailed(text));
-    } finally {
-      setSearching(false);
-    }
+    ensureNotice(
+      async () => {
+        setSearching(true);
+        try {
+          const found = await findPlace(text);
+          if (found) setTyped({ lat: found.lat, lng: found.lng, label: text, source: "stated" });
+          else setWhereError(t.placeSearchFailed(text));
+        } catch {
+          setWhereError(t.placeSearchFailed(text));
+        } finally {
+          setSearching(false);
+        }
+      },
+      () => setWhereError(t.placeSearchDeclined),
+    );
   };
 
   const askLeslie = (e: FormEvent) => {
@@ -268,6 +277,15 @@ export default function Plan() {
             )}
             {summary.state === "offline" && !summaryText && <p className="text-[0.875rem] text-on-surface-variant">{t.planSummaryOffline}</p>}
             {summary.state === "error" && <p className="text-[0.875rem] text-on-surface-variant">{t.planSummaryError}</p>}
+            {summary.state === "needsNotice" && (
+              <button
+                type="button"
+                onClick={() => ensureNotice(() => {})}
+                className="self-start min-h-[2.75rem] px-3 rounded-xl bg-surface-container-low text-primary text-[0.875rem] font-semibold"
+              >
+                {t.getSummary}
+              </button>
+            )}
           </section>
 
           <section className={card} aria-labelledby="step1">

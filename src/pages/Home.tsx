@@ -25,6 +25,7 @@ import { Icon } from "../components/ui";
 import { go, useApp } from "../lib/app";
 import { findPlace } from "../lib/backend";
 import { liveSituation } from "../lib/hazards";
+import { useDataNotice } from "../lib/dataNotice";
 import { useLeslie, type Turn } from "../lib/leslie";
 import { speak, useSpeechInput } from "../lib/speech";
 
@@ -32,6 +33,7 @@ const LIST_PREVIEW = 6;
 
 function LocationCard({ onDone }: { onDone: () => void }) {
   const { t, online, update, requestGps } = useApp();
+  const ensureNotice = useDataNotice();
   const [text, setText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -47,17 +49,23 @@ function LocationCard({ onDone }: { onDone: () => void }) {
       return onDone();
     }
     if (!online) return setError(t.placeSearchOffline);
-    setBusy(true);
-    try {
-      const found = await findPlace(q);
-      if (!found) return setError(t.placeSearchFailed(q));
-      update({ area: { label: q, lat: found.lat, lng: found.lng } });
-      onDone();
-    } catch {
-      setError(t.placeSearchFailed(q));
-    } finally {
-      setBusy(false);
-    }
+    // Typed places go to Amazon Location, so the data notice comes first.
+    ensureNotice(
+      async () => {
+        setBusy(true);
+        try {
+          const found = await findPlace(q);
+          if (!found) return setError(t.placeSearchFailed(q));
+          update({ area: { label: q, lat: found.lat, lng: found.lng } });
+          onDone();
+        } catch {
+          setError(t.placeSearchFailed(q));
+        } finally {
+          setBusy(false);
+        }
+      },
+      () => setError(t.placeSearchDeclined),
+    );
   };
 
   return (
@@ -166,11 +174,13 @@ function LesliePanel({
             </div>
           </>
         )}
-        {(current.state === "offline" || current.state === "error") && (
+        {(current.state === "offline" || current.state === "error" || current.state === "declined") && (
           <p className="text-[0.875rem] leading-5 text-on-surface">
             {current.state === "offline"
               ? pins.length ? t.leslieOffline : t.leslieOfflineNoMatch
-              : pins.length ? t.leslieError : t.leslieErrorNoMatch}
+              : current.state === "declined"
+                ? pins.length ? t.leslieDeclined : t.leslieDeclinedNoMatch
+                : pins.length ? t.leslieError : t.leslieErrorNoMatch}
           </p>
         )}
         {current.state !== "loading" &&
@@ -234,6 +244,7 @@ export default function Home() {
   const app = useApp();
   const { t, settings, origin, originSource, online, hazards, requestGps } = app;
   const leslie = useLeslie();
+  const ensureNotice = useDataNotice();
   const { alert, answer, respond, now } = useAlert();
   const [tab, setTab] = useState("all");
   const [selected, setSelected] = useState<string | null>(null);
@@ -348,7 +359,7 @@ export default function Home() {
           speech.supported && (
             <button
               type="button"
-              onClick={speech.start}
+              onClick={() => ensureNotice(speech.start)}
               aria-label={t.speak}
               aria-pressed={speech.listening}
               className={`shrink-0 min-w-[2.75rem] min-h-[2.75rem] -mr-2 rounded-xl flex items-center justify-center ${speech.listening ? "bg-surface-container-low text-error" : "text-primary"}`}

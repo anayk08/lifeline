@@ -5,6 +5,7 @@ import { CATEGORY_LABELS, formatTime, openStatus, type Resource } from "../../sh
 import type { RouteKind, RouteOption, RouteResult } from "../../shared/routes";
 import { useApp } from "../lib/app";
 import { planRoutes } from "../lib/backend";
+import { useDataNotice } from "../lib/dataNotice";
 import { mapsLink } from "../lib/maps";
 import { CATEGORY_STYLE, FIcon } from "./figma";
 import type { RouteLine } from "./HomeMap";
@@ -39,6 +40,7 @@ export default function PlaceSheet({
   primary?: { label: string; onClick: () => void };
 }) {
   const { t, settings, online } = useApp();
+  const ensureNotice = useDataNotice();
   const style = CATEGORY_STYLE[r.category];
   const status = openStatus(r);
   const unconfirmed = r.status === "unknown";
@@ -48,7 +50,7 @@ export default function PlaceSheet({
 
   // Real routes from where the person is, when there's a signal.
   useEffect(() => {
-    if (!origin || !online) return;
+    if (!origin || !online || !settings.dataNotice) return;
     let cancelled = false;
     setRoutes("loading");
     setChosen(0);
@@ -61,7 +63,7 @@ export default function PlaceSheet({
     };
     // Compared by value so routes aren't refetched on every render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [r.id, origin?.[0], origin?.[1], online, settings.lang]);
+  }, [r.id, origin?.[0], origin?.[1], online, settings.lang, settings.dataNotice]);
 
   const options = routes && typeof routes === "object" ? routes.options : [];
   const option = options[chosen];
@@ -170,6 +172,16 @@ export default function PlaceSheet({
       {/* Real routes (needs a signal and a starting point). */}
       {!origin && <p className="text-[0.8125rem] text-on-surface-variant">{t.setLocationForRoutes}</p>}
       {origin && !online && <p className="text-[0.8125rem] text-on-surface-variant">{t.routesNeedSignal}</p>}
+      {/* Routes send both locations to Amazon Location, so they wait for the data notice. */}
+      {origin && online && !settings.dataNotice && (
+        <button
+          type="button"
+          onClick={() => ensureNotice(() => {})}
+          className="self-start min-h-[2.75rem] px-3 rounded-xl bg-surface-container-low text-primary text-[0.875rem] font-semibold flex items-center gap-2"
+        >
+          <FIcon name="navigation" size={16} /> {t.showRoutes}
+        </button>
+      )}
       {origin && online && routes === "loading" && (
         <p role="status" className="text-[0.8125rem] text-on-surface-variant flex items-center gap-1.5">
           <Icon name="hourglass_top" className="animate-pulse !text-[16px] !w-4" /> {t.routesLoading}

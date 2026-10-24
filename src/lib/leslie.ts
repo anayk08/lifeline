@@ -6,6 +6,7 @@ import { BY_ID, RESOURCES, rankForSituation, rankResources, type Lang } from "..
 import type { SituationResult } from "../../shared/situation";
 import { queryParam, useApp } from "./app";
 import { askLeslie, hasBackend } from "./backend";
+import { useDataNotice } from "./dataNotice";
 import { liveSituation, planHistory } from "./hazards";
 import { matchCategories, searchResources } from "./search";
 import { speak } from "./speech";
@@ -26,7 +27,7 @@ const EMERGENCY_KINDS = ["health", "shelter", "pharmacy", "cooling", "charging",
 
 export interface Turn {
   question: string;
-  state: "loading" | "answered" | "offline" | "error";
+  state: "loading" | "answered" | "offline" | "error" | "declined";
   answer?: string;
   resourceIds: string[];
   verified?: boolean;
@@ -37,6 +38,7 @@ export interface Turn {
 export function useLeslie() {
   const { settings, online, origin, originSource, gps, hazards } = useApp();
   const [turns, setTurns] = useState<Turn[]>([]);
+  const ensureNotice = useDataNotice();
   // Without Leslie, the strongest live alert covering the person still shapes the ranking and the map.
   const live = primaryHazard(hazards, origin);
   const fallbackSituation = liveSituation(live, origin, settings.zip, originSource === "gps", originSource === "area" ? settings.area?.label : undefined);
@@ -85,7 +87,7 @@ export function useLeslie() {
     return [...pins, ...nearHazard];
   };
 
-  const ask = async (question: string) => {
+  const ask = (question: string) => {
     const idx = turns.length;
     const history = [
       // A question from the plan view starts with the plan's summary, so Leslie keeps its context.
@@ -102,6 +104,14 @@ export function useLeslie() {
       setTurns((ts) => [...ts, { question, state: "offline", resourceIds: localMatches(question) }]);
       return;
     }
+    // Nothing leaves the device until the person has seen the data notice; "Not now" answers from saved places.
+    ensureNotice(
+      () => void send(question, idx, history),
+      () => setTurns((ts) => [...ts, { question, state: "declined", resourceIds: localMatches(question) }]),
+    );
+  };
+
+  const send = async (question: string, idx: number, history: { role: "user" | "assistant"; text: string }[]) => {
     setTurns((ts) => [...ts, { question, state: "loading", resourceIds: [] }]);
     try {
       const res = await askLeslie({

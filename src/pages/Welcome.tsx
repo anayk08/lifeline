@@ -74,6 +74,8 @@ export default function Welcome() {
         >
           {t.getStarted}
         </PrimaryButton>
+        {/* Why "Get started" asks for location, before the browser's permission prompt appears. */}
+        <p className="text-[0.8125rem] text-on-surface-variant text-center">{t.locationReason}</p>
         <button type="button" onClick={() => update({ onboarded: true })} className="text-label-md text-on-surface-variant underline underline-offset-4 min-h-[44px]">
           {t.skipLocation}
         </button>
