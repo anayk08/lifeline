@@ -5,7 +5,7 @@ import { createServer, type IncomingMessage, type ServerResponse } from "node:ht
 import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
 import { fromIni } from "@aws-sdk/credential-providers";
 import { GeoRoutesClient } from "@aws-sdk/client-geo-routes";
-import { askLeslie, triageCaseload } from "../shared/bedrock";
+import { askLeslie } from "../shared/bedrock";
 import { planRoutes } from "../shared/routes";
 
 const PORT = Number(process.env.PORT ?? 8787);
@@ -84,12 +84,6 @@ const server = createServer(async (req, res) => {
       if (!from || !to) return send(res, 400, { error: "from and to must be [lat, lng] in the San José area" });
       const result = await planRoutes(geo, from, to, typeof body.lang === "string" ? body.lang : "en");
       console.log(`routes ${Date.now() - started}ms  ${result.options.map((o) => `${o.kinds.join("+")} ${Math.round(o.seconds / 60)}min`).join(", ")}`);
-      return send(res, 200, result);
-    }
-    if (req.url === "/api/triage") {
-      const zips = Array.isArray(body.zips) ? body.zips.map(String) : [];
-      const result = await triageCaseload(bedrock, zips, typeof body.scenario === "string" ? body.scenario : null);
-      console.log(`triage ${Date.now() - started}ms  zips ${result.outageZips.join(",")} -> ${result.clients.length} clients`);
       return send(res, 200, result);
     }
     return send(res, 404, { error: "Not found" });

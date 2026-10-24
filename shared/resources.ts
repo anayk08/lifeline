@@ -1,5 +1,4 @@
-// Shared by the web app and the Lambda functions, so Jamie, the triage agent
-// and the offline UI all reason about the same verified listings.
+// Shared by the web app and the Lambda functions, so Leslie and the offline UI all reason about the same verified listings.
 import raw from "../data/resources.json";
 
 export type Category =

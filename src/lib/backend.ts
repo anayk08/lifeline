@@ -1,7 +1,6 @@
 import { Amplify } from "aws-amplify";
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
-import type { TriageResult } from "../../shared/caseload";
 import type { Lang } from "../../shared/resources";
 import type { RouteResult } from "../../shared/routes";
 
@@ -67,14 +66,6 @@ export async function askLeslie(args: {
     verified: data.verified,
     language: (data.language as Lang) ?? args.language,
   };
-}
-
-export async function triageCaseload(zips: string[], scenario: string): Promise<TriageResult> {
-  if (backendMode === "local") return local<TriageResult>("triage", { zips, scenario });
-  const { data, errors } = await api().mutations.triageCaseload({ zips, scenario });
-  if (errors?.length || !data) throw new Error(errors?.[0]?.message ?? "No triage returned");
-  // a.json() results arrive as a JSON string.
-  return (typeof data === "string" ? JSON.parse(data) : data) as TriageResult;
 }
 
 export async function planRoutes(from: [number, number], to: [number, number], lang: Lang): Promise<RouteResult> {

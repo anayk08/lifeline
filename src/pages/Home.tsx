@@ -1,26 +1,17 @@
-import { useMemo, useState, type FormEvent } from "react";
-import { RESOURCES, rankResources } from "../../shared/resources";
+import { useState, type FormEvent } from "react";
+import { RESOURCES } from "../../shared/resources";
 import { Page } from "../components/Shell";
-import { Icon, ResourceCard, Section } from "../components/ui";
+import { Icon } from "../components/ui";
 import { go, useApp } from "../lib/app";
 import { useSpeechInput } from "../lib/speech";
 
 export default function Home() {
-  const { t, origin, online, settings, gps, requestGps } = useApp();
+  const { t, online, settings, gps, requestGps } = useApp();
   const [query, setQuery] = useState("");
   const speech = useSpeechInput(settings.lang, (text) => {
     setQuery(text);
     go(`/ask?q=${encodeURIComponent(text)}`);
   });
-
-  // The closest open place for each kind of help, so the list isn't three hospitals in a row.
-  const nearby = useMemo(() => {
-    const seen = new Set<string>();
-    return rankResources(RESOURCES, origin)
-      .filter((x) => x.status.state === "open" && x.resource.status === "open" && x.resource.category !== "ev_charging")
-      .filter((x) => !seen.has(x.resource.category) && seen.add(x.resource.category))
-      .slice(0, 4);
-  }, [origin]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -114,27 +105,21 @@ export default function Home() {
         .
       </p>
 
-      <Section
-        title={origin ? t.openNearYou : t.openNow}
-        aside={
-          !gps && (
-            <button
-              type="button"
-              onClick={requestGps}
-              className="text-label-sm text-primary underline underline-offset-4 flex items-center gap-1 min-h-[44px]"
-            >
-              <Icon name="my_location" className="!text-[18px]" /> {t.useLocation}
-            </button>
-          )
-        }
-      >
-        {nearby.map(({ resource, miles }) => (
-          <ResourceCard key={resource.id} r={resource} miles={miles} />
-        ))}
-        <a href="#/list/all" className="text-label-md text-primary underline underline-offset-4 py-2 flex items-center gap-1">
+      {/* Leslie answers "what's open near me", so Home only offers location (for routes) and the full list. */}
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        {!gps && (
+          <button
+            type="button"
+            onClick={requestGps}
+            className="text-label-md text-primary underline underline-offset-4 flex items-center gap-1 min-h-[44px]"
+          >
+            <Icon name="my_location" /> {t.useLocation}
+          </button>
+        )}
+        <a href="#/list/all" className="text-label-md text-primary underline underline-offset-4 min-h-[44px] flex items-center gap-1">
           {t.allPlaces} ({RESOURCES.length}) <Icon name="chevron_right" />
         </a>
-      </Section>
+      </div>
     </Page>
   );
 }

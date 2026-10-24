@@ -1,8 +1,7 @@
-// Bedrock calls for Leslie and Maria's caseload triage. Used by the Amplify Lambda
-// handlers and by the local laptop server (server/index.ts), so both behave the same.
+// Bedrock calls for Leslie. Used by the Amplify Lambda
+// handler and by the local laptop server (server/index.ts), so both behave the same.
 // Never import this from the web app: it runs only where AWS credentials live.
 import { ConverseCommand, type BedrockRuntimeClient, type Message } from "@aws-sdk/client-bedrock-runtime";
-import { TRIAGE_TOOL, cleanTriage, triagePrompt, type TriageResult, type TriagedClient } from "./caseload";
 import {
   BY_ID,
   RESOURCES,
@@ -14,7 +13,6 @@ import {
 } from "./resources";
 
 export const LESLIE_MODEL = "us.anthropic.claude-haiku-4-5-20251001-v1:0";
-export const TRIAGE_MODEL = "us.anthropic.claude-sonnet-5-5";
 
 const LANGUAGE_NAMES: Record<string, string> = { en: "English", es: "Spanish", vi: "Vietnamese" };
 
@@ -153,34 +151,6 @@ ${ranked.map(describe).join("\n")}`;
     verified: Boolean(input.verified) && resourceIds.length > 0,
     language: input.language && LANGUAGE_NAMES[input.language] ? input.language : preferred,
   };
-}
-
-export async function triageCaseload(
-  bedrock: BedrockRuntimeClient,
-  zips: (string | null)[],
-  scenario?: string | null,
-  modelId = TRIAGE_MODEL,
-): Promise<TriageResult> {
-  const outageZips = [...new Set(zips.filter((z): z is string => /^\d{5}$/.test(z ?? "")))];
-  if (outageZips.length === 0) throw new Error("Pick at least one outage ZIP code.");
-  const { system, user } = triagePrompt(outageZips, scenario?.slice(0, 500) || "Unplanned power outage", sanJoseNow());
-
-  const response = await bedrock.send(
-    new ConverseCommand({
-      modelId,
-      system: [{ text: system }],
-      messages: [{ role: "user", content: [{ text: `${user}\n\nSubmit your answer by calling submit_triage.` }] }],
-      // Claude Sonnet 5.5 on Bedrock rejects a forced toolChoice, so the prompt asks for the tool instead.
-      toolConfig: { tools: [TRIAGE_TOOL], toolChoice: { auto: {} } },
-      // Newer Claude models on Bedrock reject `temperature`, so only the token limit is set.
-      inferenceConfig: { maxTokens: 6000 },
-    }),
-  );
-  const input = response.output?.message?.content?.find((c) => c.toolUse)?.toolUse?.input as
-    | { summary?: string; clients?: TriagedClient[] }
-    | undefined;
-  if (!input) throw new Error("The model didn't return a triage.");
-  return { ...cleanTriage(input, outageZips), generatedAt: new Date().toISOString(), model: modelId };
 }
 
 function safeJson(s: string): unknown {

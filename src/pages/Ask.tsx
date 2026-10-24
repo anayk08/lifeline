@@ -25,6 +25,7 @@ export default function Ask() {
   const { t, settings, online, origin, gps } = useApp();
   const [turns, setTurns] = useState<Turn[]>([]);
   const [draft, setDraft] = useState("");
+  const [expanded, setExpanded] = useState(false);
   const asked = useRef<string | null>(null);
   const latest = useRef<HTMLDivElement>(null);
 
@@ -55,6 +56,7 @@ export default function Ask() {
 
   const ask = async (question: string) => {
     const idx = turns.length;
+    setExpanded(false);
     const history = turns
       .filter((x) => x.state === "answered")
       .flatMap((x) => [
@@ -106,109 +108,144 @@ export default function Ask() {
     ask(q);
   };
 
+  const askBox = (
+    <form onSubmit={submit} className="shrink-0">
+      <div className="flex items-center gap-2 bg-surface-container-lowest border-2 border-primary-container dark:border-surface-variant rounded-2xl shadow-md p-1.5">
+        <label htmlFor="ask-input" className="sr-only">
+          {t.askLeslie}
+        </label>
+        <input
+          id="ask-input"
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          placeholder={turns.length ? t.followUp : t.searchPlaceholder}
+          className="flex-1 bg-transparent px-2 py-2 text-body-md focus:outline-none min-h-[44px]"
+        />
+        <button type="submit" aria-label={t.send} className="min-h-[48px] min-w-[48px] rounded-xl bg-primary-container text-white flex items-center justify-center">
+          <Icon name="send" />
+        </button>
+      </div>
+    </form>
+  );
+
+  const question = (turn: Turn) => (
+    <p className="text-label-md text-on-surface-variant shrink-0">
+      <span className="sr-only">{t.youAsked} </span>
+      <span aria-hidden="true">“</span>
+      {turn.question}
+      <span aria-hidden="true">”</span>
+    </p>
+  );
+
+  const current = turns[turns.length - 1];
+  const pins = current && current.state !== "loading" ? pinsFor(current) : [];
+
   return (
     <Page back="#/" tab="ask">
       {turns.length === 0 && (
-        <p className="text-body-lg bg-surface-container-low rounded-xl p-3 border border-surface-variant">{t.leslieIntro}</p>
+        <>
+          <p className="text-body-lg bg-surface-container-low rounded-xl p-3 border border-surface-variant">{t.leslieIntro}</p>
+          <p className="text-label-sm text-on-surface-variant">
+            {t.emergencyLine}{" "}
+            <a href="tel:911" className="text-error underline">
+              911
+            </a>
+          </p>
+          {askBox}
+        </>
       )}
 
-      {turns.map((turn, i) => {
-        const isLatest = i === turns.length - 1;
-        const pins = turn.state === "loading" ? [] : pinsFor(turn);
-        return (
-          <div key={i} ref={isLatest ? latest : undefined} className="flex flex-col gap-space-sm scroll-mt-20">
-            <section className="bg-surface-container-low rounded-xl p-space-xs border border-surface-variant">
-              <p className="text-label-sm text-on-surface-variant">{t.youAsked}</p>
-              <p className="text-body-lg font-bold">{turn.question}</p>
-            </section>
+      {/* Earlier questions stay above, scrolled out of view. */}
+      {turns.slice(0, -1).map((turn, i) => (
+        <div key={i} className="flex flex-col gap-2 border-b border-surface-variant pb-3">
+          {question(turn)}
+          {turn.answer && <p className="text-body-md text-on-surface">{turn.answer}</p>}
+          {turn.resourceIds.map((id) => {
+            const r = BY_ID.get(id);
+            if (!r) return null;
+            const miles = origin ? distanceMiles(origin[0], origin[1], r.lat, r.lng) : null;
+            return <ResourceCard key={id} r={r} miles={miles} compact />;
+          })}
+        </div>
+      ))}
 
-            {turn.state === "loading" && (
-              <p role="status" className="text-body-lg text-on-surface-variant flex items-center gap-2">
-                <Icon name="hourglass_top" className="animate-pulse" /> {t.leslieThinking}
+      {/* The newest answer fills the screen: answer on top, map below, follow-up box at the bottom. */}
+      {current && (
+        <div ref={latest} className="flex flex-col gap-2 h-[calc(100dvh-184px)] min-h-[520px] scroll-mt-16">
+          {question(current)}
+
+          {current.state === "loading" && (
+            <p role="status" className="text-body-lg text-on-surface-variant flex items-center gap-2">
+              <Icon name="hourglass_top" className="animate-pulse" /> {t.leslieThinking}
+            </p>
+          )}
+
+          {(current.state === "offline" || current.state === "error") && (
+            <p role="status" className="text-body-md flex gap-2 shrink-0">
+              <Icon name={current.state === "offline" ? "cloud_off" : "info"} className="text-secondary shrink-0" />
+              {current.state === "offline" ? t.leslieOffline : t.leslieError}
+            </p>
+          )}
+
+          {current.state === "answered" && (
+            <section className="flex flex-col shrink-0" aria-live="polite">
+              <p className={`text-body-lg font-bold text-on-surface whitespace-pre-line ${expanded ? "" : "line-clamp-3"}`}>
+                <span className="sr-only">Leslie: </span>
+                {current.answer}
               </p>
-            )}
-
-            {(turn.state === "offline" || turn.state === "error") && (
-              <p role="status" className="text-body-lg flex gap-2">
-                <Icon name={turn.state === "offline" ? "cloud_off" : "info"} className="text-secondary shrink-0" />
-                {turn.state === "offline" ? t.leslieOffline : t.leslieError}
-              </p>
-            )}
-
-            {turn.state === "answered" && (
-              <section className="flex flex-col gap-1" aria-live="polite">
-                <p className="text-label-sm text-on-surface-variant flex items-center gap-1">
-                  <Icon name="psychology" className="!text-[18px]" /> Leslie
-                  {turn.verified && (
-                    <span className="ml-1 inline-flex items-center gap-1 text-on-open-container">
-                      <Icon name="verified_user" fill className="!text-[16px]" /> {t.verified}
-                    </span>
-                  )}
-                </p>
-                <p className="text-[20px] leading-[30px] font-bold text-on-surface whitespace-pre-line">{turn.answer}</p>
+              <div className="flex flex-wrap items-center gap-x-3">
+                {(current.answer?.length ?? 0) > 120 && (
+                  <button
+                    type="button"
+                    aria-expanded={expanded}
+                    onClick={() => setExpanded((x) => !x)}
+                    className="text-label-md text-primary underline underline-offset-4 min-h-[44px]"
+                  >
+                    {expanded ? t.showLess : t.showMore}
+                  </button>
+                )}
                 <button
                   type="button"
-                  onClick={() => speak(turn.answer ?? "", turn.language ?? settings.lang)}
-                  className="self-start inline-flex items-center gap-2 text-primary text-label-md hover:underline min-h-[44px]"
+                  onClick={() => speak(current.answer ?? "", current.language ?? settings.lang)}
+                  className="inline-flex items-center gap-1 text-primary text-label-md hover:underline min-h-[44px]"
                 >
-                  <Icon name="volume_up" className="text-secondary" /> {t.readAloud}
+                  <Icon name="volume_up" className="text-secondary" /> {t.listen}
                 </button>
-              </section>
-            )}
+                {!current.verified && (
+                  <a href="tel:211" className="inline-flex items-center gap-1 text-label-md text-primary underline underline-offset-4 min-h-[44px]">
+                    <Icon name="call" /> 211
+                  </a>
+                )}
+                <a href="tel:911" className="inline-flex items-center gap-1 text-label-md text-error underline underline-offset-4 min-h-[44px]">
+                  <Icon name="emergency" /> 911
+                </a>
+              </div>
+            </section>
+          )}
 
-            {isLatest && pins.length > 0 ? (
+          {current.state !== "loading" && pins.length === 0 && (
+            <div className="bg-surface-container-lowest border-[1.5px] border-surface-variant rounded-2xl p-space-sm flex gap-2 shrink-0">
+              <Icon name="info" className="text-secondary shrink-0" />
+              <div>
+                <p className="text-body-md">{t.noVerified}</p>
+                <a href="tel:211" className="inline-flex items-center gap-1.5 text-label-md text-primary underline underline-offset-4 decoration-2 min-h-[44px]">
+                  <Icon name="call" /> {t.call211}
+                </a>
+              </div>
+            </div>
+          )}
+
+          <div className="flex-1 min-h-0">
+            {pins.length > 0 && (
               <Suspense fallback={<p className="text-body-md">…</p>}>
                 <AnswerMap key={pins.join(",")} ids={pins} />
               </Suspense>
-            ) : (
-              turn.resourceIds.map((id) => {
-                const r = BY_ID.get(id);
-                if (!r) return null;
-                const miles = origin ? distanceMiles(origin[0], origin[1], r.lat, r.lng) : null;
-                return <ResourceCard key={id} r={r} miles={miles} compact />;
-              })
-            )}
-
-            {turn.state !== "loading" && (turn.verified === false || turn.resourceIds.length === 0) && (
-              <div className="bg-surface-container-lowest border-[1.5px] border-surface-variant rounded-2xl p-space-sm flex gap-2">
-                <Icon name="info" className="text-secondary shrink-0" />
-                <div>
-                  {turn.resourceIds.length === 0 && turn.state !== "answered" && <p className="text-body-md">{t.noVerified}</p>}
-                  <a href="tel:211" className="inline-flex items-center gap-1.5 text-label-md text-primary underline underline-offset-4 decoration-2 min-h-[44px]">
-                    <Icon name="call" /> {t.call211}
-                  </a>
-                </div>
-              </div>
             )}
           </div>
-        );
-      })}
 
-      <p className="text-label-sm text-on-surface-variant">
-        {t.emergencyLine}{" "}
-        <a href="tel:911" className="text-error underline">
-          911
-        </a>
-      </p>
-
-      <form onSubmit={submit} className="fixed bottom-[84px] inset-x-0 max-w-md mx-auto px-gutter z-30">
-        <div className="flex items-center gap-2 bg-surface-container-lowest border-2 border-primary-container dark:border-surface-variant rounded-2xl shadow-md p-1.5">
-          <label htmlFor="ask-input" className="sr-only">
-            {t.askLeslie}
-          </label>
-          <input
-            id="ask-input"
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
-            placeholder={turns.length ? t.followUp : t.searchPlaceholder}
-            className="flex-1 bg-transparent px-2 py-2 text-body-md focus:outline-none min-h-[44px]"
-          />
-          <button type="submit" aria-label={t.send} className="min-h-[48px] min-w-[48px] rounded-xl bg-primary-container text-white flex items-center justify-center">
-            <Icon name="send" />
-          </button>
+          {askBox}
         </div>
-      </form>
-      <div className="h-16" />
+      )}
     </Page>
   );
 }

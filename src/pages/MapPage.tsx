@@ -62,7 +62,7 @@ export default function MapPage() {
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-            maxZoom={18}
+            maxZoom={19}
           />
           {gps && (
             <CircleMarker center={gps} radius={9} pathOptions={{ color: "#fff", weight: 3, fillColor: "#146eb4", fillOpacity: 1 }}>

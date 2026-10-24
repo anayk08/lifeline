@@ -48,7 +48,7 @@ export default defineConfig({
           },
           {
             // Map tiles the resident has already looked at stay available offline.
-            urlPattern: /^https:\/\/[abc]?\.?tile\.openstreetmap\.org\/.*/,
+            urlPattern: /^https:\/\/([abcd]\.)?(tile\.openstreetmap\.org|basemaps\.cartocdn\.com)\/.*/,
             handler: "CacheFirst",
             options: {
               cacheName: "map-tiles",

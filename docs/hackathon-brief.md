@@ -31,31 +31,33 @@ disruption and acts automatically.
 
 ## How Lifeline maps to it
 
-- **Main persona: Maria Tran** (fictional), a San José case manager with
-  about 12 vulnerable clients: people on home oxygen or insulin, people with
-  limited mobility or limited English, and people who live alone. When the
-  power goes out she has to work out, fast, who is in danger, where each
-  person can get help that is actually open, and how to reach them in their
-  language. The residents are the people she serves, and they use the same
-  app directly.
+- **Persona (set by Anay, Oct 23):** people in San José caught in a natural
+  disaster or emergency (a power outage, heat wave, wildfire smoke or
+  earthquake) who don't know where or how to get help. Often their power is
+  out, their phone battery is low, the signal is weak, and English may be
+  their second language. Their need is to find verified help that is
+  actually open right now, and to know how to get there.
+- **For the video, show one specific person** (fictional), for example:
+  "Lan, 68, lives alone in East San José and speaks Vietnamese. The power has
+  been out for six hours in a heat wave, and she needs to keep her insulin
+  cold." One concrete person makes the need real to judges.
+- This matches the track's "fail-safe communication app" idea: keeping
+  people accurately informed when the usual channels go down.
 - Bedrock doing real work:
-  - **Maria's caseload console:** Maria marks the outage ZIPs. Bedrock triages
-    her clients by urgency with stated reasons (oxygen and power loss come
-    first), matches each client to the nearest open verified resource for
-    their need, and drafts a check-in message in the client's language.
-    Maria reviews and approves each message, sends it (SMS simulator or
-    in-app), and marks clients reached or safe. All client data is fictional
-    and labeled that way in the app.
-  - **Leslie, the resident assistant:** answers only from the verified
-    dataset, cites listings, says "I don't have verified info" instead of
-    guessing, refuses medical advice, and replies in English, Spanish or
-    Vietnamese.
+  - **Leslie, the assistant:** answers only from the verified dataset, cites
+    places, says "I don't have verified info" instead of guessing, refuses
+    medical advice, and replies in English, Spanish or Vietnamese.
+  - **Map and routes:** each answer opens a map of the matching places.
+    Tapping a numbered pin shows a card with real walking and driving routes
+    from Amazon Location Service (fastest walk, easiest walk, fastest drive,
+    transit).
 - Fail-safe: the PWA caches the whole dataset, so search, listings and the
-  map keep working offline.
+  map pins keep working offline.
+- Accessibility: high contrast, larger text, reduce motion and read-aloud.
 
-## Priority order (agreed with Anay)
+## Priority order
 
-1. Dataset, offline resident app, and Leslie, deployed tonight
-2. Maria's caseload triage console
-3. If time allows: SMS via the AWS simulator, stale-listing flags, the CDC
-   Social Vulnerability Index map
+1. Dataset, offline resident app, and Leslie with the map and routes
+2. If time allows: stale-listing flags, the CDC Social Vulnerability Index map
+3. Set aside for now: the case manager triage console (in git history,
+   commit 3274216 and earlier)

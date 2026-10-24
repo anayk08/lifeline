@@ -10,7 +10,6 @@ import Welcome from "./pages/Welcome";
 
 // The map pulls in Leaflet, so it loads on first use (and is still precached for offline).
 const MapPage = lazy(() => import("./pages/MapPage"));
-const Caseload = lazy(() => import("./pages/Caseload"));
 
 export default function App() {
   const route = useRoute();
@@ -21,7 +20,7 @@ export default function App() {
   }, [online]);
 
   const [page, arg] = route;
-  if (!settings.onboarded && page !== "caseload") return <Welcome />;
+  if (!settings.onboarded) return <Welcome />;
 
   return (
     <Suspense fallback={<div className="p-6 text-body-lg">…</div>}>
@@ -35,8 +34,6 @@ export default function App() {
         <Place id={arg} />
       ) : page === "settings" ? (
         <Settings />
-      ) : page === "caseload" ? (
-        <Caseload />
       ) : (
         <Home />
       )}

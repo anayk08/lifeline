@@ -115,10 +115,6 @@ export default function Settings() {
         {newest && <p className="text-body-md">{t.checked(newest)}</p>}
         <p className="text-body-md text-on-surface-variant">{t.aboutData}</p>
       </section>
-
-      <a href="#/caseload" className="text-label-md text-primary underline underline-offset-4 flex items-center gap-1 min-h-[44px]">
-        <Icon name="groups" /> {t.caseload} (case manager view)
-      </a>
     </Page>
   );
 }

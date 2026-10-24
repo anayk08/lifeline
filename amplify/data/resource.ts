@@ -1,6 +1,5 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 import { askLeslie } from "../functions/ask-leslie/resource";
-import { caseload } from "../functions/caseload/resource";
 import { planRoutesFn } from "../functions/plan-routes/resource";
 
 const schema = a.schema({
@@ -38,17 +37,6 @@ const schema = a.schema({
     })
     .returns(a.json())
     .handler(a.handler.function(planRoutesFn))
-    .authorization((allow) => [allow.publicApiKey()]),
-
-  // Maria's caseload: Bedrock ranks her (fictional) clients by urgency and drafts check-ins.
-  triageCaseload: a
-    .mutation()
-    .arguments({
-      zips: a.string().array().required(),
-      scenario: a.string(),
-    })
-    .returns(a.json())
-    .handler(a.handler.function(caseload))
     .authorization((allow) => [allow.publicApiKey()]),
 
   // A listing that needs a human to re-check it, reported by a resident.
