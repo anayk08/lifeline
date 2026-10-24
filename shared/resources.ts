@@ -10,6 +10,8 @@ export type Category =
   | "shelter"
   | "water"
   | "ev_charging";
+export type Hazard = "earthquake" | "wildfire_smoke" | "extreme_heat" | "power_outage";
+export type RiskLevel = "low" | "moderate" | "high";
 export type DayKey = "sun" | "mon" | "tue" | "wed" | "thu" | "fri" | "sat";
 export type Lang = "en" | "es" | "vi";
 
@@ -32,8 +34,8 @@ export interface Resource {
   notes: string | null;
   /** Whether the place is operating, per the team's check ("unknown" = not confirmed). */
   status: "open" | "closed" | "unknown";
-  /** How likely the place is to be affected by a power outage, per the team's sheet. */
-  outageRisk: string | null;
+  /** How likely the place is to be affected by each hazard, per the team's sheet (null = not rated). */
+  hazardRisk: Record<Hazard, RiskLevel | null>;
   transit: string | null;
   source: string;
   lastVerified: string;
@@ -180,6 +182,77 @@ export function rankResources(
       status: openStatus(resource, date),
     }))
     .sort((a, b) => order[a.status.state] - order[b.status.state] || (a.miles ?? 0) - (b.miles ?? 0));
+}
+
+// ---- Disaster-aware ranking ------------------------------------------------
+
+export type SituationHazard = Hazard | "other" | "none";
+
+export interface SituationContext {
+  hazardType: SituationHazard;
+  /** Where the hazard is centered, if the resident named a place we could find. */
+  hazardPoint?: [number, number] | null;
+  needs?: string[];
+}
+
+/** Places this close to a known hazard location may be affected themselves. */
+export const HAZARD_RADIUS_MILES = 1;
+
+export interface SituationRanked extends Ranked {
+  nearHazard: boolean;
+  /** Short reasons Leslie can repeat, e.g. "24 hours", "has backup power". */
+  reasons: string[];
+}
+
+const MEDICAL = /medic|health|pharm|insulin|injur|hurt|hospital|doctor|clinic|oxygen/i;
+
+/**
+ * Open places first, then closest, adjusted for the emergency: places near the hazard
+ * and places rated high-risk for it drop (but stay in the list), and places that keep
+ * working in this kind of emergency rise. Scores are in "miles": lower is better.
+ */
+export function rankForSituation(
+  list: Resource[],
+  from: [number, number] | null,
+  ctx: SituationContext | null,
+  date = new Date(),
+): SituationRanked[] {
+  const hazard = ctx?.hazardType && ctx.hazardType !== "none" && ctx.hazardType !== "other" ? ctx.hazardType : null;
+  const medical = (ctx?.needs ?? []).some((n) => MEDICAL.test(n));
+  const stateCost = { open: 0, unknown: 10, closed: 20 } as const;
+
+  return list
+    .map((resource) => {
+      const status = openStatus(resource, date);
+      const miles = from ? distanceMiles(from[0], from[1], resource.lat, resource.lng) : null;
+      const reasons: string[] = [];
+      let score = stateCost[status.state] + (miles ?? 0);
+
+      const nearHazard = ctx?.hazardPoint
+        ? distanceMiles(ctx.hazardPoint[0], ctx.hazardPoint[1], resource.lat, resource.lng) <= HAZARD_RADIUS_MILES
+        : false;
+      if (nearHazard) score += 8;
+      else if (ctx?.hazardPoint) reasons.push("outside the affected area");
+
+      const risk = hazard ? resource.hazardRisk?.[hazard] : null;
+      if (risk === "high") score += 3;
+      if (risk === "low") {
+        score -= 1.5;
+        reasons.push(`low ${hazard!.replace("_", " ")} risk`);
+      }
+
+      const is24h = resource.tags.includes("24h");
+      const backup = resource.tags.includes("backup-power");
+      if (is24h) reasons.push("open 24 hours");
+      if (backup) reasons.push("has backup power");
+      if ((hazard === "earthquake" || hazard === "power_outage") && is24h && backup) score -= 3;
+      if (medical && (resource.category === "health" || resource.category === "pharmacy")) score -= 2;
+      if (resource.tags.includes("wheelchair")) score -= 0.5;
+
+      return { resource, miles, status, nearHazard, reasons, score };
+    })
+    .sort((a, b) => a.score - b.score)
+    .map(({ score: _score, ...rest }) => rest);
 }
 
 export const CATEGORY_LABELS: Record<Category, string> = {

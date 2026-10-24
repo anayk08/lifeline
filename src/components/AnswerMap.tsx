@@ -1,9 +1,10 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import { useEffect, useMemo, useState } from "react";
-import { CircleMarker, MapContainer, Marker, Polyline, TileLayer, useMap } from "react-leaflet";
-import { BY_ID, openStatus, type Category, type Resource } from "../../shared/resources";
+import { Circle, CircleMarker, MapContainer, Marker, Polyline, TileLayer, Tooltip, useMap } from "react-leaflet";
+import { BY_ID, HAZARD_RADIUS_MILES, openStatus, type Category, type Resource } from "../../shared/resources";
 import type { RouteKind, RouteOption, RouteResult } from "../../shared/routes";
+import type { SituationResult } from "../../shared/situation";
 import { useApp } from "../lib/app";
 import { planRoutes } from "../lib/backend";
 import { Icon, StatusBadge, statusLine } from "./ui";
@@ -64,9 +65,31 @@ function FitBounds({ points }: { points: [number, number][] }) {
 
 type RouteState = RouteResult | "loading" | "error";
 
-export default function AnswerMap({ ids }: { ids: string[] }) {
-  const { t, origin, settings, online } = useApp();
+const HAZARD_RED = "#e03131";
+
+export default function AnswerMap({ ids, situation }: { ids: string[]; situation: SituationResult | null }) {
+  const { t, origin: appOrigin, settings, online } = useApp();
   const places = useMemo(() => ids.map((id) => BY_ID.get(id)).filter((r): r is Resource => !!r), [ids]);
+
+  // Distances and routes start where Leslie said: a place the resident named, else GPS, else ZIP.
+  const so = situation?.origin;
+  const origin = useMemo<[number, number] | null>(
+    () => (so ? [so.lat, so.lng] : appOrigin),
+    // Compared by value so routes aren't refetched on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [so?.lat, so?.lng, appOrigin?.[0], appOrigin?.[1]],
+  );
+  const fromLabel = so
+    ? so.source === "stated"
+      ? t.fromPlace(so.label)
+      : so.source === "gps"
+        ? t.fromYourLocation
+        : t.fromZip(settings.zip)
+    : null;
+  const hazard = situation && situation.hazardType !== "none" ? situation : null;
+  const hazardPoint: [number, number] | null = hazard?.hazardPoint ? [hazard.hazardPoint.lat, hazard.hazardPoint.lng] : null;
+  const hazardName = hazard ? t.hazardNames[hazard.hazardType] ?? t.hazardNames.other : "";
+  const flagged = new Set(situation?.flaggedIds ?? []);
   const [openId, setOpenId] = useState<string | null>(places[0]?.id ?? null);
   const [routes, setRoutes] = useState<Record<string, RouteState>>({});
   const [chosen, setChosen] = useState(0);
@@ -110,7 +133,12 @@ export default function AnswerMap({ ids }: { ids: string[] }) {
     `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(r.address)}&travelmode=${mode}${
       origin ? `&origin=${origin[0]},${origin[1]}` : ""
     }`;
-  const points: [number, number][] = [...places.map((p) => [p.lat, p.lng] as [number, number]), ...(origin ? [origin] : [])];
+  const points: [number, number][] = [
+    ...places.map((p) => [p.lat, p.lng] as [number, number]),
+    ...(origin ? [origin] : []),
+    ...(hazardPoint ? [hazardPoint] : []),
+  ];
+  const kindsShown = [...new Set(places.map((p) => p.category))];
 
   return (
     <section aria-label={t.mapOfResults} className="relative -mx-gutter h-full min-h-[260px]">
@@ -147,6 +175,21 @@ export default function AnswerMap({ ids }: { ids: string[] }) {
             maxZoom={19}
           />
           <FitBounds points={points} />
+          {hazardPoint && (
+            <Circle
+              center={hazardPoint}
+              radius={HAZARD_RADIUS_MILES * 1609.34}
+              pathOptions={
+                contrast
+                  ? { color: "#000", weight: 3, dashArray: "8 6", fillColor: "#000", fillOpacity: 0.12 }
+                  : { color: HAZARD_RED, weight: 2, fillColor: HAZARD_RED, fillOpacity: 0.2 }
+              }
+            >
+              <Tooltip permanent direction="center" className="hazard-label">
+                {t.hazardArea(hazardName)}
+              </Tooltip>
+            </Circle>
+          )}
           {/* Every route option for the open place, the chosen one drawn bold on top. */}
           {options.map((o, i) =>
             i === chosen ? null : (
@@ -189,6 +232,50 @@ export default function AnswerMap({ ids }: { ids: string[] }) {
         </MapContainer>
       </div>
 
+      {/* Key for pin colors and the hazard area; text plus shapes, so it reads in high contrast too. */}
+      <div
+        aria-hidden="true"
+        className="absolute z-[450] top-2 left-2 max-w-[60%] bg-surface-container-lowest/95 bg-surface-container-lowest border-2 border-surface-variant rounded-xl px-2 py-1.5 text-[0.75rem] leading-4 font-bold flex flex-col gap-1 shadow"
+      >
+        {/* In high contrast every pin is black, so color rows would say nothing. */}
+        {!contrast && kindsShown.map((c) => (
+          <span key={c} className="flex items-center gap-1.5">
+            <span className="w-3.5 h-3.5 rounded-full border-2 border-white shrink-0" style={{ background: contrast ? "#000" : CATEGORY_COLOR[c] }} />
+            {t.categoryNames[c] ?? c}
+          </span>
+        ))}
+        {origin && (
+          <span className="flex items-center gap-1.5">
+            <span className="w-3.5 h-3.5 rounded-full border-2 border-white shrink-0" style={{ background: contrast ? "#000" : "#1971c2", outline: "1px solid #1971c2" }} />
+            {t.youAreHere}
+          </span>
+        )}
+        {hazardPoint && (
+          <span className="flex items-center gap-1.5">
+            <span
+              className="w-3.5 h-3.5 rounded-full shrink-0"
+              style={
+                contrast
+                  ? { border: "2px dashed #000", background: "rgba(0,0,0,0.12)" }
+                  : { border: `2px solid ${HAZARD_RED}`, background: "rgba(224,49,49,0.25)" }
+              }
+            />
+            {hazardName}
+          </span>
+        )}
+      </div>
+
+      {(fromLabel || (situation?.notFound.length ?? 0) > 0) && (
+        <p className="absolute z-[450] top-2 right-2 max-w-[38%] bg-surface-container-lowest border-2 border-surface-variant rounded-xl px-2 py-1 text-[0.75rem] leading-4 font-bold text-right shadow">
+          {situation?.notFound.map((p) => (
+            <span key={p} className="block text-error">
+              {t.placeNotFound(p)}
+            </span>
+          ))}
+          {fromLabel}
+        </p>
+      )}
+
       {open && (
         <div
           role="dialog"
@@ -229,6 +316,17 @@ export default function AnswerMap({ ids }: { ids: string[] }) {
             )}
           </div>
 
+          {flagged.has(open.id) && (
+            <p className="text-label-md bg-error-container text-on-error-container border-2 border-error rounded-xl px-2 py-1 flex items-center gap-1">
+              <Icon name="warning" /> {t.mayBeAffected}
+              {open.phone && (
+                <a href={`tel:${open.phone.replace(/[^\d+]/g, "")}`} className="ml-auto underline underline-offset-2 whitespace-nowrap">
+                  {t.call}
+                </a>
+              )}
+            </p>
+          )}
+
           {!origin && <p className="text-body-md">{t.setLocationForRoutes}</p>}
           {origin && !online && <p className="text-body-md">{t.routesNeedSignal}</p>}
           {origin && online && routeState === "loading" && (
@@ -252,7 +350,13 @@ export default function AnswerMap({ ids }: { ids: string[] }) {
                     setShowSteps(false);
                   }}
                   className={`text-left rounded-xl border-[3px] px-2 py-1 min-h-[52px] ${i === chosen ? "bg-surface-container-low" : ""}`}
-                  style={{ borderColor: i === chosen ? (contrast ? undefined : ROUTE_COLOR[o.kinds[0]]) : "var(--surface-variant)" }}
+                  style={
+                    i === chosen
+                      ? contrast
+                        ? { borderColor: "var(--on-surface)", borderWidth: 5, background: "var(--secondary-container)", color: "#000" }
+                        : { borderColor: ROUTE_COLOR[o.kinds[0]] }
+                      : { borderColor: "var(--surface-variant)" }
+                  }
                 >
                   <span className="block text-label-lg whitespace-nowrap">
                     <span aria-hidden="true">{KIND_ICON[o.kinds[0]]} </span>

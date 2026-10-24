@@ -9,6 +9,8 @@ const schema = a.schema({
     resourceIds: a.string().array().required(),
     verified: a.boolean().required(),
     language: a.string().required(),
+    // The emergency Leslie worked out, where distances start, and listings near the hazard.
+    situation: a.json(),
   }),
 
   askLeslie: a

@@ -3,6 +3,7 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../../amplify/data/resource";
 import type { Lang } from "../../shared/resources";
 import type { RouteResult } from "../../shared/routes";
+import type { SituationResult } from "../../shared/situation";
 
 // amplify_outputs.json only exists once the backend is deployed. Loading it through a glob
 // keeps the app building (and fully usable offline) without it.
@@ -40,6 +41,7 @@ export interface LeslieAnswer {
   resourceIds: string[];
   verified: boolean;
   language: Lang;
+  situation: SituationResult | null;
 }
 
 export async function askLeslie(args: {
@@ -65,6 +67,8 @@ export async function askLeslie(args: {
     resourceIds: (data.resourceIds ?? []).filter((x): x is string => !!x),
     verified: data.verified,
     language: (data.language as Lang) ?? args.language,
+    // a.json() fields arrive as a JSON string.
+    situation: (typeof data.situation === "string" ? JSON.parse(data.situation) : data.situation) ?? null,
   };
 }
 

@@ -25,6 +25,14 @@ backend.askLeslie.resources.lambda.addToRolePolicy(
   }),
 );
 
+// Leslie finds places the resident names ("SJSU", "Spartan Village") with Amazon Location place search.
+backend.askLeslie.resources.lambda.addToRolePolicy(
+  new PolicyStatement({
+    actions: ["geo-places:SearchText"],
+    resources: [`arn:aws:geo-places:${region}::provider/default`],
+  }),
+);
+
 // Amazon Location Service routes use the AWS-managed provider resource.
 backend.planRoutesFn.resources.lambda.addToRolePolicy(
   new PolicyStatement({

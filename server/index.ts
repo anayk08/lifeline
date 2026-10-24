@@ -4,6 +4,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { BedrockRuntimeClient } from "@aws-sdk/client-bedrock-runtime";
 import { fromIni } from "@aws-sdk/credential-providers";
+import { GeoPlacesClient } from "@aws-sdk/client-geo-places";
 import { GeoRoutesClient } from "@aws-sdk/client-geo-routes";
 import { askLeslie } from "../shared/bedrock";
 import { planRoutes } from "../shared/routes";
@@ -17,6 +18,11 @@ const bedrock = new BedrockRuntimeClient({
 });
 
 const geo = new GeoRoutesClient({
+  region: "us-east-1",
+  credentials: fromIni({ profile: PROFILE }),
+});
+
+const places = new GeoPlacesClient({
   region: "us-east-1",
   credentials: fromIni({ profile: PROFILE }),
 });
@@ -67,7 +73,7 @@ const server = createServer(async (req, res) => {
     if (req.url === "/api/leslie") {
       const question = String(body.question ?? "").trim();
       if (!question) return send(res, 400, { error: "question is required" });
-      const answer = await askLeslie(bedrock, {
+      const answer = await askLeslie({ bedrock, geo: places }, {
         question,
         language: typeof body.language === "string" ? body.language : null,
         zip: typeof body.zip === "string" ? body.zip : null,
@@ -75,7 +81,11 @@ const server = createServer(async (req, res) => {
         lng: typeof body.lng === "number" ? body.lng : null,
         history: body.history,
       });
-      console.log(`leslie ${Date.now() - started}ms  "${question.slice(0, 60)}" -> ${answer.resourceIds.join(",") || "no citations"}`);
+      const s = answer.situation;
+      console.log(
+        `leslie ${Date.now() - started}ms  "${question.slice(0, 60)}" -> ${answer.resourceIds.join(",") || "no citations"}` +
+          `  [hazard ${s.hazardType}${s.hazardPoint ? ` @${s.hazardPoint.label}` : ""}, from ${s.origin ? `${s.origin.source}:${s.origin.label}` : "unknown"}${s.notFound.length ? `, not found: ${s.notFound.join("; ")}` : ""}]`,
+      );
       return send(res, 200, answer);
     }
     if (req.url === "/api/routes") {

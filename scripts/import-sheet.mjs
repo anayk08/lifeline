@@ -20,6 +20,8 @@ const CATEGORY = {
   cooling_center: "cooling",
   charging: "charging",
 };
+const HAZARDS = ["earthquake", "wildfire_smoke", "extreme_heat", "power_outage"];
+const RISK_LEVELS = ["low", "moderate", "high"];
 const DAY_COLUMNS = [
   ["mon", "monday"],
   ["tue", "tuesday"],
@@ -153,6 +155,14 @@ for (const row of rows) {
     else seenPlaces.set(row.place_id, id);
   }
 
+  // Soup's per-hazard ratings. Anything other than low/moderate/high stays null and is reported.
+  const risk = (h) => {
+    const v = (row[h] ?? "").trim().toLowerCase();
+    if (RISK_LEVELS.includes(v)) return v;
+    issues.push(v ? `unexpected ${h} rating "${row[h]}"` : `no ${h} rating`);
+    return null;
+  };
+
   const lastVerified = row.last_verified.slice(0, 10);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(lastVerified)) issues.push("no last-verified date");
 
@@ -173,7 +183,7 @@ for (const row of rows) {
     eligibility: null,
     notes: row.notes || null,
     status: ["open", "closed", "unknown"].includes(row.status) ? row.status : "unknown",
-    outageRisk: row.power_outage || null,
+    hazardRisk: Object.fromEntries(HAZARDS.map((h) => [h, risk(h)])),
     transit: row.transit || null,
     source: row.place_id ? `https://www.google.com/maps/place/?q=place_id:${row.place_id}` : SHEET_CSV,
     lastVerified,

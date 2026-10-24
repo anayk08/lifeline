@@ -198,6 +198,20 @@ body {
   font-family: inherit;
   background: var(--surface-container);
 }
+/* Label in the middle of the hazard circle. */
+.leaflet-tooltip.hazard-label {
+  background: #fff;
+  color: #9b0000;
+  border: 2px solid #e03131;
+  border-radius: 8px;
+  font: 700 12px/16px sans-serif;
+  box-shadow: none;
+}
+html.hc .leaflet-tooltip.hazard-label {
+  color: #000;
+  border: 2px dashed #000;
+}
+
 /* Gray map tiles in high contrast so pins and the route line are what stands out. */
 html.hc .leaflet-tile-pane {
   filter: grayscale(1) contrast(1.15);

@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useRef, useState, type FormEvent } from "react";
-import { BY_ID, RESOURCES, distanceMiles, rankResources, type Lang } from "../../shared/resources";
+import { BY_ID, RESOURCES, distanceMiles, rankForSituation, rankResources, type Lang } from "../../shared/resources";
+import type { SituationResult } from "../../shared/situation";
 import { Page } from "../components/Shell";
 import { Icon, ResourceCard } from "../components/ui";
 import { queryParam, useApp } from "../lib/app";
@@ -12,6 +13,18 @@ const AnswerMap = lazy(() => import("../components/AnswerMap"));
 
 const MAX_PINS = 6;
 
+// Needs Leslie picks out of the question, mapped to the kinds of places that meet them.
+const NEED_KINDS: Record<string, string[]> = {
+  medical: ["health", "pharmacy"],
+  medicine: ["pharmacy", "health"],
+  shelter: ["shelter", "cooling"],
+  water: ["water"],
+  charging: ["charging"],
+  food: ["food"],
+  cooling: ["cooling"],
+};
+const EMERGENCY_KINDS = ["health", "shelter", "pharmacy", "cooling", "charging", "food", "water"];
+
 interface Turn {
   question: string;
   state: "loading" | "answered" | "offline" | "error";
@@ -19,6 +32,7 @@ interface Turn {
   resourceIds: string[];
   verified?: boolean;
   language?: Lang;
+  situation?: SituationResult | null;
 }
 
 export default function Ask() {
@@ -35,23 +49,36 @@ export default function Ask() {
       .slice(0, 3)
       .map((x) => x.resource.id);
 
-  // Map pins: Leslie's citations first, then the nearest other open places of the same
-  // kinds, so the resident has real choices. Places not open to the public never appear.
+  // Map pins: Leslie's citations first, then other open places of the same kinds, ranked
+  // the same way Leslie ranks them for this emergency, so the map matches her answer.
+  // Places not open to the public never appear.
   const pinsFor = (turn: Turn): string[] => {
     const cited = turn.resourceIds.filter((id) => BY_ID.get(id)?.status !== "closed");
-    const kinds = new Set([
+    const s = turn.situation;
+    const kinds = new Set<string>([
       ...cited.map((id) => BY_ID.get(id)!.category),
       ...matchCategories(turn.question),
+      ...(s?.needs ?? []).flatMap((n) => NEED_KINDS[n] ?? []),
     ]);
+    // "What are my options?" in an emergency: offer every kind of place that helps.
+    if (s && s.hazardType !== "none" && kinds.size === 0) EMERGENCY_KINDS.forEach((k) => kinds.add(k));
     kinds.delete("ev_charging");
     if (kinds.size === 0) return cited;
-    const extra = rankResources(
+    const from: [number, number] | null = s?.origin ? [s.origin.lat, s.origin.lng] : origin;
+    const extra = rankForSituation(
       RESOURCES.filter((r) => !cited.includes(r.id) && r.status !== "closed" && (kinds.has(r.category) || r.tags.some((x) => kinds.has(x)))),
-      origin,
+      from,
+      s ? { hazardType: s.hazardType, hazardPoint: s.hazardPoint ? [s.hazardPoint.lat, s.hazardPoint.lng] : null, needs: s.needs } : null,
     )
-      .filter((x) => x.status.state !== "closed")
+      .filter((x) => x.status.state !== "closed");
+    const pins = [...cited, ...extra.map((x) => x.resource.id)].slice(0, MAX_PINS);
+    // Places near the hazard rank low, but people should still see them marked "call first".
+    const nearHazard = extra
+      .filter((x) => x.nearHazard && !pins.includes(x.resource.id))
+      .sort((a, b) => (a.miles ?? 0) - (b.miles ?? 0))
+      .slice(0, 2)
       .map((x) => x.resource.id);
-    return [...cited, ...extra].slice(0, MAX_PINS);
+    return [...pins, ...nearHazard];
   };
 
   const ask = async (question: string) => {
@@ -238,7 +265,7 @@ export default function Ask() {
           <div className="flex-1 min-h-0">
             {pins.length > 0 && (
               <Suspense fallback={<p className="text-body-md">…</p>}>
-                <AnswerMap key={pins.join(",")} ids={pins} />
+                <AnswerMap key={pins.join(",")} ids={pins} situation={current.situation ?? null} />
               </Suspense>
             )}
           </div>

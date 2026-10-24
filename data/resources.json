@@ -63,7 +63,12 @@
     "eligibility": null,
     "notes": "Emergency department. Level III NICU.",
     "status": "open",
-    "outageRisk": "low",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "low"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJO1VC0bI1joAR5C8qGDrCSZ4",
     "lastVerified": "2026-10-23"
@@ -132,7 +137,12 @@
     "eligibility": null,
     "notes": "Emergency department. Serves East San Jose.",
     "status": "open",
-    "outageRisk": "low",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "low"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJ_3X2kATNj4ARJq22N-TR2io",
     "lastVerified": "2026-10-23"
@@ -200,7 +210,12 @@
     "eligibility": null,
     "notes": "County-run hospital with emergency department.",
     "status": "open",
-    "outageRisk": "low",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "low"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJ54JcoTHLj4ARwKWou-_AueA",
     "lastVerified": "2026-10-23"
@@ -269,7 +284,12 @@
     "eligibility": null,
     "notes": "Emergency department.",
     "status": "open",
-    "outageRisk": "low",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "low"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJe2mDoRnLj4ARcPZDNq1NLCo",
     "lastVerified": "2026-10-23"
@@ -338,7 +358,12 @@
     "eligibility": null,
     "notes": "Emergency department open to all. Non-emergency care for Kaiser members.",
     "status": "open",
-    "outageRisk": "low",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "low"
+    },
     "transit": "VTA Light Rail – Cottle, 9 min walk",
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJLzjiwC8ujoAR50z-X7tCEW0",
     "lastVerified": "2026-10-23"
@@ -405,7 +430,12 @@
     "eligibility": null,
     "notes": "Urgent care clinic, not a hospital. County-run.",
     "status": "open",
-    "outageRisk": "moderate",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "moderate"
+    },
     "transit": "VTA Bus – Santa Clara & 17th, 1 min walk",
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJ_8jedOrMj4ARD4nV-sZNEq0",
     "lastVerified": "2026-10-23"
@@ -473,7 +503,12 @@
     "eligibility": null,
     "notes": "24-hour store with pharmacy drive-thru.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJt345mO0xjoARQ-IggAmuemE",
     "lastVerified": "2026-10-23"
@@ -568,7 +603,12 @@
     "eligibility": null,
     "notes": "Pharmacy counter hours.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJa5eatEsyjoARnk9VhMP48JM",
     "lastVerified": "2026-10-23"
@@ -663,7 +703,12 @@
     "eligibility": null,
     "notes": "Pharmacy counter hours.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJUTJTrJ7Nj4ARmrUvR4to3kw",
     "lastVerified": "2026-10-23"
@@ -758,7 +803,12 @@
     "eligibility": null,
     "notes": "Pharmacy inside a Target store.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJ_V9dWW80joARdzORMg1vDMg",
     "lastVerified": "2026-10-23"
@@ -853,7 +903,12 @@
     "eligibility": null,
     "notes": "Pharmacy counter hours.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJayAcoTHNj4ARyWyZ0al_1IQ",
     "lastVerified": "2026-10-23"
@@ -948,7 +1003,12 @@
     "eligibility": null,
     "notes": "Pharmacy counter hours.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJ6f1JuoEyjoAR5J6Kc1IwPfU",
     "lastVerified": "2026-10-23"
@@ -1016,7 +1076,12 @@
     "eligibility": null,
     "notes": "Interim housing with meals. Call for intake.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJtydRWGDLj4ARavX1oQo57Gk",
     "lastVerified": "2026-10-23"
@@ -1040,7 +1105,12 @@
     "eligibility": null,
     "notes": "Large shelter with beds and 3 meals a day. Call before arriving.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJZ_e_AhczjoAR4SaUUoTno8o",
     "lastVerified": "2026-10-23"
@@ -1108,7 +1178,12 @@
     "eligibility": null,
     "notes": "Family shelter with meals. Entry is by phone referral first.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJweyrIljMj4AReGrk1GCq1ZY",
     "lastVerified": "2026-10-23"
@@ -1170,7 +1245,12 @@
     "eligibility": null,
     "notes": "Single-story modular units with air conditioning. No phone listed.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "high",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJKWEN258vjoARebZZKG0HvQw",
     "lastVerified": "2026-10-23"
@@ -1238,7 +1318,12 @@
     "eligibility": null,
     "notes": "Tiny-home community.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "high",
+      "extreme_heat": "high",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJf3azyIUvjoARr0sqS8y5auM",
     "lastVerified": "2026-10-23"
@@ -1305,7 +1390,12 @@
     "eligibility": null,
     "notes": "Emergency shelter beds and free meals. Mainly serves men.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJp87biHnMj4AR95hVTsdslxM",
     "lastVerified": "2026-10-23"
@@ -1362,7 +1452,12 @@
     "eligibility": null,
     "notes": "Food pantry, clothing and rental assistance.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJFfgSPjczjoARynxyxPtqKbs",
     "lastVerified": "2026-10-23"
@@ -1419,7 +1514,12 @@
     "eligibility": null,
     "notes": "Free produce and groceries. Recipients wait in line.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJaxT970_Nj4ARqOtPJyv44GE",
     "lastVerified": "2026-10-23"
@@ -1480,7 +1580,12 @@
     "eligibility": null,
     "notes": "Food bank warehouse. Call to be referred to a nearby distribution site.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJKTHN-AwzjoAR6g4F9P-lbnU",
     "lastVerified": "2026-10-23"
@@ -1537,7 +1642,12 @@
     "eligibility": null,
     "notes": "Food bank warehouse, not a walk-in pickup site.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJvzL-i6vJj4AR83rz-T6iJaY",
     "lastVerified": "2026-10-23"
@@ -1594,7 +1704,12 @@
     "eligibility": null,
     "notes": "Food distribution. A review says pickup is on Mondays. Call ahead.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJVVUBb0K1j4ARSG1Aa4kvq8g",
     "lastVerified": "2026-10-23"
@@ -1661,7 +1776,12 @@
     "eligibility": null,
     "notes": "Hot evening meal served daily. Also a men's residential program.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJp87biHnMj4ARPkfX7em0V-A",
     "lastVerified": "2026-10-23"
@@ -1685,7 +1805,12 @@
     "eligibility": null,
     "notes": "Small donation pantry at a private home. A recent review says it is not open to the public.",
     "status": "closed",
-    "outageRisk": "low",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "high",
+      "extreme_heat": "high",
+      "power_outage": "low"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJ22MNugY1joARCNXvYsml7IQ",
     "lastVerified": "2026-10-23"
@@ -1709,7 +1834,12 @@
     "eligibility": null,
     "notes": "Grocery store. A review says it closes at 2 AM despite the 24-hour listing.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJs02J1wUxjoARs1Rl0LCudL0",
     "lastVerified": "2026-10-23"
@@ -1776,7 +1906,12 @@
     "eligibility": null,
     "notes": "Paid purified water refills. Bring containers.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJN9eygbY0joARUcKzMNUfMQA",
     "lastVerified": "2026-10-23"
@@ -1843,7 +1978,12 @@
     "eligibility": null,
     "notes": "Paid purified water refills. Bring containers.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJtSr3jKHOj4AR3ZzpluNoYVE",
     "lastVerified": "2026-10-23"
@@ -1910,7 +2050,12 @@
     "eligibility": null,
     "notes": "Paid purified water refills. Carts available for 5-gallon jugs.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJpfxjIMMzjoAR16hTAOMedhI",
     "lastVerified": "2026-10-23"
@@ -1977,7 +2122,12 @@
     "eligibility": null,
     "notes": "Paid reverse-osmosis water refills.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "low",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJB25-juYyjoARmkmq7sgfG8s",
     "lastVerified": "2026-10-23"
@@ -2034,7 +2184,12 @@
     "eligibility": null,
     "notes": "City community center. Cooling center use not confirmed; check during heat advisories.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJhRnNKD3Nj4ARn14BnpSipUA",
     "lastVerified": "2026-10-23"
@@ -2096,7 +2251,12 @@
     "eligibility": null,
     "notes": "City community center. A review says the ballroom was hot with little cooling. Cooling center use not confirmed.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": "VTA Bus – Santa Clara & 20th, 4 min walk",
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJE9jUwunMj4ARkSFRHk2X1t8",
     "lastVerified": "2026-10-23"
@@ -2153,7 +2313,12 @@
     "eligibility": null,
     "notes": "City community center with pool. Cooling center use not confirmed.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJj-5R5ls0joARzerKtwWlULo",
     "lastVerified": "2026-10-23"
@@ -2209,7 +2374,12 @@
     "eligibility": null,
     "notes": "City community center near the eastern foothills. Cooling center use not confirmed.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJO2j7DsotjoARwMqvpZvOA8s",
     "lastVerified": "2026-10-23"
@@ -2266,7 +2436,12 @@
     "eligibility": null,
     "notes": "Community center with branch library and senior lunch program. Cooling center use not confirmed.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJCSCY_GkyjoARC4nPDjhlP9c",
     "lastVerified": "2026-10-23"
@@ -2333,7 +2508,12 @@
     "eligibility": null,
     "notes": "Main library, 8 floors. Cooling center use not confirmed.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": "VTA Light Rail – San Antonio, 6 min walk",
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJgbAiC7zMj4ARf9VjyD-BcOM",
     "lastVerified": "2026-10-23"
@@ -2400,7 +2580,12 @@
     "eligibility": null,
     "notes": "Branch library. Cooling center use not confirmed.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJaeW5mrDKj4ARX2xrRty9ZFI",
     "lastVerified": "2026-10-23"
@@ -2467,7 +2652,12 @@
     "eligibility": null,
     "notes": "Branch library and community center. Cooling center use not confirmed.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJxxkKssw0joARnAZ9TB0hJcI",
     "lastVerified": "2026-10-23"
@@ -2534,7 +2724,12 @@
     "eligibility": null,
     "notes": "Branch library. Cooling center use not confirmed.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJy79J3HYtjoARWrwEA_MiRuQ",
     "lastVerified": "2026-10-23"
@@ -2602,7 +2797,12 @@
     "eligibility": null,
     "notes": "EV fast charging. Often busy.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJg_KB-__Lj4ARKxcCo2ycXnE",
     "lastVerified": "2026-10-23"
@@ -2670,7 +2870,12 @@
     "eligibility": null,
     "notes": "EV fast charging in a Safeway lot. Reviews report a broken charger.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJPRWJYUfLj4ARLA48PVVEF68",
     "lastVerified": "2026-10-23"
@@ -2738,7 +2943,12 @@
     "eligibility": null,
     "notes": "EV fast charging near PayPal Park.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJc1sD6b_Lj4AR1Fb8zkoZbPc",
     "lastVerified": "2026-10-23"
@@ -2806,7 +3016,12 @@
     "eligibility": null,
     "notes": "EV fast charging. No app needed.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJMRRhwiozjoAREvcdr2xDQnQ",
     "lastVerified": "2026-10-23"
@@ -2873,7 +3088,12 @@
     "eligibility": null,
     "notes": "EV charging. Listing has one review, so hours are unconfirmed.",
     "status": "unknown",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "low",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "moderate",
+      "power_outage": "high"
+    },
     "transit": null,
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJFbxvpmXLj4ARHjzg9LVxHhE",
     "lastVerified": "2026-10-23"
@@ -2940,7 +3160,12 @@
     "eligibility": null,
     "notes": "Public outlets for phones and laptops. Same building as SJ-036.",
     "status": "open",
-    "outageRisk": "high",
+    "hazardRisk": {
+      "earthquake": "moderate",
+      "wildfire_smoke": "moderate",
+      "extreme_heat": "low",
+      "power_outage": "high"
+    },
     "transit": "VTA Light Rail – San Antonio, 6 min walk",
     "source": "https://www.google.com/maps/place/?q=place_id:ChIJgbAiC7zMj4ARf9VjyD-BcOM",
     "lastVerified": "2026-10-23"
