@@ -2,6 +2,7 @@
 // visitors, and fonts work offline). Run again after adding a Material Symbols icon name:
 //   npm run fetch-fonts
 // Inter: SIL Open Font License 1.1. Material Symbols: Apache 2.0. License texts sit next to the files.
+import { Buffer } from "node:buffer";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36";
