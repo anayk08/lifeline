@@ -45,16 +45,8 @@ export default defineConfig({
         globPatterns: ["**/*.{js,css,html,svg,png,json,woff2}"],
         navigateFallback: "/index.html",
         navigateFallbackDenylist: [/^\/api\//],
+        // Fonts are served from /fonts and precached above (globPatterns), so nothing is fetched from Google.
         runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/,
-            handler: "CacheFirst",
-            options: {
-              cacheName: "fonts",
-              expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
           {
             // Map tiles the resident has already looked at stay available offline.
             urlPattern: /^https:\/\/([abcd]\.)?(tile\.openstreetmap\.org|basemaps\.cartocdn\.com)\/.*/,
