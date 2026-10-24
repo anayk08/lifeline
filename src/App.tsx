@@ -1,4 +1,6 @@
 import { lazy, Suspense, useEffect } from "react";
+import ErrorScreen from "./components/ErrorScreen";
+import { MAINTENANCE_MODE } from "./config/business";
 import { useApp, useRoute } from "./lib/app";
 import { flushPendingReports } from "./lib/backend";
 import About from "./pages/About";
@@ -25,6 +27,7 @@ export default function App() {
 
   // "#/ask?q=..." (older links and the plan) opens Home, which asks Leslie the question.
   const [page, arg] = route;
+  if (MAINTENANCE_MODE) return <ErrorScreen maintenance />;
   if (!settings.onboarded) return <Welcome />;
 
   return (
