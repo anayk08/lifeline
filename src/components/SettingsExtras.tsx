@@ -55,8 +55,8 @@ async function deleteAll() {
   } catch {
     /* nothing cached */
   }
-  window.location.replace(`${window.location.pathname}#/`);
-  window.location.reload();
+  // Loading the bare address (no #/settings) restarts the app on its first screen.
+  window.location.assign(window.location.pathname);
 }
 
 const linkRow =
